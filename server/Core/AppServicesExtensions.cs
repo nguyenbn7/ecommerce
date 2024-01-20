@@ -28,14 +28,14 @@ public static class AppServicesExtensions
 
     public static IServiceCollection AddAppIdentity(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment env)
     {
-        services.AddIdentity<AppUser, AppRole>(options =>
+        services.AddIdentityCore<AppUser>(options =>
         {
             // Add options here
         })
             .AddRoles<AppRole>()
             .AddEntityFrameworkStores<AppDbContext>()
-            .AddRoleManager<RoleManager<AppRole>>()
-            .AddSignInManager<SignInManager<AppUser>>();
+            .AddSignInManager<SignInManager<AppUser>>()
+            .AddDefaultTokenProviders();
 
         services.Configure<IdentityOptions>(options =>
         {
