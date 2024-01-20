@@ -1,11 +1,19 @@
+using Ecommerce.Core;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddAppDbContext(builder.Configuration);
+
+builder.Services.AddAppIdentity(builder.Configuration, builder.Environment);
+
+builder.Services.UseJWTForAuthentication(builder.Configuration);
+
+builder.Services.AddAppServices();
+
+builder.Services.AddAppSwagger();
 
 var app = builder.Build();
 
@@ -19,5 +27,9 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
+
+await app.ApplyMigrations();
+
+await app.SeedAppData();
 
 app.Run();
