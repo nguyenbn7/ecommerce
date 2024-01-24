@@ -1,9 +1,10 @@
-using Ecommerce.Shared;
+using Ecommerce.Shared.Base;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Module.Products;
 
-public class ProductsController(AppDbContext context) : APiControllerWithAppDbContext(context)
+public class ProductsController(ILogger<ProductsController> logger,
+    AppDbContext context) : APiControllerWithAppDbContext(logger, context)
 {
     [HttpGet]
     public IActionResult GetProductsAsync()

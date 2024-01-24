@@ -1,6 +1,9 @@
 using System.Text;
-using Ecommerce.Module.Account;
-using Ecommerce.Shared;
+using Ecommerce.Core.Database.Postgre;
+using Ecommerce.Core.Database.Sqlite3;
+using Ecommerce.Module.Account.Entity;
+using Ecommerce.Shared.Base;
+using Ecommerce.Shared.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -8,12 +11,12 @@ using Microsoft.OpenApi.Models;
 
 namespace Ecommerce.Core;
 
-public static class AppServicesExtensions
+public static class ServiceCollectionExtension
 {
     public static IServiceCollection AddAppServices(this IServiceCollection services)
     {
         // TODO: Add defined services here
-        services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<TokenService, CompositeTokenService>();
         return services;
     }
 
@@ -21,12 +24,12 @@ public static class AppServicesExtensions
     {
         return configuration.GetValue<string>("DatabaseProvider") switch
         {
-            "Postgre" => services.AddDbContext<AppDbContext, PostgreSqlAppDbContext>(),
-            _ => services.AddDbContext<AppDbContext, SqliteAppDbContext>(),
+            "Sqlite" => services.AddDbContext<AppDbContext, SqliteDbContext>(),
+            _ => services.AddDbContext<AppDbContext, PostgreDbContext>()
         };
     }
 
-    public static IServiceCollection AddAppIdentity(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment env)
+    public static IServiceCollection UseIdentity(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment env)
     {
         services.AddIdentityCore<AppUser>(options =>
         {
@@ -104,7 +107,7 @@ public static class AppServicesExtensions
 
     public static IServiceCollection UseJWTForAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
-        var tokenSettingsConfig = configuration.GetSection("Token");
+        var tokenSettingsConfig = configuration.GetSection("JWT");
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -113,12 +116,12 @@ public static class AppServicesExtensions
                 var appIssuer = tokenSettingsConfig["Issuer"];
                 if (appKey == null)
                 {
-                    throw new Exception("Token Key not found");
+                    throw new Exception("JWT Key not found");
                 }
 
                 if (appIssuer == null)
                 {
-                    throw new Exception("Token Issuer not found");
+                    throw new Exception("JWT Issuer not found");
                 }
 
                 options.TokenValidationParameters = new TokenValidationParameters

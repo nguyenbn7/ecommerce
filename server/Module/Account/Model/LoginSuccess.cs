@@ -1,4 +1,4 @@
-namespace Ecommerce.Module.Account;
+namespace Ecommerce.Module.Account.Model;
 
 public class LoginSuccess
 {

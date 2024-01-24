@@ -1,17 +1,28 @@
-using Ecommerce.Module.Account;
-using Ecommerce.Module.Products;
+using Ecommerce.Module.Account.Entity;
+using Ecommerce.Module.Product.Entity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Ecommerce.Shared;
+namespace Ecommerce.Shared.Base;
 
 // https://dev.to/moesmp/ef-core-multiple-database-providers-3gb7 
 public abstract class AppDbContext(IConfiguration configuration) : IdentityDbContext<AppUser, AppRole, string, IdentityUserClaim<string>, AppUserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
 {
-    protected readonly IConfiguration _configuration = configuration;
+    protected readonly IConfiguration configuration = configuration;
 
     public required DbSet<Product> Products { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseLoggerFactory(LoggerFactory.Create(builder =>
+        {
+            builder.AddConsole();
+        }));
+#if DEBUG
+        optionsBuilder.EnableSensitiveDataLogging();
+#endif
+    }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -37,31 +48,5 @@ public abstract class AppDbContext(IConfiguration configuration) : IdentityDbCon
         builder.Entity<AppUserRole>().ToTable("UserRoles");
         builder.Entity<AppRole>().ToTable("Roles");
         builder.Entity<AppUser>().ToTable("Users");
-    }
-}
-
-public sealed class SqliteAppDbContext(IConfiguration configuration) : AppDbContext(configuration)
-{
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlite(_configuration.GetConnectionString("SqliteConn"));
-    }
-
-    protected override void OnModelCreating(ModelBuilder builder)
-    {
-        base.OnModelCreating(builder);
-    }
-}
-
-public sealed class PostgreSqlAppDbContext(IConfiguration configuration) : AppDbContext(configuration)
-{
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseNpgsql(_configuration.GetConnectionString("PostgreConn"));
-    }
-
-    protected override void OnModelCreating(ModelBuilder builder)
-    {
-        base.OnModelCreating(builder);
     }
 }

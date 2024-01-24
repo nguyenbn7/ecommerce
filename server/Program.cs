@@ -7,9 +7,13 @@ builder.Services.AddControllers();
 
 builder.Services.AddAppDbContext(builder.Configuration);
 
-builder.Services.AddAppIdentity(builder.Configuration, builder.Environment);
+builder.Services.AddAuthentication();
+
+builder.Services.UseIdentity(builder.Configuration, builder.Environment);
 
 builder.Services.UseJWTForAuthentication(builder.Configuration);
+
+builder.Services.AddAuthorization();
 
 builder.Services.AddAppServices();
 
@@ -28,8 +32,10 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-await app.ApplyMigrations();
+await app.ApplyMigration();
 
-await app.SeedAppData();
+await app.CreateSystemRolesAsync();
+
+await app.CreateSystemAdminAsync();
 
 app.Run();

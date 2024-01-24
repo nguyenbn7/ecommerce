@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace Ecommerce.Module.Account;
+namespace Ecommerce.Module.Account.Entity;
 
 public class AppUserRole : IdentityUserRole<string>
 {
