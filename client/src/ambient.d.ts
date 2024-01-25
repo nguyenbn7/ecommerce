@@ -1,0 +1,1 @@
+type ToastType = "DANGER" | "INFO" | "SUCCESS" | "WARNING"
