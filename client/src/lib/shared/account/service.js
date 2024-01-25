@@ -16,7 +16,7 @@ httpClient.interceptors.response.use(async response => {
 const ACCESS_TOKEN = 'token';
 
 /**
- * @type {import("svelte/store").Writable<User | null>}
+ * @type {import("svelte/store").Writable<Account.UserInfo | null>}
  */
 const currentUserStore = writable(null);
 

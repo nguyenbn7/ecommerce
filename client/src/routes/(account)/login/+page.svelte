@@ -1,11 +1,9 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { APP_NAME, AccountService, LoginForm, ToastrService } from '$lib';
-	import ValidationFeedback from '$lib/shared/form/validation-feedback.svelte';
+	import { APP_NAME, AccountService, LoginForm, ToastrService, ValidationFeedback } from '$lib';
 
 	let loginForm = new LoginForm();
-
 	let isSubmitted = false;
 
 	async function onSubmit() {

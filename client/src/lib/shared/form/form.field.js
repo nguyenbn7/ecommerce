@@ -1,42 +1,33 @@
 export class FormField {
+    /*** @type {boolean} */
     #dirty;
+    /*** @type {boolean} */
     #touched;
+    /*** @type {boolean} */
     #valid;
-    /**
-     * @type {string}
-     */
+    /*** @type {string} */
     #value;
-    /**
-     * @type {string | null | undefined}
-     */
-    #error = undefined;
-    /**
-     * @type {string | null | undefined}
-     */
-    #success = undefined;
-    /**
-     * @type {Validator[]}
-     */
+    /*** @type {string | undefined} */
+    #error;
+    /*** @type {string | undefined} */
+    #success;
+    /*** @type {Validator[]} */
     #validators;
 
-    get valid() {
-        return this.#valid;
+    get dirty() {
+        return this.#dirty;
     }
 
     get touched() {
         return this.#touched;
     }
 
-    get dirty() {
-        return this.#dirty;
+    get valid() {
+        return this.#valid;
     }
 
     get value() {
         return this.#value;
-    }
-
-    set value(newValue) {
-        this.#value = newValue;
     }
 
     get error() {
@@ -96,9 +87,10 @@ export class FormField {
     constructor(...validators) {
         this.#dirty = false;
         this.#touched = false;
-        this.#value = '';
         this.#valid = false;
-        this.#error = null;
+        this.#value = '';
+        this.#error = undefined;
+        this.#success = undefined;
         this.#validators = validators ?? [];
     }
 }

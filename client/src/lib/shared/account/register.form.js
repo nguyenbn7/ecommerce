@@ -2,17 +2,24 @@ import { FormField, FormGroup } from "../form";
 import { Validators } from "../form/validation-feedback.svelte";
 
 export class RegisterForm extends FormGroup {
-    /**
-     * @param {number | undefined} displayNameMaxLen
-     */
-    constructor(displayNameMaxLen) {
+    constructor(firstNameMaxLen = 255, lastNameMaxLen = 255) {
         super();
-        this.displayName = new FormField(
-            Validators.checkRequired('Name is required'),
-            Validators.containsAlnumAndSpace('Name contains only letters and spaces'),
+        
+        this.firstName = new FormField(
+            Validators.checkRequired('First Name is required'),
+            Validators.containsAlnumAndSpace('First Name contains only letters and spaces'),
             Validators.checkMaxLength(
-                `Name's max length is ${displayNameMaxLen} characters`,
-                displayNameMaxLen
+                `First Name's max length is ${firstNameMaxLen} characters`,
+                firstNameMaxLen
+            )
+        );
+
+        this.lastName = new FormField(
+            Validators.checkRequired('Last Name is required'),
+            Validators.containsAlnumAndSpace('Last Name contains only letters and spaces'),
+            Validators.checkMaxLength(
+                `Last Name's max length is ${lastNameMaxLen} characters`,
+                lastNameMaxLen
             )
         );
 

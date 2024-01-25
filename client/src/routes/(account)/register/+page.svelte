@@ -1,27 +1,28 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { APP_NAME, AccountService, RegisterForm, ToastrService } from '$lib';
+	import { APP_NAME, AccountService, RegisterForm, ToastrService, ValidationFeedback } from '$lib';
 
-	const displayNameMaxLen = 70;
-
-	let registerForm = new RegisterForm(displayNameMaxLen);
+	let registerForm = new RegisterForm();
 	let isSubmitted = false;
 
 	async function onSubmitForm() {
 		try {
 			isSubmitted = true;
-			const userInfo = await AccountService.register({
+			const userInfo = await AccountService.registerAsUser({
 				email: registerForm.email.value,
 				password: registerForm.password.value,
-				displayName: registerForm.displayName.value,
+				firstName: registerForm.firstName.value,
+				lastName: registerForm.lastName.value,
 				confirmPassword: registerForm.confirmPassword.value
 			});
 
 			if (userInfo) {
-				ToastrService.notifySuccess(`Welcome ${userInfo?.displayName}`);
+				ToastrService.notifySuccess(`Welcome ${userInfo.displayName}`);
+
 				const returnUrl = $page.url.searchParams.get('redirect');
 				if (returnUrl) return goto(returnUrl);
+
 				return goto('/');
 			}
 		} finally {
@@ -42,56 +43,92 @@
 <form class="row g-3 px-1" on:submit={onSubmitForm}>
 	<div class="col-12">
 		<div class="form-floating">
-			<!-- <FloatingInput
-				class="form-control rounded-4"
-				id="displayName"
-				label="Display Name"
-				placeholder="I am cute"
-				bind:formField={registerForm.displayName}
+			<input
+				type="text"
+				id="firstName"
+				class="form-control rounded-3"
+				placeholder="John"
+				on:focusout={(e) => (registerForm.firstName.onFocusOut = e)}
+				on:input={(e) => (registerForm.firstName.onInput = e)}
+				class:is-invalid={registerForm.firstName.touched && !registerForm.firstName.valid}
+				class:is-valid={registerForm.firstName.touched && registerForm.firstName.valid}
 				disabled={isSubmitted}
-			/> -->
+			/>
+			<label for="firstName">First Name</label>
+			<ValidationFeedback bind:field={registerForm.firstName} />
 		</div>
 	</div>
 
 	<div class="col-12">
 		<div class="form-floating">
-			<!-- <FloatingInput
-				class="form-control rounded-4"
-				type="email"
+			<input
+				type="text"
+				id="lastName"
+				class="form-control rounded-3"
+				placeholder="Doe"
+				on:focusout={(e) => (registerForm.lastName.onFocusOut = e)}
+				on:input={(e) => (registerForm.lastName.onInput = e)}
+				class:is-invalid={registerForm.lastName.touched && !registerForm.lastName.valid}
+				class:is-valid={registerForm.lastName.touched && registerForm.lastName.valid}
+				disabled={isSubmitted}
+			/>
+			<label for="lastName">Last Name</label>
+			<ValidationFeedback bind:field={registerForm.lastName} />
+		</div>
+	</div>
+
+	<div class="col-12">
+		<div class="form-floating">
+			<input
+				type="text"
 				id="email"
-				label="Email"
+				class="form-control rounded-3"
 				placeholder="name@example.com"
-				bind:formField={registerForm.email}
+				on:focusout={(e) => (registerForm.email.onFocusOut = e)}
+				on:input={(e) => (registerForm.email.onInput = e)}
+				class:is-invalid={registerForm.email.touched && !registerForm.email.valid}
+				class:is-valid={registerForm.email.touched && registerForm.email.valid}
 				disabled={isSubmitted}
-			/> -->
+			/>
+			<label for="email">Email</label>
+			<ValidationFeedback bind:field={registerForm.email} />
 		</div>
 	</div>
 
 	<div class="col-12">
 		<div class="form-floating">
-			<!-- <FloatingInput
-				class="form-control rounded-4"
+			<input
 				type="password"
 				id="password"
-				label="Password"
-				placeholder="Password"
-				bind:formField={registerForm.password}
+				class="form-control rounded-3"
+				placeholder="*********"
+				on:focusout={(e) => (registerForm.password.onFocusOut = e)}
+				on:input={(e) => (registerForm.password.onInput = e)}
+				class:is-invalid={registerForm.password.touched && !registerForm.password.valid}
+				class:is-valid={registerForm.password.touched && registerForm.password.valid}
 				disabled={isSubmitted}
-			/> -->
+			/>
+			<label for="password">Password</label>
+			<ValidationFeedback bind:field={registerForm.password} />
 		</div>
 	</div>
 
 	<div class="col-12">
 		<div class="form-floating mt-2 mb-3">
-			<!-- <FloatingInput
-				class="form-control rounded-4"
+			<input
 				type="password"
 				id="confirmPassword"
-				label="Confirm Password"
-				placeholder="Confirm password"
-				bind:formField={registerForm.confirmPassword}
+				class="form-control rounded-3"
+				placeholder="*********"
+				on:focusout={(e) => (registerForm.confirmPassword.onFocusOut = e)}
+				on:input={(e) => (registerForm.confirmPassword.onInput = e)}
+				class:is-invalid={registerForm.confirmPassword.touched &&
+					!registerForm.confirmPassword.valid}
+				class:is-valid={registerForm.confirmPassword.touched && registerForm.confirmPassword.valid}
 				disabled={isSubmitted}
-			/> -->
+			/>
+			<label for="confirmPassword">Confirm Password</label>
+			<ValidationFeedback bind:field={registerForm.confirmPassword} />
 		</div>
 	</div>
 
@@ -101,6 +138,7 @@
 			<label class="form-check-label" for="acceptTerms">
 				I agree and accept the <a href={'#'} class="text-decoration-none">terms and conditions</a>
 			</label>
+			<!-- TODO:  -->
 			<div class="invalid-feedback">You must agree before submitting.</div>
 		</div>
 	</div>
@@ -117,7 +155,7 @@
 		</button>
 	</div>
 	<div class="col-12">
-		<p class="small mb-0">
+		<p class="small mb-3 text-center">
 			Already have an account? <a href="/login" class="text-decoration-none">Log in</a>
 		</p>
 	</div>

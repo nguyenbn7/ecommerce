@@ -13,6 +13,7 @@ declare namespace Account {
         firstName: string;
         lastName: string;
         password: string;
+        confirmPassword: string;
     };
 
     type LoginSuccessResponse = {
@@ -26,5 +27,10 @@ declare namespace Account {
         email: string;
         firstName: string;
         lastName: string;
-    }
+    };
+
+    type UserInfo = {
+        email: string;
+        displayName: string;
+    };
 }
