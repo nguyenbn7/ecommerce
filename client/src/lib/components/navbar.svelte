@@ -24,7 +24,7 @@
 	// }
 
 	onMount(async () => {
-		(await import('bootstrap')).Dropdown;
+		(await import('bootstrap/js/dist/dropdown')).default;
 	});
 </script>
 
