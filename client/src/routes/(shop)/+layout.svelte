@@ -3,6 +3,8 @@
 	import Navbar from '$lib/components/navbar.svelte';
 </script>
 
-<Navbar />
+<div class="fixed-top">
+	<Navbar />
+</div>
 <slot />
 <Footer />

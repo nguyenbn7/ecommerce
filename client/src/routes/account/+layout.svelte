@@ -14,7 +14,7 @@
 								data-sveltekit-reload
 								class="logo d-flex align-items-center w-auto text-decoration-none"
 							>
-								<!-- <img src="/images/logo.png" alt={APP_NAME} /> -->
+								<img src="/images/logo.png" alt={APP_NAME} />
 								<span class="d-none d-lg-block">{APP_NAME}</span>
 							</a>
 						</div>
@@ -27,3 +27,25 @@
 		</div>
 	</div>
 </div>
+
+<style lang="scss">
+	.logo {
+		line-height: 1;
+	}
+
+	@media (min-width: 1200px) {
+		.logo {
+			width: 280px;
+		}
+	}
+
+	.logo img {
+		max-height: 3em;
+		margin-right: 6px;
+	}
+
+	.logo span {
+		font-size: 26px;
+		font-weight: 700;
+	}
+</style>

@@ -102,10 +102,10 @@
 	</div>
 	<div class="col-12 mb-3">
 		<p class="small mb-3 text-center">
-			Don't have account? <a href="/register" class="text-decoration-none">Create an account</a>
+			Don't have account? <a href="/account/register" class="text-decoration-none">Create an account</a>
 		</p>
 		<p class="small mb-0 text-center">
-			Sign in as <a href="/login/demo" class="text-decoration-none">Demo Users</a>
+			Sign in as <a href="/account/login/demo" class="text-decoration-none">Demo Users</a>
 		</p>
 	</div>
 </form>

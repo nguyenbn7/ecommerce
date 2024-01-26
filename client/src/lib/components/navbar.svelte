@@ -80,7 +80,7 @@
 					{/if} -->
 				</a>
 				{#if !$currentUser}
-					<a href="/login" class="btn btn-outline-success text-white px-3 me-3"> Login </a>
+					<a href="/account/login" class="btn btn-outline-success text-white px-3 me-3"> Login </a>
 				{:else}
 					<a
 						class="nav-btn text-info me-3 d-flex align-items-center"

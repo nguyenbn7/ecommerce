@@ -162,7 +162,7 @@
 	</div>
 	<div class="col-12">
 		<p class="small mb-3 text-center">
-			Already have an account? <a href="/login" class="text-decoration-none">Log in</a>
+			Already have an account? <a href="/account/login" class="text-decoration-none">Log in</a>
 		</p>
 	</div>
 </form>
