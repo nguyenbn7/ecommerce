@@ -1,10 +1,9 @@
-import { FormField, FormGroup } from "../form";
-import { Validators } from "../form/validation-feedback.svelte";
+import { FormField, FormGroup, Validators } from "$lib/module/form";
 
 export class RegisterForm extends FormGroup {
     constructor(firstNameMaxLen = 255, lastNameMaxLen = 255) {
         super();
-        
+
         this.firstName = new FormField(
             Validators.checkRequired('First Name is required'),
             Validators.containsAlnumAndSpace('First Name contains only letters and spaces'),

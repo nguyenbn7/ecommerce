@@ -1,6 +1,25 @@
-@Ecommerce_HostAddress = http://localhost:5078
+@Ecommerce_HostAddress = http://localhost:5078/api
 
 GET {{Ecommerce_HostAddress}}/Products/
 Accept: application/json
 
 ###
+POST {{Ecommerce_HostAddress}}/Account/Login HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "admin",
+    "password": "P@ssw0rd"
+}
+
+###
+POST url HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "jdoe@gmail.com",
+    "firstName": "John",
+    "lastName": "Doe",
+    "password": "P@ssw0rd",
+    "confirmPassword": "P@ssw0rd"
+}

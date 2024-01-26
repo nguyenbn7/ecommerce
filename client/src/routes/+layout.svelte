@@ -1,8 +1,10 @@
 <script>
-	import { Toastr } from '$lib';
 	import 'bootstrap/dist/css/bootstrap.min.css';
+	import '@fortawesome/fontawesome-free/css/all.min.css';
+	import { Toastr } from '$lib/components';
+	import BackToTopButton from '$lib/components/back-to-top-button.svelte';
 </script>
 
-<Toastr class="toast-container position-fixed top-0 end-0 p-4 mt-5 me-5" singleToast={true} />
-
+<Toastr singleToast={true} />
+<BackToTopButton />
 <slot />

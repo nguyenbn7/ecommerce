@@ -70,7 +70,7 @@
 	/**
 	 * @type {string}
 	 */
-	let classNames;
+	let classNames = 'toast-container position-fixed top-0 end-0 p-4 mt-5 me-5';
 
 	export let singleToast = false;
 

@@ -1,5 +1,5 @@
 <script>
-	import { APP_NAME } from '$lib';
+	import { APP_NAME } from '$lib/module/shared';
 </script>
 
 <div class="container">

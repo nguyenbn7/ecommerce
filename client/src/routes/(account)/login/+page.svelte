@@ -1,7 +1,10 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { APP_NAME, AccountService, LoginForm, ToastrService, ValidationFeedback } from '$lib';
+	import { ToastrService, ValidationFeedback } from '$lib/components';
+	import { AccountService } from '$lib/module/account';
+	import { APP_NAME } from '$lib/module/shared';
+	import { LoginForm } from '$lib/page/login';
 
 	let loginForm = new LoginForm();
 	let isSubmitted = false;

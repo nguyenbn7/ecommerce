@@ -1,5 +1,4 @@
-import { FormField, FormGroup } from "../form";
-import { Validators } from "../form/validation-feedback.svelte";
+import { FormField, FormGroup, Validators } from "$lib/module/form";
 
 export class LoginForm extends FormGroup {
     constructor() {

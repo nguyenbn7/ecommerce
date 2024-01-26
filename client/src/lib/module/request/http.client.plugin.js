@@ -1,4 +1,5 @@
-import { AccountService, ToastrService } from "$lib";
+import { ToastrService } from "$lib/components/toastr.svelte";
+import { AccountService } from "../account";
 
 export async function delayFetch(ms = 1500) {
     return new Promise((resolve) => setTimeout(resolve, ms));
