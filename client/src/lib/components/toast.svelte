@@ -1,5 +1,5 @@
 <script context="module">
-	import { Toast } from 'bootstrap';
+	import Toast from 'bootstrap/js/dist/toast';
 
 	/**
 	 * @type {HTMLDivElement}

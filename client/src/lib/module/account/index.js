@@ -1,1 +1,1 @@
-export { AccountService } from "./service";
+export * from "./_service";
