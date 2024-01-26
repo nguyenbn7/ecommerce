@@ -1,9 +1,10 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { ToastrService, ValidationFeedback } from '$lib/components';
+	import { ToastrService } from '$lib/components/toastr.svelte';
+	import ValidationFeedback from '$lib/components/validation-feedback.svelte';
 	import { AccountService } from '$lib/module/account';
-	import { APP_NAME } from '$lib/module/shared';
+	import { APP_NAME } from '$lib/module/shared/constant';
 	import { RegisterForm } from '$lib/page/register';
 
 	let registerForm = new RegisterForm();

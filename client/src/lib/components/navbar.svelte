@@ -69,13 +69,9 @@
 				<a class="nav-link text-white me-3" href="/favorites" title="Wish list">
 					<i class="fa-solid fa-heart"></i>
 				</a>
-                <!-- class:text-secondary={!$basket || !$basket.items.length}
+				<!-- class:text-secondary={!$basket || !$basket.items.length}
                 class:text-info={$basket && $basket.items.length} -->
-				<a
-					class="nav-link text-white me-3"
-					href="/basket"
-					title="Basket"
-				>
+				<a class="nav-link text-white me-3" href="/basket" title="Basket">
 					<i class="fa-solid fa-basket-shopping"></i>
 					<!-- {#if $basket && $basket.items.length}
 						<span class="position-absolute translate-middle bg-danger badge rounded-pill">

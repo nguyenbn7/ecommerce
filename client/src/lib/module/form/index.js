@@ -1,3 +1,3 @@
-export { FormField } from "./form.field";
-export { FormGroup } from "./form.group";
-export { Validators } from "./form.field.validator";
+export * from './form.field';
+export * from './form.group';
+export * from './form.field.validator';

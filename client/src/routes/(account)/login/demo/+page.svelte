@@ -1,17 +1,18 @@
 <script>
-	async function onLoginCustomer() {
-		await handleLogin({
-			email: 'customer@test.com',
-			password: 'Pa$$w0rd'
-		});
-	}
+	// async function onLoginCustomer() {
+	// 	await handleLogin({
+	// 		email: 'customer@test.com',
+	// 		password: 'Pa$$w0rd'
+	// 	});
+	// }
 
-	async function onLoginCustomer1() {
-		await handleLogin({
-			email: 'customer1@test.com',
-			password: 'Pa$$w0rd'
-		});
-	}
+	// async function onLoginCustomer1() {
+	// 	await handleLogin({
+	// 		email: 'customer1@test.com',
+	// 		password: 'Pa$$w0rd'
+	// 	});
+	// }
+	let isSubmitted = false;
 </script>
 
 <div class="col-12">
@@ -26,12 +27,7 @@
 	</div>
 	<div class="row row-cols-2 g-2">
 		<div class="col d-flex justify-content-center">
-			<button
-				class="btn btn-outline-info rounded-4"
-				type="submit"
-				on:click={onLoginCustomer}
-				disabled={isSubmitted}
-			>
+			<button class="btn btn-outline-info rounded-4" type="submit" disabled={isSubmitted}>
 				Demo Customer
 				<!-- {#if isSubmitted}
                     <ButtonSpinner />
@@ -39,12 +35,7 @@
 			</button>
 		</div>
 		<div class="col d-flex justify-content-center">
-			<button
-				class="btn btn-outline-info rounded-4"
-				type="submit"
-				on:click={onLoginCustomer1}
-				disabled={isSubmitted}
-			>
+			<button class="btn btn-outline-info rounded-4" type="submit" disabled={isSubmitted}>
 				Demo Customer1
 				<!-- {#if isSubmitted}
                     <ButtonSpinner />

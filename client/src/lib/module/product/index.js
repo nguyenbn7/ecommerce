@@ -1,1 +1,1 @@
-export { ProductService } from "./service";
+export * from './_service';
