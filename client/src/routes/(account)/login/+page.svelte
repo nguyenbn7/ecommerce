@@ -14,8 +14,8 @@
 			isSubmitted = true;
 
 			const userInfo = await AccountService.loginAsUser({
-				email: loginForm.email.value,
-				password: loginForm.password.value
+				email: loginForm.emailField.value,
+				password: loginForm.passwordField.value
 			});
 
 			if (userInfo) {
@@ -40,7 +40,7 @@
 	<h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
 </div>
 
-<form class="row g-3 px-1 needs-validation" on:submit={onSubmit}>
+<form class="row g-3 px-1 needs-validation" on:submit={onSubmit} use:loginForm.bind>
 	<div class="col-12">
 		<div class="form-floating">
 			<input
@@ -48,14 +48,13 @@
 				id="email"
 				class="form-control rounded-3"
 				placeholder="name@example.com"
-				on:focusout={(e) => (loginForm.email.onFocusOut = e)}
-				on:input={(e) => (loginForm.email.onInput = e)}
-				class:is-invalid={loginForm.email.touched && !loginForm.email.valid}
-				class:is-valid={loginForm.email.touched && loginForm.email.valid}
+				use:loginForm.emailField.bind
+				class:is-invalid={$loginForm.emailField.isTouched && !$loginForm.emailField.isValid}
+				class:is-valid={$loginForm.emailField.isTouched && $loginForm.emailField.isValid}
 				disabled={isSubmitted}
 			/>
 			<label for="email">Email</label>
-			<ValidationFeedback bind:field={loginForm.email} />
+			<ValidationFeedback field={$loginForm.emailField} />
 		</div>
 	</div>
 
@@ -66,14 +65,13 @@
 				id="password"
 				class="form-control rounded-3"
 				placeholder="*********"
-				on:focusout={(e) => (loginForm.password.onFocusOut = e)}
-				on:input={(e) => (loginForm.password.onInput = e)}
-				class:is-invalid={loginForm.password.touched && !loginForm.password.valid}
-				class:is-valid={loginForm.password.touched && loginForm.password.valid}
+				use:loginForm.passwordField.bind
+				class:is-invalid={$loginForm.passwordField.isTouched && !$loginForm.passwordField.isValid}
+				class:is-valid={$loginForm.passwordField.isTouched && $loginForm.passwordField.isValid}
 				disabled={isSubmitted}
 			/>
 			<label for="password">Password</label>
-			<ValidationFeedback bind:field={loginForm.password} />
+			<ValidationFeedback field={$loginForm.passwordField} />
 		</div>
 	</div>
 
@@ -93,7 +91,7 @@
 		<button
 			class="btn btn-info w-100 py-2 mt-2 mb-3 rounded-4"
 			type="submit"
-			disabled={!loginForm.valid || isSubmitted}
+			disabled={!$loginForm.isValid || isSubmitted}
 		>
 			Login
 			<!-- {#if isSubmitted}

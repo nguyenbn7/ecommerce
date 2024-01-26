@@ -1,3 +1,5 @@
+import { writable } from "svelte/store";
+
 export class FormField {
     /*** @type {boolean} */
     #dirty;
@@ -13,16 +15,17 @@ export class FormField {
     #success;
     /*** @type {Validator[]} */
     #validators;
+    #history = writable(this);
 
-    get dirty() {
+    get isDirty() {
         return this.#dirty;
     }
 
-    get touched() {
+    get isTouched() {
         return this.#touched;
     }
 
-    get valid() {
+    get isValid() {
         return this.#valid;
     }
 
@@ -42,32 +45,7 @@ export class FormField {
         return this.#validators;
     }
 
-    /**
-     * @param {FocusEvent & { currentTarget: EventTarget & HTMLInputElement; }} $event
-     */
-    set onFocusOut($event) {
-        if (!this.#touched) {
-            this.#touched = true;
-            this.validate();
-        }
-    }
-
-    /**
-     * @param {Event & { currentTarget: EventTarget & HTMLInputElement; }} $event
-     */
-    set onInput($event) {
-        const target = $event.target;
-        if (!target) return;
-        const newValue = /** @type {HTMLInputElement} */ (target).value;
-        this.#dirty = this.#value !== newValue;
-        this.#value = newValue;
-
-        if (this.#dirty) {
-            this.validate();
-        }
-    }
-
-    validate() {
+    #validate() {
         this.#valid = false;
 
         for (const validator of this.validators) {
@@ -79,6 +57,46 @@ export class FormField {
         }
 
         this.#valid = true;
+    }
+
+    /**
+     * @param {HTMLElement} node
+     */
+    #validateAndNotifyParent(node) {
+        this.#validate();
+        this.#history.set(this);
+        node.dispatchEvent(new CustomEvent("fieldHasChanged", { bubbles: true }));
+    }
+
+    /** @type {import('svelte/action').Action}  */
+    bind(node) {
+        const onFocusOut = (/** @type {Event} */ $event) => {
+            $event.stopPropagation();
+            this.#touched = true;
+            this.#dirty = false; // not sure about this field but just a dummy (not gonna to use it)
+            this.#validateAndNotifyParent(node);
+        }
+
+        const onInput = (/** @type {Event} */ $event) => {
+            $event.stopPropagation();
+            const target = $event.target;
+            if (!target) return;
+
+            this.#dirty = true; // not sure about this field but just a dummy (not gonna to use it)
+            this.#value = /** @type {HTMLInputElement} */ (target).value;
+
+            this.#validateAndNotifyParent(node);
+        }
+
+        node.addEventListener("focusout", onFocusOut);
+        node.addEventListener("input", onInput);
+
+        return {
+            destroy() {
+                node.removeEventListener("focusout", onFocusOut);
+                node.removeEventListener("input", onInput);
+            }
+        }
     }
 
     /**

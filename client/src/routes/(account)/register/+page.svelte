@@ -13,11 +13,11 @@
 		try {
 			isSubmitted = true;
 			const userInfo = await AccountService.registerAsUser({
-				email: registerForm.email.value,
-				password: registerForm.password.value,
-				firstName: registerForm.firstName.value,
-				lastName: registerForm.lastName.value,
-				confirmPassword: registerForm.confirmPassword.value
+				email: registerForm.emailField.value,
+				password: registerForm.passwordField.value,
+				firstName: registerForm.firstNameField.value,
+				lastName: registerForm.lastNameField.value,
+				confirmPassword: registerForm.confirmPasswordField.value
 			});
 
 			if (userInfo) {
@@ -43,7 +43,7 @@
 	<p class="text-center small">Enter your personal details to create account</p>
 </div>
 
-<form class="row g-3 px-1" on:submit={onSubmitForm}>
+<form class="row g-3 px-1" on:submit={onSubmitForm} use:registerForm.bind>
 	<div class="col-12">
 		<div class="form-floating">
 			<input
@@ -51,14 +51,15 @@
 				id="firstName"
 				class="form-control rounded-3"
 				placeholder="John"
-				on:focusout={(e) => (registerForm.firstName.onFocusOut = e)}
-				on:input={(e) => (registerForm.firstName.onInput = e)}
-				class:is-invalid={registerForm.firstName.touched && !registerForm.firstName.valid}
-				class:is-valid={registerForm.firstName.touched && registerForm.firstName.valid}
+				use:registerForm.firstNameField.bind
+				class:is-invalid={$registerForm.firstNameField.isTouched &&
+					!$registerForm.firstNameField.isValid}
+				class:is-valid={$registerForm.firstNameField.isTouched &&
+					$registerForm.firstNameField.isValid}
 				disabled={isSubmitted}
 			/>
 			<label for="firstName">First Name</label>
-			<ValidationFeedback bind:field={registerForm.firstName} />
+			<ValidationFeedback field={$registerForm.firstNameField} />
 		</div>
 	</div>
 
@@ -69,14 +70,15 @@
 				id="lastName"
 				class="form-control rounded-3"
 				placeholder="Doe"
-				on:focusout={(e) => (registerForm.lastName.onFocusOut = e)}
-				on:input={(e) => (registerForm.lastName.onInput = e)}
-				class:is-invalid={registerForm.lastName.touched && !registerForm.lastName.valid}
-				class:is-valid={registerForm.lastName.touched && registerForm.lastName.valid}
+				use:registerForm.lastNameField.bind
+				class:is-invalid={$registerForm.lastNameField.isTouched &&
+					!$registerForm.lastNameField.isValid}
+				class:is-valid={$registerForm.lastNameField.isTouched &&
+					$registerForm.lastNameField.isValid}
 				disabled={isSubmitted}
 			/>
 			<label for="lastName">Last Name</label>
-			<ValidationFeedback bind:field={registerForm.lastName} />
+			<ValidationFeedback field={$registerForm.lastNameField} />
 		</div>
 	</div>
 
@@ -87,14 +89,13 @@
 				id="email"
 				class="form-control rounded-3"
 				placeholder="name@example.com"
-				on:focusout={(e) => (registerForm.email.onFocusOut = e)}
-				on:input={(e) => (registerForm.email.onInput = e)}
-				class:is-invalid={registerForm.email.touched && !registerForm.email.valid}
-				class:is-valid={registerForm.email.touched && registerForm.email.valid}
+				use:registerForm.emailField.bind
+				class:is-invalid={$registerForm.emailField.isTouched && !$registerForm.emailField.isValid}
+				class:is-valid={$registerForm.emailField.isTouched && $registerForm.emailField.isValid}
 				disabled={isSubmitted}
 			/>
 			<label for="email">Email</label>
-			<ValidationFeedback bind:field={registerForm.email} />
+			<ValidationFeedback field={$registerForm.emailField} />
 		</div>
 	</div>
 
@@ -105,14 +106,15 @@
 				id="password"
 				class="form-control rounded-3"
 				placeholder="*********"
-				on:focusout={(e) => (registerForm.password.onFocusOut = e)}
-				on:input={(e) => (registerForm.password.onInput = e)}
-				class:is-invalid={registerForm.password.touched && !registerForm.password.valid}
-				class:is-valid={registerForm.password.touched && registerForm.password.valid}
+				use:registerForm.passwordField.bind
+				class:is-invalid={$registerForm.passwordField.isTouched &&
+					!$registerForm.passwordField.isValid}
+				class:is-valid={$registerForm.passwordField.isTouched &&
+					$registerForm.passwordField.isValid}
 				disabled={isSubmitted}
 			/>
 			<label for="password">Password</label>
-			<ValidationFeedback bind:field={registerForm.password} />
+			<ValidationFeedback field={$registerForm.passwordField} />
 		</div>
 	</div>
 
@@ -123,15 +125,15 @@
 				id="confirmPassword"
 				class="form-control rounded-3"
 				placeholder="*********"
-				on:focusout={(e) => (registerForm.confirmPassword.onFocusOut = e)}
-				on:input={(e) => (registerForm.confirmPassword.onInput = e)}
-				class:is-invalid={registerForm.confirmPassword.touched &&
-					!registerForm.confirmPassword.valid}
-				class:is-valid={registerForm.confirmPassword.touched && registerForm.confirmPassword.valid}
+				use:registerForm.confirmPasswordField.bind
+				class:is-invalid={$registerForm.confirmPasswordField.isTouched &&
+					!$registerForm.confirmPasswordField.isValid}
+				class:is-valid={$registerForm.confirmPasswordField.isTouched &&
+					$registerForm.confirmPasswordField.isValid}
 				disabled={isSubmitted}
 			/>
 			<label for="confirmPassword">Confirm Password</label>
-			<ValidationFeedback bind:field={registerForm.confirmPassword} />
+			<ValidationFeedback field={$registerForm.confirmPasswordField} />
 		</div>
 	</div>
 
@@ -149,7 +151,7 @@
 		<button
 			class="btn btn-info w-100 py-2 mt-2 mb-3 rounded-4"
 			type="submit"
-			disabled={!registerForm.valid || isSubmitted}
+			disabled={!$registerForm.isValid || isSubmitted}
 		>
 			Create Account
 			<!-- {#if isSubmitted}

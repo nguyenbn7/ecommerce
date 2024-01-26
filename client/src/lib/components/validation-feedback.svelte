@@ -13,11 +13,11 @@
 	export let validStyle = 'valid-feedback';
 </script>
 
-{#if field.touched && !field.valid && field.error}
+{#if field.isTouched && !field.isValid && field.error}
 	<div class={invalidStyle}>
 		{field.error}
 	</div>
-{:else if field.touched && field.valid && field.success}
+{:else if field.isTouched && field.isValid && field.success}
 	<div class={validStyle}>
 		{field.success}
 	</div>
