@@ -1,6 +1,6 @@
 {
 	"name": "ecommerce-web",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
@@ -19,6 +19,7 @@
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@types/bootstrap": "^5.2.10",
 		"@types/eslint": "8.56.0",
+		"@types/lodash": "^4.14.202",
 		"eslint": "^8.56.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.35.1",
