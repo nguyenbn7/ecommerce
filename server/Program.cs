@@ -1,4 +1,4 @@
-using Ecommerce.Core;
+using Ecommerce.Extension;
 
 var builder = WebApplication.CreateBuilder(args);
 
