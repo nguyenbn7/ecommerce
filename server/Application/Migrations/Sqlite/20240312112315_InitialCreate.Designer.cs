@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Ecommerce.Application.DbMigration.Sqlite
+namespace Ecommerce.Application.Migrations.Sqlite
 {
     [DbContext(typeof(SqliteDbContext))]
-    [Migration("20240312110100_Products")]
-    partial class Products
+    [Migration("20240312112315_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -152,8 +152,8 @@ namespace Ecommerce.Application.DbMigration.Sqlite
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("TEXT");
+                    b.Property<double>("Price")
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<int>("ProductBrandId")
                         .HasColumnType("INTEGER");
