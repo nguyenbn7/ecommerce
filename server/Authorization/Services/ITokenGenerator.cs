@@ -1,8 +1,8 @@
 using System.Security.Claims;
 
-namespace Ecommerce.Shared.Services;
+namespace Ecommerce.Authorization.Services;
 
-public interface ITokenService
+public interface ITokenGenerator
 {
     string GenerateJWTToken(IEnumerable<Claim> claims);
 }

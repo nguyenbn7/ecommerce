@@ -3,9 +3,9 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Ecommerce.Shared.Services;
+namespace Ecommerce.Authorization.Services;
 
-public class TokenService(IConfiguration configuration) : ITokenService
+public class TokenGenerator(IConfiguration configuration) : ITokenGenerator
 {
     private readonly IConfiguration configuration = configuration;
 

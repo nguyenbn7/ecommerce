@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Ecommerce.DbMigration.Sqlite
+namespace Ecommerce.Application.DbMigration.Sqlite
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

@@ -1,13 +1,14 @@
+using Ecommerce.Shared;
 using Microsoft.EntityFrameworkCore;
 
-namespace Ecommerce.Database;
+namespace Ecommerce.Application.DbProvider;
 
-public class SqliteDbContext(IConfiguration configuration) : AppDbContext(configuration)
+public class PostgreDbContext(IConfiguration configuration) : AppDbContext(configuration)
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
-        optionsBuilder.UseSqlite(configuration.GetConnectionString("SqliteConn"));
+        optionsBuilder.UseNpgsql(configuration.GetConnectionString("PostgreConn"));
     }
 
     protected override void OnModelCreating(ModelBuilder builder)

@@ -1,11 +1,12 @@
-using Ecommerce.Accounts.Entities;
-using Ecommerce.Database;
+using Ecommerce.Application.DbProvider;
+using Ecommerce.Authorization.Entities;
+using Ecommerce.Shared;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Ecommerce.Extension;
+namespace Ecommerce.Application.Extension;
 
-public static class WebApplicationAddon
+public static class ForWebApplication
 {
     public static async Task ApplyMigration(this WebApplication app)
     {

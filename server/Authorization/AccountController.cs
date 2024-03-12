@@ -1,22 +1,22 @@
 using System.Security.Claims;
-using Ecommerce.Accounts.Entities;
-using Ecommerce.Accounts.Models;
+using Ecommerce.Authorization.Entities;
+using Ecommerce.Authorization.Models;
+using Ecommerce.Authorization.Services;
 using Ecommerce.Shared.Controllers;
 using Ecommerce.Shared.Models;
-using Ecommerce.Shared.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Ecommerce.Accounts;
+namespace Ecommerce.Authorization;
 
 public class AccountController(ILogger<AccountController> logger,
                                UserManager<AppUser> userManager,
                                SignInManager<AppUser> signInManager,
-                               ITokenService tokenService) : APIController(logger)
+                               ITokenGenerator tokenGenerator) : APIController(logger)
 {
     private readonly UserManager<AppUser> userManager = userManager;
     private readonly SignInManager<AppUser> signInManager = signInManager;
-    private readonly ITokenService tokenService = tokenService;
+    private readonly ITokenGenerator tokenGenerator = tokenGenerator;
 
     [HttpPost("Login")]
     public async Task<IActionResult> Login(LoginDTO loginDTO)
@@ -34,7 +34,7 @@ public class AccountController(ILogger<AccountController> logger,
 
         return Ok(new LoginSuccess
         {
-            AccessToken = tokenService.GenerateJWTToken(BuildUserClaims(user)),
+            AccessToken = tokenGenerator.GenerateJWTToken(BuildUserClaims(user)),
         });
     }
 

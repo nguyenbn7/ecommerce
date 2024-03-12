@@ -1,20 +1,21 @@
 using System.Text;
-using Ecommerce.Accounts.Entities;
-using Ecommerce.Database;
-using Ecommerce.Shared.Services;
+using Ecommerce.Application.DbProvider;
+using Ecommerce.Authorization.Entities;
+using Ecommerce.Authorization.Services;
+using Ecommerce.Shared;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
-namespace Ecommerce.Extension;
+namespace Ecommerce.Application.Extension;
 
-public static class ServiceCollectionAddon
+public static class ForServiceCollection
 {
     public static IServiceCollection AddAppServices(this IServiceCollection services)
     {
         // TODO: Add defined services here
-        services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<ITokenGenerator, TokenGenerator>();
         
         return services;
     }

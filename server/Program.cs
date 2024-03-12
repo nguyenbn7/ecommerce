@@ -1,9 +1,11 @@
-using Ecommerce.Extension;
+using Ecommerce.Application.Extension;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+
+builder.Services.AddAppSwagger();
 
 builder.Services.AddAppDbContext(builder.Configuration);
 
@@ -16,8 +18,6 @@ builder.Services.UseJWTForAuthentication(builder.Configuration);
 builder.Services.AddAuthorization();
 
 builder.Services.AddAppServices();
-
-builder.Services.AddAppSwagger();
 
 var app = builder.Build();
 

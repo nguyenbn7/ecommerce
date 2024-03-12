@@ -1,10 +1,10 @@
-using Ecommerce.Accounts.Entities;
+using Ecommerce.Authorization.Entities;
 using Ecommerce.Products.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Ecommerce.Database;
+namespace Ecommerce.Shared;
 
 // https://dev.to/moesmp/ef-core-multiple-database-providers-3gb7 
 public abstract class AppDbContext(IConfiguration configuration) : IdentityDbContext<AppUser, AppRole, string, IdentityUserClaim<string>, AppUserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
