@@ -12,6 +12,8 @@ public abstract class AppDbContext(IConfiguration configuration) : IdentityDbCon
     protected readonly IConfiguration configuration = configuration;
 
     public required DbSet<Product> Products { get; set; }
+    public required DbSet<ProductBrand> ProductBrands { get; set; }
+    public required DbSet<ProductType> ProductTypes { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
