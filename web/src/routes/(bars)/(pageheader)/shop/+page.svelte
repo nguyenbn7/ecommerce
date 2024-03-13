@@ -4,7 +4,7 @@
 	import { ProductRequest, ProductService } from '$lib/module/product';
 	import Pagination from '$lib/components/pagination.svelte';
 	import PaginationHeader from '$lib/components/pagination-header.svelte';
-	import ProductItem from '$lib/page/shop/product-item.svelte';
+	import ProductItem from '$lib/shop/product-item.svelte';
 
 	/*** @type {Product[]} */
 	let products = [];
@@ -104,10 +104,6 @@
 		return await getNewPageProduct(shopParams);
 	}
 </script>
-
-<svelte:head>
-	<title>{APP_NAME} - Shop</title>
-</svelte:head>
 
 {#if productBrands.length}
 	<div class="row">

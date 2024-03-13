@@ -1,4 +1,4 @@
-using Ecommerce.Authorization.Entities;
+using Ecommerce.Auth.Entities;
 using Ecommerce.Products.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

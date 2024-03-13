@@ -1,9 +1,14 @@
 <script>
 	import { page } from '$app/stores';
 	import Breadcrumb, { breadcrumbService, mapper } from '$lib/components/breadcrumb.svelte';
+	import { APP_NAME } from '$lib/module/shared/constant';
 
 	$: breadcrumbs = breadcrumbService.buildAliasPaths($page, $mapper);
 </script>
+
+<svelte:head>
+	<title>{APP_NAME} | {breadcrumbs[breadcrumbs.length - 1].alias}</title>
+</svelte:head>
 
 <div class="container-fluid bg-secondary pb-2 pb-5 page-title">
 	<div

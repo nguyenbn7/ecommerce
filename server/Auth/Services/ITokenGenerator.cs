@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-namespace Ecommerce.Authorization.Services;
+namespace Ecommerce.Auth.Services;
 
 public interface ITokenGenerator
 {

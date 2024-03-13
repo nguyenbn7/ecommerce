@@ -1,5 +1,5 @@
 using Ecommerce.Application.DbProvider;
-using Ecommerce.Authorization.Entities;
+using Ecommerce.Auth.Entities;
 using Ecommerce.Shared;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

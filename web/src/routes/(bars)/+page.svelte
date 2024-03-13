@@ -1,54 +1,46 @@
 <script>
 	import 'animate.css/animate.min.css';
+	import { getHeroSectionData } from '$lib/home/home-services';
 	import { onMount } from 'svelte';
+	import { APP_NAME } from '$lib/module/shared/constant';
 
-	/**
-	 * @type {HTMLElement}
-	 */
-	let heroCarousel;
-	let active = 0;
-
-	const heroSectionId = 'heroSection';
-
-	const heroImages = ['hero1.jpg', 'hero2.jpg', 'hero3.jpg'];
-
-	const captions = [
-		{ subtitle: 'Mega Sale Going On!', heading: 'Get December Discount' },
-		{ subtitle: 'Top quality board', heading: '10% off your first order' },
-		{ subtitle: 'Unique style', heading: 'Fashionable and Reasonable Price' }
-	];
+	const heroSectionId = 'hero-section';
+	const heroes = getHeroSectionData();
 
 	onMount(async () => {
-		new (await import('bootstrap/js/dist/carousel')).default(heroCarousel, {
-			ride: 'carousel',
-			pause: false
-		});
+		const heroCarousel = document.getElementById(heroSectionId);
 
-		heroCarousel.addEventListener('slid.bs.carousel', (event) => {
-			// @ts-ignore
-			active = event.to;
-		});
+		if (heroCarousel)
+			new (await import('bootstrap/js/dist/carousel')).default(heroCarousel, {
+				ride: 'carousel',
+				pause: false
+			});
 	});
 </script>
 
-<section class="carousel slide" id={heroSectionId} bind:this={heroCarousel}>
+<svelte:head>
+	<title>{APP_NAME} | Home Page</title>
+</svelte:head>
+
+<!-- Hero Section -->
+<section class="carousel slide" id={heroSectionId}>
 	<div class="carousel-indicators">
-		{#each heroImages as _, idx}
+		{#each heroes as hero, idx}
 			<button
 				type="button"
 				data-bs-target="#{heroSectionId}"
 				data-bs-slide-to={idx}
 				class:active={idx === 0}
 				aria-current="true"
-				aria-label="Slide {idx + 1}"
+				aria-label={hero.image}
 			></button>
 		{/each}
 	</div>
 	<div class="carousel-inner">
-		{#each heroImages as image, idx}
+		{#each heroes as hero, idx}
 			<div class="carousel-item" class:active={idx === 0}>
 				<img
-					src="/images/home/hero/{image}"
+					src="/images/home/hero/{hero.image}"
 					class="m-0 min-vw-100 min-vh-100 hero-img"
 					alt="slide"
 				/>
@@ -56,28 +48,14 @@
 					class="carousel-caption h-100 d-flex justify-content-center align-items-center hero-text"
 				>
 					<div>
-						<p
-							class="subtitle"
-							class:animate__animated={idx === active}
-							class:animate__fadeInUp={idx === active}
-							class:animated={idx === active}
-						>
-							{captions[idx].subtitle}
+						<p class="subtitle animated animate__animated animate__fadeInUp">
+							{hero.subtitle}
 						</p>
-						<h1
-							class:animate__animated={idx === active}
-							class:animate__fadeInUp={idx === active}
-							class:animated={idx === active}
-							class:animation-duration-300ms={idx === active}
-						>
-							{captions[idx].heading}
+						<h1 class="animated animate__animated animate__fadeInUp animation-duration-300ms">
+							{hero.heading}
 						</h1>
 						<div
-							class="hero-btns"
-							class:animate__animated={idx === active}
-							class:animate__fadeInUp={idx === active}
-							class:animated={idx === active}
-							class:animation-duration-500ms={idx === active}
+							class="hero-btns animated animate__animated animate__fadeInUp animation-duration-500ms"
 						>
 							<a href="/shop" class="btn btn-warning boxed-btn">Visit Shop</a>
 							<a href="/contact" class="btn btn-outline-warning bordered-btn">Contact Us</a>
@@ -108,6 +86,7 @@
 </section>
 
 <style lang="scss">
+	/* Hero section */
 	.hero-img {
 		object-fit: cover;
 		height: 600px;
@@ -138,14 +117,8 @@
 		margin-left: 15px;
 	}
 
+	a.bordered-btn,
 	a.boxed-btn {
-		font-family: 'Poppins', sans-serif;
-		display: inline-block;
-		padding: 10px 20px;
-		text-decoration: none;
-	}
-
-	a.bordered-btn {
 		font-family: 'Poppins', sans-serif;
 		display: inline-block;
 		padding: 10px 20px;
@@ -162,7 +135,7 @@
 	}
 
 	.animation-duration-500ms {
-		animation-delay: 0.3s !important;
+		animation-delay: 0.5s !important;
 	}
 
 	.animated {

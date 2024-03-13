@@ -1,7 +1,7 @@
 using System.Text;
 using Ecommerce.Application.DbProvider;
-using Ecommerce.Authorization.Entities;
-using Ecommerce.Authorization.Services;
+using Ecommerce.Auth.Entities;
+using Ecommerce.Auth.Services;
 using Ecommerce.Shared;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;

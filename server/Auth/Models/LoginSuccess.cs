@@ -1,4 +1,4 @@
-namespace Ecommerce.Authorization.Models;
+namespace Ecommerce.Auth.Models;
 
 public class LoginSuccess
 {

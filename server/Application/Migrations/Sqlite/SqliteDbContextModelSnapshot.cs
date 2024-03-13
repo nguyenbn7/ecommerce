@@ -17,7 +17,7 @@ namespace Ecommerce.Application.Migrations.Sqlite
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.1");
 
-            modelBuilder.Entity("Ecommerce.Authorization.Entities.AppRole", b =>
+            modelBuilder.Entity("Ecommerce.Auth.Entities.AppRole", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -46,7 +46,7 @@ namespace Ecommerce.Application.Migrations.Sqlite
                     b.ToTable("Roles", (string)null);
                 });
 
-            modelBuilder.Entity("Ecommerce.Authorization.Entities.AppUser", b =>
+            modelBuilder.Entity("Ecommerce.Auth.Entities.AppUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -113,7 +113,7 @@ namespace Ecommerce.Application.Migrations.Sqlite
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("Ecommerce.Authorization.Entities.AppUserRole", b =>
+            modelBuilder.Entity("Ecommerce.Auth.Entities.AppUserRole", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("TEXT");
@@ -197,15 +197,15 @@ namespace Ecommerce.Application.Migrations.Sqlite
                     b.ToTable("ProductTypes");
                 });
 
-            modelBuilder.Entity("Ecommerce.Authorization.Entities.AppUserRole", b =>
+            modelBuilder.Entity("Ecommerce.Auth.Entities.AppUserRole", b =>
                 {
-                    b.HasOne("Ecommerce.Authorization.Entities.AppRole", "Role")
+                    b.HasOne("Ecommerce.Auth.Entities.AppRole", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Ecommerce.Authorization.Entities.AppUser", "User")
+                    b.HasOne("Ecommerce.Auth.Entities.AppUser", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -235,12 +235,12 @@ namespace Ecommerce.Application.Migrations.Sqlite
                     b.Navigation("ProductType");
                 });
 
-            modelBuilder.Entity("Ecommerce.Authorization.Entities.AppRole", b =>
+            modelBuilder.Entity("Ecommerce.Auth.Entities.AppRole", b =>
                 {
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("Ecommerce.Authorization.Entities.AppUser", b =>
+            modelBuilder.Entity("Ecommerce.Auth.Entities.AppUser", b =>
                 {
                     b.Navigation("UserRoles");
                 });

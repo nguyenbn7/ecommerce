@@ -1,13 +1,13 @@
 using System.Security.Claims;
-using Ecommerce.Authorization.Entities;
-using Ecommerce.Authorization.Models;
-using Ecommerce.Authorization.Services;
+using Ecommerce.Auth.Entities;
+using Ecommerce.Auth.Models;
+using Ecommerce.Auth.Services;
 using Ecommerce.Shared.Controllers;
 using Ecommerce.Shared.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Ecommerce.Authorization;
+namespace Ecommerce.Auth;
 
 public class AccountController(ILogger<AccountController> logger,
                                UserManager<AppUser> userManager,

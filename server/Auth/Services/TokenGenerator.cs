@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Ecommerce.Authorization.Services;
+namespace Ecommerce.Auth.Services;
 
 public class TokenGenerator(IConfiguration configuration) : ITokenGenerator
 {
