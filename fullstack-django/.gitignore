@@ -159,9 +159,6 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-static/bootstrap
-static/fontawesome
-
 # Node
 # Logs
 logs
@@ -293,3 +290,5 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+static/libs

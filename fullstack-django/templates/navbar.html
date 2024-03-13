@@ -1,0 +1,57 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-md py-3">
+	<div class="container">
+		<div class="col-3">
+			<a class="navbar-brand" href="/">
+				<img src="{% static "images/logo.png" %}" alt="logo" style="max-height: 2.5em;" class="logo" />
+			</a>
+		</div>
+		<button
+			class="navbar-toggler"
+			type="button"
+			data-bs-toggle="collapse"
+			data-bs-target="#linkNavbar"
+			aria-controls="linkNavbar"
+			aria-expanded="false"
+			aria-label="Toggle navigation"
+		>
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="linkNavbar">
+			<ul class="navbar-nav mx-md-auto mb-2 mb-lg-0">
+                <li>
+                    <a href="{% url "home-page" %}" class="nav-link text-white">Home</a>
+                </li>
+                {% comment %} <li>
+                    <a href="{% url "shop-page" %}" class="nav-link text-white">Shop</a>
+                </li>
+                <li>
+                    <a href="{% url "about-page" %}" class="nav-link text-white">About</a>
+                </li> {% endcomment %}
+                <li>
+                    <a href="{% url "contact-page" %}" class="nav-link text-white">Contact</a>
+                </li>
+			</ul>
+			<ul class="navbar-nav ms-md-auto mb-2 mb-lg-0">
+				<a href="#" class="nav-link text-white me-3">
+					<i class="fa-solid fa-magnifying-glass"></i>
+				</a>
+				<a class="nav-link text-white me-3" href="/favorites" title="Wish list">
+					<i class="fa-solid fa-heart"></i>
+				</a>
+				<a
+					class="nav-link text-white me-3"
+					href="/basket"
+					title="Basket"
+				>
+					<i class="fa-solid fa-basket-shopping"></i>
+                    <span class="position-absolute translate-middle bg-danger badge rounded-pill">
+                        0
+                    </span>
+				</a>
+                <a href="/login" class="btn btn-outline-success text-white px-3 me-3"> Login </a>
+			</ul>
+		</div>
+	</div>
+</nav>
