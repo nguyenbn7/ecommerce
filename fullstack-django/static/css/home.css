@@ -28,7 +28,8 @@
     margin-left: 15px;
 }
 
-a.bordered-btn {
+a.bordered-btn,
+a.boxed-btn {
     font-family: 'Poppins', sans-serif;
     display: inline-block;
     padding: 10px 20px;
@@ -40,13 +41,16 @@ a.bordered-btn {
     border-radius: 50px;
 }
 
+/* Animate.css */
+.animated {
+    -webkit-animation-duration: 1s !important;
+    animation-duration: 1s !important;
+}
 
 .animation-duration-300ms {
     animation-delay: 0.3s !important;
 }
 
-/* Animate.css */
-.animated {
-    -webkit-animation-duration: 1s !important;
-    animation-duration: 1s !important;
+.animation-duration-500ms {
+    animation-delay: 0.5s !important;
 }

@@ -21,9 +21,9 @@
           <img src="{% static 'home/index/hero-section/images' %}/{{ hero.image }}" class="m-0 min-vw-100 min-vh-100 hero-img" alt="slide" />
           <div class="carousel-caption h-100 d-flex justify-content-center align-items-center hero-text">
             <div>
-              <p class="subtitle animated animate__animated animate__fadeInUp animation-duration-300ms">{{ hero.subtitle }}</p>
-              <h1>{{ hero.heading }}</h1>
-              <div class="hero-btns">
+              <p class="subtitle animated animate__animated animate__fadeInUp">{{ hero.subtitle }}</p>
+              <h1 class="animated animate__animated animate__fadeInUp animation-duration-300ms">{{ hero.heading }}</h1>
+              <div class="hero-btns animated animate__animated animate__fadeInUp animation-duration-500ms">
                 <a href="/shop" class="btn btn-warning boxed-btn">Visit Shop</a>
                 <a href="{% url 'contact-page' %}" class="btn btn-outline-warning bordered-btn">Contact Us</a>
               </div>

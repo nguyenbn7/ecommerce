@@ -1,6 +1,6 @@
 {% load static %}
 
-<nav class="navbar navbar-expand-md py-3">
+<nav class="navbar navbar-expand-md py-3" id="navbar-app">
 	<div class="container">
 		<div class="col-3">
 			<a class="navbar-brand" href="/">
@@ -46,9 +46,8 @@
 					title="Basket"
 				>
 					<i class="fa-solid fa-basket-shopping"></i>
-                    <span class="position-absolute translate-middle bg-danger badge rounded-pill">
-                        0
-                    </span>
+                    {% comment %} <span class="position-absolute translate-middle bg-danger badge rounded-pill">
+                    </span> {% endcomment %}
 				</a>
                 <a href="/login" class="btn btn-outline-success text-white px-3 me-3"> Login </a>
 			</ul>

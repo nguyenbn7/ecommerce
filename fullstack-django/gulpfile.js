@@ -1,12 +1,18 @@
 const gulp = require('gulp');
 
+// function copyBootstrapMinCSSTask() {
+//     return gulp.src('node_modules/bootstrap/dist/css/bootstrap.min.css')
+//         .pipe(gulp.dest('static/libs/bootstrap'));
+// }
+
 function copyBootstrapMinCSSTask() {
-    return gulp.src('node_modules/bootstrap/dist/css/bootstrap.min.css')
+    return gulp.src('node_modules/bootswatch/dist/flatly/bootstrap.min.css')
         .pipe(gulp.dest('static/libs/bootstrap'));
 }
 
+
 function copyBootstrapMinJSTask() {
-    return gulp.src('node_modules/bootstrap/dist/js/bootstrap.bundle.min.js')
+    return gulp.src('node_modules/bootstrap/dist/js/bootstrap.bundle.min.js*')
         .pipe(gulp.dest('static/libs/bootstrap'));
 }
 
