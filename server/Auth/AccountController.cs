@@ -14,27 +14,27 @@ public class AccountController(ILogger<AccountController> logger,
                                SignInManager<AppUser> signInManager,
                                ITokenGenerator tokenGenerator) : APIController(logger)
 {
-    private readonly UserManager<AppUser> userManager = userManager;
-    private readonly SignInManager<AppUser> signInManager = signInManager;
-    private readonly ITokenGenerator tokenGenerator = tokenGenerator;
+    private readonly UserManager<AppUser> _userManager = userManager;
+    private readonly SignInManager<AppUser> _signInManager = signInManager;
+    private readonly ITokenGenerator _tokenGenerator = tokenGenerator;
 
     [HttpPost("Login")]
     public async Task<IActionResult> Login(LoginDTO loginDTO)
     {
         var unauthorizedResponse = new ErrorResponse("User name or Password is incorrect");
 
-        var user = await userManager.FindByNameAsync(loginDTO.Username);
+        var user = await _userManager.FindByNameAsync(loginDTO.Username);
         if (user == null)
             return Unauthorized(unauthorizedResponse);
 
-        var result = await signInManager.CheckPasswordSignInAsync(user, loginDTO.Password, false);
+        var result = await _signInManager.CheckPasswordSignInAsync(user, loginDTO.Password, false);
 
         if (!result.Succeeded)
             return Unauthorized(unauthorizedResponse);
 
         return Ok(new LoginSuccess
         {
-            AccessToken = tokenGenerator.GenerateJWTToken(BuildUserClaims(user)),
+            AccessToken = _tokenGenerator.GenerateJWTToken(BuildUserClaims(user)),
         });
     }
 

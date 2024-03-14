@@ -5,17 +5,11 @@ using Ecommerce.Shared.Models;
 
 namespace Ecommerce.Application.Middleware;
 
-public class ApplicationExceptionHandler : IMiddleware
+public class ApplicationExceptionHandler(ILogger<ApplicationExceptionHandler> logger,
+                        IHostEnvironment environment) : IMiddleware
 {
-    private readonly ILogger<ApplicationExceptionHandler> _logger;
-    private readonly IHostEnvironment _environment;
-
-    public ApplicationExceptionHandler(ILogger<ApplicationExceptionHandler> logger,
-                            IHostEnvironment environment)
-    {
-        _logger = logger;
-        _environment = environment;
-    }
+    private readonly ILogger<ApplicationExceptionHandler> _logger = logger;
+    private readonly IHostEnvironment _environment = environment;
 
     public async Task InvokeAsync(HttpContext context,
                                   RequestDelegate next)

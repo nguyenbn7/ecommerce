@@ -4,14 +4,9 @@ using StackExchange.Redis;
 
 namespace Ecommerce.Baskets;
 
-public class BasketRepository : IBasketRepository
+public class BasketRepository(IConnectionMultiplexer redis) : IBasketRepository
 {
-    private readonly IDatabase _db;
-
-    public BasketRepository(IConnectionMultiplexer redis)
-    {
-        _db = redis.GetDatabase();
-    }
+    private readonly IDatabase _db = redis.GetDatabase();
 
     public async Task<bool> DeleteBasketAsync(string basketId)
     {

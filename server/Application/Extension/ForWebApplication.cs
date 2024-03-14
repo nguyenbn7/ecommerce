@@ -1,5 +1,6 @@
 using Ecommerce.Application.DbProvider;
 using Ecommerce.Auth.Entities;
+using Ecommerce.Seeding;
 using Ecommerce.Shared;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -17,8 +18,8 @@ public static class ForWebApplication
 
         context = app.Configuration.GetValue<string>("DatabaseProvider") switch
         {
-            "Sqlite" => services.GetRequiredService<SqliteDbContext>(),
-            _ => services.GetRequiredService<PostgreDbContext>(),
+            "Postgre" => services.GetRequiredService<PostgreDbContext>(),
+            _ => services.GetRequiredService<SqliteDbContext>()
         };
 
         var logger = services.GetRequiredService<ILogger<Program>>();
@@ -39,10 +40,19 @@ public static class ForWebApplication
         using var scope = app.Services.CreateScope();
         var services = scope.ServiceProvider;
         var userManager = services.GetRequiredService<UserManager<AppUser>>();
+        var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
         var logger = services.GetRequiredService<ILogger<Program>>();
 
         try
         {
+            if ((await roleManager.FindByNameAsync("Administrator")) == null)
+            {
+                await roleManager.CreateAsync(new AppRole
+                {
+                    Name = "Administrator"
+                });
+            }
+
             var admin = await userManager.FindByNameAsync("admin");
 
             if (admin != null) return;
@@ -55,7 +65,7 @@ public static class ForWebApplication
             // TODO: Not hard core right here
             await userManager.CreateAsync(admin, "P@ssw0rd");
 
-            await userManager.AddToRoleAsync(admin, "Admin");
+            await userManager.AddToRoleAsync(admin, "Administrator");
         }
         catch (Exception ex)
         {
@@ -64,37 +74,20 @@ public static class ForWebApplication
         }
     }
 
-    public static async Task CreateSystemRolesAsync(this WebApplication app)
+    public static async Task SeedFakeDataAsync(this WebApplication app)
     {
         using var scope = app.Services.CreateScope();
         var services = scope.ServiceProvider;
-        var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
+
         var logger = services.GetRequiredService<ILogger<Program>>();
-
-        try
+        AppDbContext context = app.Configuration.GetValue<string>("DatabaseProvider") switch
         {
-            if (await roleManager.Roles.AnyAsync()) return;
+            "Postgre" => services.GetRequiredService<PostgreDbContext>(),
+            _ => services.GetRequiredService<SqliteDbContext>(),
+        };
 
-            var roles = new List<string>()
-            {
-                "Admin",
-                "Staff",
-                "User"
-            };
-
-            foreach (var roleName in roles)
-            {
-                await roleManager.CreateAsync(new AppRole
-                {
-                    Name = roleName
-                });
-            }
-        }
-        catch (Exception ex)
-        {
-            logger.LogError("An error occured during create system roles: {}", ex.Message);
-            logger.LogError("Details: {}", ex.StackTrace);
-            throw;
-        }
+        await SeedData.CreateProductBrandsAsync(context, logger);
+        await SeedData.CreateProductTypesAsync(context, logger);
+        await SeedData.CreateProductsAsync(context, logger);
     }
 }

@@ -8,7 +8,7 @@ public class PostgreDbContext(IConfiguration configuration) : AppDbContext(confi
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
-        optionsBuilder.UseNpgsql(configuration.GetConnectionString("PostgreConn"));
+        optionsBuilder.UseNpgsql(_configuration.GetConnectionString("PostgreConn"));
     }
 
     protected override void OnModelCreating(ModelBuilder builder)

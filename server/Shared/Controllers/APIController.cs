@@ -6,5 +6,5 @@ namespace Ecommerce.Shared.Controllers;
 [Route("api/[controller]")]
 public abstract class APIController(ILogger logger) : ControllerBase
 {
-    protected readonly ILogger logger = logger;
+    protected readonly ILogger _logger = logger;
 }

@@ -6,39 +6,32 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Baskets;
 
-public class BasketController : APIController
+public class BasketController(ILogger<BasketController> logger,
+                        IBasketRepository basketRepository,
+                        IMapper mapper) : APIController(logger)
 {
-    private readonly IBasketRepository basketRepository;
-    private readonly IMapper mapper;
-
-    public BasketController(ILogger<BasketController> logger,
-                            IBasketRepository basketRepository,
-                            IMapper mapper)
-        : base(logger)
-    {
-        this.basketRepository = basketRepository;
-        this.mapper = mapper;
-    }
+    private readonly IBasketRepository _basketRepository = basketRepository;
+    private readonly IMapper _mapper = mapper;
 
     [HttpGet]
     public async Task<ActionResult<Basket>> GetBasketByIdAsync(string id)
     {
-        var basket = await basketRepository.GetBasketAsync(id);
+        var basket = await _basketRepository.GetBasketAsync(id);
         return basket ?? new Basket(id);
     }
 
     [HttpPost]
     public async Task<IActionResult> UpdateBasketAsync(CustomerBasket customerBasket)
     {
-        var basket = mapper.Map<CustomerBasket, Basket>(customerBasket);
-        var updatedBasket = await basketRepository.UpdateBasketAsync(basket);
+        var basket = _mapper.Map<CustomerBasket, Basket>(customerBasket);
+        var updatedBasket = await _basketRepository.UpdateBasketAsync(basket);
         return Ok(updatedBasket);
     }
 
     [HttpDelete]
     public async Task<IActionResult> DeleteBasketById(string id)
     {
-        var deleted = await basketRepository.DeleteBasketAsync(id);
+        var deleted = await _basketRepository.DeleteBasketAsync(id);
 
         if (deleted)
             return Ok();

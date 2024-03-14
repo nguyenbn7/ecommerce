@@ -9,7 +9,7 @@ public class SqliteDbContext(IConfiguration configuration) : AppDbContext(config
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
-        optionsBuilder.UseSqlite(configuration.GetConnectionString("SqliteConn"));
+        optionsBuilder.UseSqlite(_configuration.GetConnectionString("SqliteConn"));
     }
 
     protected override void OnModelCreating(ModelBuilder builder)

@@ -1,5 +1,6 @@
 using System.Text;
 using Ecommerce.Application.DbProvider;
+using Ecommerce.Application.Middleware;
 using Ecommerce.Auth.Entities;
 using Ecommerce.Auth.Services;
 using Ecommerce.Shared;
@@ -17,6 +18,9 @@ public static class ForServiceCollection
         // TODO: Add defined services here
         services.AddScoped<ITokenGenerator, TokenGenerator>();
         
+        services.AddTransient<ApplicationExceptionHandler>();
+        services.AddTransient<RouteNotFoundHandler>();
+
         return services;
     }
 
@@ -24,8 +28,8 @@ public static class ForServiceCollection
     {
         return configuration.GetValue<string>("DatabaseProvider") switch
         {
-            "Sqlite" => services.AddDbContext<AppDbContext, SqliteDbContext>(),
-            _ => services.AddDbContext<AppDbContext, PostgreDbContext>()
+            "Postgre" => services.AddDbContext<AppDbContext, PostgreDbContext>(),
+            _ => services.AddDbContext<AppDbContext, SqliteDbContext>()
         };
     }
 

@@ -1,4 +1,5 @@
 using Ecommerce.Application.Extension;
+using Ecommerce.Application.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,11 +12,13 @@ builder.Services.AddAppDbContext(builder.Configuration);
 
 builder.Services.AddAuthentication();
 
+builder.Services.AddAuthorization();
+
 builder.Services.UseIdentity(builder.Configuration, builder.Environment);
 
 builder.Services.UseJWTForAuthentication(builder.Configuration);
 
-builder.Services.AddAuthorization();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddAppServices();
 
@@ -27,15 +30,22 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseMiddleware<ApplicationExceptionHandler>();
+
+app.UseStaticFiles();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseMiddleware<RouteNotFoundHandler>();
 
 app.MapControllers();
 
 await app.ApplyMigration();
 
-await app.CreateSystemRolesAsync();
-
 await app.CreateSystemAdminAsync();
+
+await app.SeedFakeDataAsync();
 
 app.Run();

@@ -9,7 +9,7 @@ namespace Ecommerce.Shared;
 // https://dev.to/moesmp/ef-core-multiple-database-providers-3gb7 
 public abstract class AppDbContext(IConfiguration configuration) : IdentityDbContext<AppUser, AppRole, string, IdentityUserClaim<string>, AppUserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
 {
-    protected readonly IConfiguration configuration = configuration;
+    protected readonly IConfiguration _configuration = configuration;
 
     public required DbSet<Product> Products { get; set; }
     public required DbSet<ProductBrand> ProductBrands { get; set; }

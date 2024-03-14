@@ -10,14 +10,15 @@ using Microsoft.EntityFrameworkCore;
 namespace Ecommerce.Products;
 
 public class ProductsController(ILogger<ProductsController> logger,
-    AppDbContext context, IMapper mapper) : APiControllerWithAppDbContext(logger, context)
+    AppDbContext context, IMapper mapper, IConfiguration configuration) : APiControllerWithAppDbContext(logger, context)
 {
-    private readonly IMapper mapper = mapper;
+    private readonly IMapper _mapper = mapper;
+    private readonly IConfiguration _configuration = configuration;
 
     [HttpGet]
     public async Task<ActionResult<Page<ProductDto>>> GetProductsAsync([FromQuery] ProductsQuery query)
     {
-        var queryable = context.Products.AsNoTracking().AsQueryable();
+        var queryable = _context.Products.AsNoTracking().AsQueryable();
 
         if (query.BrandId.HasValue)
             queryable = queryable.Where(p => p.ProductBrandId == query.BrandId);
@@ -26,7 +27,14 @@ public class ProductsController(ILogger<ProductsController> logger,
             queryable = queryable.Where(p => p.ProductTypeId == query.TypeId);
 
         if (query.Search != null)
-            queryable = queryable.Where(p => p.Name.Contains(query.Search, StringComparison.OrdinalIgnoreCase));
+        {
+            var dbProvider = _configuration.GetValue<string>("DatabaseProvider");
+
+            if (dbProvider == "Postgre")
+                queryable = queryable.Where(p => EF.Functions.ILike(p.Name, $"%{query.Search}%"));
+            else
+                queryable = queryable.Where(p => EF.Functions.Like(p.Name, $"%{query.Search}%"));
+        }
 
         if (!string.IsNullOrEmpty(query.Sort))
             queryable = query.Sort.ToLower() switch
@@ -48,16 +56,16 @@ public class ProductsController(ILogger<ProductsController> logger,
         return new Page<ProductDto>
         {
             PageNumber = query.PageNumber,
-            PageSize = query.PageSize,
+            PageSize = query.PageSize > totalItems ? totalItems : query.PageSize,
             TotalItems = totalItems,
-            Data = mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductDto>>(data)
+            Data = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductDto>>(data)
         };
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<ProductDto>> GetProduct(int id)
     {
-        var queryable = context.Products.AsNoTracking().AsQueryable();
+        var queryable = _context.Products.AsNoTracking().AsQueryable();
 
         queryable = queryable.Include(p => p.ProductBrand).Include(p => p.ProductType);
 
@@ -66,18 +74,18 @@ public class ProductsController(ILogger<ProductsController> logger,
         if (product == null)
             return NotFound(new ErrorResponse("Product does not exist"));
 
-        return mapper.Map<Product, ProductDto>(product);
+        return _mapper.Map<Product, ProductDto>(product);
     }
 
     [HttpGet("Types")]
     public async Task<ActionResult<IReadOnlyList<ProductType>>> GetProductTypes()
     {
-        return await context.ProductTypes.AsNoTracking().ToListAsync();
+        return await _context.ProductTypes.AsNoTracking().ToListAsync();
     }
 
     [HttpGet("Brands")]
     public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductBrands()
     {
-        return await context.ProductBrands.AsNoTracking().ToListAsync();
+        return await _context.ProductBrands.AsNoTracking().ToListAsync();
     }
 }
