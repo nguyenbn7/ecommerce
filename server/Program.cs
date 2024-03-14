@@ -22,6 +22,8 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddAppServices();
 
+builder.Services.AddAppCors();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -30,9 +32,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.UseMiddleware<ApplicationExceptionHandler>();
 
 app.UseStaticFiles();
+
+app.UseCors("DevCor");
 
 app.UseAuthentication();
 

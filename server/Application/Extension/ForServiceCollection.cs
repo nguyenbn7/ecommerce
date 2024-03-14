@@ -17,7 +17,7 @@ public static class ForServiceCollection
     {
         // TODO: Add defined services here
         services.AddScoped<ITokenGenerator, TokenGenerator>();
-        
+
         services.AddTransient<ApplicationExceptionHandler>();
         services.AddTransient<RouteNotFoundHandler>();
 
@@ -137,6 +137,21 @@ public static class ForServiceCollection
                     ValidateAudience = false
                 };
             });
+
+        return services;
+    }
+
+    public static IServiceCollection AddAppCors(this IServiceCollection services)
+    {
+        services.AddCors(opt =>
+        {
+            opt.AddPolicy("DevCor", policy =>
+            {
+                policy.WithOrigins("*")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
+        });
 
         return services;
     }
