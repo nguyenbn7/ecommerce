@@ -1,3 +1,4 @@
+using Ecommerce.Products.Entities;
 using Ecommerce.Shared;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,5 +15,10 @@ public class PostgreDbContext(IConfiguration configuration) : AppDbContext(confi
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+
+        builder.Entity<Product>(p =>
+        {
+            p.Property(p => p.Price).HasColumnType("decimal(18, 2)");
+        });
     }
 }
