@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Application.DbProvider;
 
-public class SqliteDbContext(IConfiguration configuration) : AppDbContext(configuration)
+public class SqliteDbContext(IConfiguration configuration, IWebHostEnvironment environment) : AppDbContext(configuration, environment)
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

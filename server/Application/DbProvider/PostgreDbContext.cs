@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Application.DbProvider;
 
-public class PostgreDbContext(IConfiguration configuration) : AppDbContext(configuration)
+public class PostgreDbContext(IConfiguration configuration, IWebHostEnvironment environment) : AppDbContext(configuration, environment)
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
