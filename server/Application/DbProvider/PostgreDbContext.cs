@@ -1,3 +1,4 @@
+using Ecommerce.Application.DbConverters;
 using Ecommerce.Products.Entities;
 using Ecommerce.Shared;
 using Microsoft.EntityFrameworkCore;
@@ -20,5 +21,12 @@ public class PostgreDbContext(IConfiguration configuration) : AppDbContext(confi
         {
             p.Property(p => p.Price).HasColumnType("decimal(18, 2)");
         });
+    }
+
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        base.ConfigureConventions(configurationBuilder);
+
+        configurationBuilder.Properties<DateTime>().HaveConversion(typeof(DateTimeToDateTimeUtc));
     }
 }
