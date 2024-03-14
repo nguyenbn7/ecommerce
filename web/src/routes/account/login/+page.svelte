@@ -1,11 +1,11 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { ToastrService } from '$lib/components/toastr.svelte';
-	import ValidationFeedback from '$lib/components/validation-feedback.svelte';
-	import { AccountService } from '$lib/module/account';
-	import { APP_NAME } from '$lib/module/shared/constant';
-	import { LoginForm } from '$lib/page/login';
+	import { LoginForm } from '$lib/auth/form';
+	import { loginAsUser } from '$lib/auth/service';
+	import { APP_NAME } from '$lib/shared/constant';
+	import ValidationFeedback from '$lib/shared/form/components/validation-feedback.svelte';
+	import { notifySuccess } from '$lib/shared/toasts/toastr.svelte';
 
 	let loginForm = new LoginForm();
 	let isSubmitted = false;
@@ -14,13 +14,13 @@
 		try {
 			isSubmitted = true;
 
-			const userInfo = await AccountService.loginAsUser({
+			const userInfo = await loginAsUser({
 				email: loginForm.emailField.value,
 				password: loginForm.passwordField.value
 			});
 
 			if (userInfo) {
-				ToastrService.notifySuccess(`Welcome back ${userInfo.displayName}`);
+				notifySuccess(`Welcome back ${userInfo.displayName}`);
 
 				const returnUrl = $page.url.searchParams.get('redirect');
 				if (returnUrl) return goto(returnUrl);
@@ -34,7 +34,7 @@
 </script>
 
 <svelte:head>
-	<title>{APP_NAME} - Sign In</title>
+	<title>{APP_NAME} | Sign In</title>
 </svelte:head>
 
 <div class="pt-4 pb-2 mb-4">

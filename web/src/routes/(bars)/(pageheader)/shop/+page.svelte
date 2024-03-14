@@ -1,10 +1,18 @@
 <script>
 	import { onMount } from 'svelte';
-	import { APP_NAME } from '$lib/module/shared/constant';
-	import { ProductRequest, ProductService } from '$lib/module/product';
-	import Pagination from '$lib/components/pagination.svelte';
-	import PaginationHeader from '$lib/components/pagination-header.svelte';
-	import ProductItem from '$lib/shop/product-item.svelte';
+	import ProductItem from '$lib/products/components/product-item.svelte';
+	import { getDefaultShopParams, loadShopData } from '$lib/products/service';
+	import { getPageProduct } from '$lib/products/client';
+	import Pagination from '$lib/shared/components/pagination.svelte';
+	import PaginationHeader from '$lib/shared/components/pagination-header.svelte';
+
+	const maxSize = 5;
+
+	const sortOptions = [
+		{ name: 'Alphabetical', value: 'name' },
+		{ name: 'Price: Low to High', value: 'price' },
+		{ name: 'Price: High to Low', value: '-price' }
+	];
 
 	/*** @type {Product[]} */
 	let products = [];
@@ -16,23 +24,8 @@
 	let totalItems;
 	/*** @type {string | undefined} */
 	let searchTerm;
-	const sortOptions = [
-		{ name: 'Alphabetical', value: 'name' },
-		{ name: 'Price: Low to High', value: 'price' },
-		{ name: 'Price: High to Low', value: '-price' }
-	];
-	let shopParams = ProductService.getDefaultShopParams();
-	const maxSize = 5;
-
-	onMount(async () => {
-		const result = await ProductService.loadShopData(shopParams);
-		products = result.products;
-		productBrands = result.productBrands;
-		productTypes = result.productTypes;
-		shopParams.pageNumber = result.pageNumber;
-		shopParams.pageSize = result.pageSize;
-		totalItems = result.totalItems;
-	});
+	/** @type {ShopParams} */
+	let shopParams = getDefaultShopParams();
 
 	/**
 	 * @param {number} brandId
@@ -48,7 +41,7 @@
 	 * @param {ShopParams} shopParams
 	 */
 	async function getNewPageProduct(shopParams) {
-		const pageProduct = await ProductRequest.getPageProduct(shopParams);
+		const pageProduct = await getPageProduct(shopParams);
 		products = [...pageProduct.data];
 		shopParams.pageNumber = pageProduct.pageNumber;
 		shopParams.pageSize = pageProduct.pageSize;
@@ -96,13 +89,23 @@
 		if (searchTerm === shopParams.search) return;
 		if (!searchTerm) {
 			searchTerm = undefined;
-			shopParams = ProductService.getDefaultShopParams();
+			shopParams = getDefaultShopParams();
 			return await getNewPageProduct(shopParams);
 		}
 		shopParams.search = searchTerm;
 		shopParams.pageNumber = 1;
 		return await getNewPageProduct(shopParams);
 	}
+
+	onMount(async () => {
+		const result = await loadShopData(shopParams);
+		products = result.products;
+		productBrands = result.productBrands;
+		productTypes = result.productTypes;
+		shopParams.pageNumber = result.pageNumber;
+		shopParams.pageSize = result.pageSize;
+		totalItems = result.totalItems;
+	});
 </script>
 
 {#if productBrands.length}

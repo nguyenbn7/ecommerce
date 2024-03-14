@@ -1,6 +1,6 @@
 <script>
 	/**
-	 * @type {import("$lib/module/form").FormField}
+	 * @type {import("$lib/shared/form").FormField}
 	 */
 	export let field;
 	/**

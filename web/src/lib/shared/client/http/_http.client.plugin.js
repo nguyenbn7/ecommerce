@@ -1,5 +1,5 @@
-import { ToastrService } from '$lib/components/toastr.svelte';
-import { AccountService } from '../account';
+import { getAccessToken } from '$lib/auth/service';
+import { notifyDanger } from '$lib/shared/toasts/toastr.svelte';
 
 export async function delayFetch(ms = 1500) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
@@ -15,7 +15,7 @@ export function notifyFetchError(error) {
 		errorMessage = error.response.data.message;
 	}
 
-	ToastrService.notifyDanger(errorMessage);
+	notifyDanger(errorMessage);
 	throw error;
 }
 
@@ -23,5 +23,5 @@ export function notifyFetchError(error) {
  * @param {import("axios").InternalAxiosRequestConfig<any>} config
  */
 export function addAuthenticationToHeader(config) {
-	config.headers.Authorization = `Bearer ${AccountService.getAccessToken()}`;
+	config.headers.Authorization = `Bearer ${getAccessToken()}`;
 }

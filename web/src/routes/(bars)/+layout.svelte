@@ -1,6 +1,6 @@
 <script>
-	import Footer from '$lib/components/footer.svelte';
-	import Navbar from '$lib/components/navbar.svelte';
+	import Footer from '$lib/shared/components/footer.svelte';
+	import Navbar from '$lib/shared/components/navbar.svelte';
 </script>
 
 <div class="fixed-top">

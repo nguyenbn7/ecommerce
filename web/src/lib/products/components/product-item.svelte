@@ -1,5 +1,5 @@
 <script>
-	import { currency } from "$lib/module/shared/helper";
+	import { currency } from "$lib/shared/helper";
 
 	/**
 	 * @type {Product}

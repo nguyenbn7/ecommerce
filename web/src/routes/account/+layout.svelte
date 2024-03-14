@@ -1,5 +1,6 @@
 <script>
-	import { APP_NAME } from '$lib/module/shared/constant';
+	import { APP_NAME } from "$lib/shared/constant";
+
 </script>
 
 <div class="container">

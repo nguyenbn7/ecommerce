@@ -1,11 +1,11 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { ToastrService } from '$lib/components/toastr.svelte';
-	import ValidationFeedback from '$lib/components/validation-feedback.svelte';
-	import { AccountService } from '$lib/module/account';
-	import { APP_NAME } from '$lib/module/shared/constant';
-	import { RegisterForm } from '$lib/page/register';
+	import { RegisterForm } from '$lib/auth/form';
+	import { registerAsUser } from '$lib/auth/service';
+	import { APP_NAME } from '$lib/shared/constant';
+	import ValidationFeedback from '$lib/shared/form/components/validation-feedback.svelte';
+	import { notifySuccess } from '$lib/shared/toasts/toastr.svelte';
 
 	let registerForm = new RegisterForm();
 	let isSubmitted = false;
@@ -13,7 +13,7 @@
 	async function onSubmitForm() {
 		try {
 			isSubmitted = true;
-			const userInfo = await AccountService.registerAsUser({
+			const userInfo = await registerAsUser({
 				email: registerForm.emailField.value,
 				password: registerForm.passwordField.value,
 				firstName: registerForm.firstNameField.value,
@@ -22,7 +22,7 @@
 			});
 
 			if (userInfo) {
-				ToastrService.notifySuccess(`Welcome ${userInfo.displayName}`);
+				notifySuccess(`Welcome ${userInfo.displayName}`);
 
 				const returnUrl = $page.url.searchParams.get('redirect');
 				if (returnUrl) return goto(returnUrl);
@@ -36,7 +36,7 @@
 </script>
 
 <svelte:head>
-	<title>{APP_NAME} - Sign Up</title>
+	<title>{APP_NAME} | Sign Up</title>
 </svelte:head>
 
 <div class="pt-4 pb-2">

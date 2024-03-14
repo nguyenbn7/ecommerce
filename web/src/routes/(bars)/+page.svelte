@@ -1,8 +1,8 @@
 <script>
 	import 'animate.css/animate.min.css';
-	import { getHeroSectionData } from '$lib/home/home-services';
+	import { getHeroSectionData } from '$lib/home/service';
 	import { onMount } from 'svelte';
-	import { APP_NAME } from '$lib/module/shared/constant';
+	import { APP_NAME } from '$lib/shared/constant';
 
 	const heroSectionId = 'hero-section';
 	const heroes = getHeroSectionData();

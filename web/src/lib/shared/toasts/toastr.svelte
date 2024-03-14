@@ -12,7 +12,7 @@
 	 * @param {string} message
 	 * @param {ToastType} type
 	 */
-	function notify(message, type) {
+	export function notify(message, type) {
 		if (showOnlyOneToast) {
 			toastsStore.set([{ message, type }]);
 			return;
@@ -27,40 +27,30 @@
 	/**
 	 * @param {string} message
 	 */
-	function notifyDanger(message) {
+	export function notifyDanger(message) {
 		notify(message, 'DANGER');
 	}
 
 	/**
 	 * @param {string} message
 	 */
-	function notifySuccess(message) {
+	export function notifySuccess(message) {
 		notify(message, 'SUCCESS');
 	}
 
 	/**
 	 * @param {string} message
 	 */
-	function notifyWarning(message) {
+	export function notifyWarning(message) {
 		notify(message, 'WARNING');
 	}
 
 	/**
 	 * @param {string} message
 	 */
-	function notifyInfo(message) {
+	export function notifyInfo(message) {
 		notify(message, 'INFO');
 	}
-
-	const ToastrService = {
-		notify,
-		notifySuccess,
-		notifyDanger,
-		notifyWarning,
-		notifyInfo
-	};
-
-	export { ToastrService };
 </script>
 
 <script>

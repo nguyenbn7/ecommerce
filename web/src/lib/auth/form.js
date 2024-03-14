@@ -1,4 +1,16 @@
-import { FormField, FormGroup, Validators } from '$lib/module/form';
+import { FormField, FormGroup, Validators } from '$lib/shared/form';
+
+export class LoginForm extends FormGroup {
+	constructor() {
+		super();
+		this.emailField = new FormField(
+			Validators.checkRequired('Email is required'),
+			Validators.checkEmailFormat('Incorrect email. Example: bob@test.com')
+		);
+		this.passwordField = new FormField(Validators.checkRequired('Password is required'));
+	}
+}
+
 
 export class RegisterForm extends FormGroup {
 	constructor(firstNameMaxLen = 255, lastNameMaxLen = 255) {
@@ -43,3 +55,4 @@ export class RegisterForm extends FormGroup {
 		);
 	}
 }
+

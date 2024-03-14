@@ -1,9 +1,10 @@
 <script>
 	import { page } from '$app/stores';
-	import Breadcrumb, { breadcrumbService, mapper } from '$lib/components/breadcrumb.svelte';
-	import { APP_NAME } from '$lib/module/shared/constant';
+	import Breadcrumb from '$lib/shared/breadcrumbs/components/breadcrumb.svelte';
+	import { buildAliasPaths, mapper } from '$lib/shared/breadcrumbs/service';
+	import { APP_NAME } from '$lib/shared/constant';
 
-	$: breadcrumbs = breadcrumbService.buildAliasPaths($page, $mapper);
+	$: breadcrumbs = buildAliasPaths($page, $mapper);
 </script>
 
 <svelte:head>

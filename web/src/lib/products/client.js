@@ -1,4 +1,4 @@
-import { createHttpClient, delayFetch, notifyFetchError } from "../request";
+import { createHttpClient, delayFetch, notifyFetchError } from "$lib/shared/client/http";
 
 const httpClientBackground = createHttpClient("products");
 
@@ -15,11 +15,12 @@ httpClientWithSpinner.interceptors.response.use(async (response) => {
     notifyFetchError(error);
 });
 
+
 /**
  * @param {number} id
  * @returns {Promise<Product>}
  */
-async function getProduct(id) {
+export async function getProduct(id) {
     const response = await httpClientWithSpinner.get(`${id}`);
     return response.data;
 }
@@ -27,7 +28,7 @@ async function getProduct(id) {
 /**
  * @returns {Promise<ProductBrand[]>}
  */
-async function getProductBrands() {
+export async function getProductBrands() {
     const response = await httpClientWithSpinner.get("brands");
     return response.data;
 }
@@ -35,7 +36,7 @@ async function getProductBrands() {
 /**
  * @returns {Promise<ProductType[]>}
  */
-async function getProductTypes() {
+export async function getProductTypes() {
     const response = await httpClientWithSpinner.get('types');
     return response.data;
 }
@@ -44,7 +45,7 @@ async function getProductTypes() {
  * @param {ShopParams} shopParams
  * @returns {Promise<Page<Product>>}
  */
-async function getPageProduct(shopParams) {
+export async function getPageProduct(shopParams) {
     const params = {};
     if (shopParams.brandId > 0) params['brandId'] = shopParams.brandId;
     if (shopParams.typeId > 0) params['typeId'] = shopParams.typeId;
@@ -63,7 +64,7 @@ async function getPageProduct(shopParams) {
  * TODO:
  * @returns {Promise<Product>}
  */
-async function getDealProduct() {
+export async function getDealProduct() {
     const response = await httpClientBackground.get('deal');
     return response.data;
 }
@@ -71,14 +72,7 @@ async function getDealProduct() {
  * TODO:
  * @returns {Promise<Array<Product>>}
  */
-async function getNewArrivalProducts() {
+export async function getNewArrivalProducts() {
     const response = await httpClientBackground.get('new-arrivals');
     return response.data;
 }
-
-export const ProductRequest = {
-    getProduct,
-    getProductBrands,
-    getProductTypes,
-    getPageProduct,
-};

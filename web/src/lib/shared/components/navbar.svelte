@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/stores';
-	import { currentUser } from '$lib/module/account';
+	import { currentUser } from '$lib/auth/service';
 	import { onMount } from 'svelte';
 
 	/**
