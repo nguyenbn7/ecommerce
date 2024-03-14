@@ -7,9 +7,10 @@ using Microsoft.EntityFrameworkCore;
 namespace Ecommerce.Shared;
 
 // https://dev.to/moesmp/ef-core-multiple-database-providers-3gb7 
-public abstract class AppDbContext(IConfiguration configuration) : IdentityDbContext<AppUser, AppRole, string, IdentityUserClaim<string>, AppUserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
+public abstract class AppDbContext(IConfiguration configuration, IWebHostEnvironment environment) : IdentityDbContext<AppUser, AppRole, string, IdentityUserClaim<string>, AppUserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
 {
     protected readonly IConfiguration _configuration = configuration;
+    private readonly IWebHostEnvironment _env = environment;
 
     public required DbSet<Product> Products { get; set; }
     public required DbSet<ProductBrand> ProductBrands { get; set; }
@@ -17,13 +18,15 @@ public abstract class AppDbContext(IConfiguration configuration) : IdentityDbCon
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseLoggerFactory(LoggerFactory.Create(builder =>
+        if (_env.IsDevelopment())
         {
-            builder.AddConsole();
-        }));
-#if DEBUG
-        optionsBuilder.EnableSensitiveDataLogging();
-#endif
+            optionsBuilder.UseLoggerFactory(LoggerFactory.Create(builder =>
+            {
+                builder.AddConsole();
+            }));
+            
+            optionsBuilder.EnableSensitiveDataLogging();
+        }
     }
 
     protected override void OnModelCreating(ModelBuilder builder)
