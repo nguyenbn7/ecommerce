@@ -4,11 +4,13 @@ EXPOSE 5078
 
 ENV ASPNETCORE_URLS=http://+:5078
 
-USER app
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+RUN --mount=type=secret,id=config,dst=/etc/secrets/config.json
+RUN ls /
+RUN ls /etc
+RUN ls /etc/secrets
 ARG configuration=Release
 WORKDIR /src
-RUN --mount=type=secret,id=config,dst=/etc/secrets/config.json
 COPY ["Ecommerce.csproj", "./"]
 RUN dotnet restore "Ecommerce.csproj"
 COPY . .
