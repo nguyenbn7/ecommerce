@@ -21,6 +21,9 @@ RUN dotnet publish "Ecommerce.csproj" -c $configuration -o /app/publish /p:UseAp
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+USER root
 # Render only
-RUN --mount=type=secret,id=appsettings_prod_json,dst=/etc/secrets/appsettings.Production.json sudo cat /etc/secrets/appsettings.Production.json > ./appsettings.Production.json
+RUN --mount=type=secret,id=appsettings_prod_json,dst=/etc/secrets/appsettings.Production.json cat /etc/secrets/appsettings.Production.json > appsettings.Production.json
+RUN chown app appsettings.Production.json
+USER app
 ENTRYPOINT ["dotnet", "Ecommerce.dll"]
