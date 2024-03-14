@@ -12,7 +12,7 @@ WORKDIR /src
 COPY ["Ecommerce.csproj", "./"]
 RUN dotnet restore "Ecommerce.csproj"
 COPY . .
-RUN -mount=type=secret,id=config_json,dst=/etc/secrets/config.json cat /etc/secrets/config.json
+RUN --mount=type=secret,id=config_json,dst=/etc/secrets/config.json cat /etc/secrets/config.json
 WORKDIR "/src/."
 RUN dotnet build "Ecommerce.csproj" -c $configuration -o /app/build
 
