@@ -22,5 +22,5 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 # Render only
-RUN --mount=type=secret,id=appsettings_prod_json,dst=/etc/secrets/appsettings.Production.json cat /etc/secrets/appsettings.Production.json > ./appsettings.Production.json
+RUN --mount=type=secret,id=appsettings_prod_json,dst=/etc/secrets/appsettings.Production.json sudo cat /etc/secrets/appsettings.Production.json > ./appsettings.Production.json
 ENTRYPOINT ["dotnet", "Ecommerce.dll"]
