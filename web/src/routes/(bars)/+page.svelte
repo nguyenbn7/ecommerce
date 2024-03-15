@@ -47,7 +47,7 @@
 		{#each heroes as hero, idx}
 			<div class="carousel-item" class:active={idx === 0}>
 				<img
-					src="{heroImagesPath}/{hero.image}"
+					src={heroImagesModules[`${heroImagesPath}/${hero.image}`] + ''}
 					class="m-0 min-vw-100 min-vh-100 hero-img"
 					alt="slide"
 				/>
