@@ -1,4 +1,5 @@
 <script>
+	import logo from '$lib/assets/images/logo.png';
 	import { page } from '$app/stores';
 	import { currentUser } from '$lib/auth/service';
 	import { onMount } from 'svelte';
@@ -33,7 +34,7 @@
 	<div class="container">
 		<div class="col-3">
 			<a class="navbar-brand" href="/">
-				<img src="/images/logo.png" alt="logo" style="max-height: 2.5em;" class="logo" />
+				<img src={logo} alt="logo" style="max-height: 2.5em;" class="logo" />
 			</a>
 		</div>
 		<button

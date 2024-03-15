@@ -1,6 +1,6 @@
 <script>
-	import { APP_NAME } from "$lib/shared/constant";
-
+	import logo from '$lib/assets/images/logo.png';
+	import { APP_NAME } from '$lib/shared/constant';
 </script>
 
 <div class="container">
@@ -15,7 +15,7 @@
 								data-sveltekit-reload
 								class="logo d-flex align-items-center w-auto text-decoration-none"
 							>
-								<img src="/images/logo.png" alt={APP_NAME} />
+								<img src={logo} alt={APP_NAME} />
 								<span class="d-none d-lg-block">{APP_NAME}</span>
 							</a>
 						</div>

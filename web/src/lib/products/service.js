@@ -13,10 +13,7 @@ export async function loadShopData(shopParams) {
     return {
         productBrands: [{ id: 0, name: 'All' }, ...result[0]],
         productTypes: [{ id: 0, name: 'All' }, ...result[1]],
-        products: [...result[2].data],
-        pageNumber: result[2].pageNumber,
-        pageSize: result[2].pageSize,
-        totalItems: result[2].totalItems
+        pageProducts: result[2]
     };
 }
 
@@ -32,4 +29,14 @@ export function getDefaultShopParams() {
         brandId: 0,
         typeId: 0
     }
+}
+
+export function getSortOptions() {
+    const sortOptions = [
+        { name: 'Alphabetical', value: 'name' },
+        { name: 'Price: Low to High', value: 'price' },
+        { name: 'Price: High to Low', value: '-price' }
+    ];
+
+    return sortOptions;
 }

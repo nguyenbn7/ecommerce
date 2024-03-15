@@ -71,7 +71,7 @@
 		<li class="page-item" class:disabled={pageNumber <= 1}>
 			<a
 				class="page-link"
-				href={'#'}
+				href={'javascript:;'}
 				aria-label="Previous"
 				on:click={() => onClickPage(pageNumber - 1)}
 				title="Previous"
@@ -82,7 +82,7 @@
 
 		{#each pages as page}
 			<li class="page-item" class:active={page === pageNumber}>
-				<a class="page-link" href={'#'} on:click={() => onClickPage(page)}>
+				<a class="page-link" href={'javascript:;'} on:click={() => onClickPage(page)}>
 					<span aria-hidden="true">{page}</span>
 				</a>
 			</li>
@@ -91,7 +91,7 @@
 		<li class="page-item" class:disabled={pageNumber === lastPage} title="Next">
 			<a
 				class="page-link"
-				href={'#'}
+				href={'javascript:;'}
 				aria-label="Next"
 				on:click={() => onClickPage(pageNumber + 1)}
 			>
@@ -101,7 +101,12 @@
 
 		{#if lastText}
 			<li class="page-item" class:disabled={pageNumber === lastPage} title="Last">
-				<a class="page-link" href={'#'} aria-label="Last" on:click={() => onClickPage(lastPage)}>
+				<a
+					class="page-link"
+					href={'javascript:;'}
+					aria-label="Last"
+					on:click={() => onClickPage(lastPage)}
+				>
 					<span aria-hidden="true">{lastText}</span>
 				</a>
 			</li>

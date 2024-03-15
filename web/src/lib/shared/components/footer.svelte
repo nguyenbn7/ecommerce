@@ -1,4 +1,5 @@
 <script>
+	import paymentsImage from '$lib/assets/images/payments.png';
 	import { APP_NAME } from '../constant';
 </script>
 
@@ -180,7 +181,7 @@
 					</div>
 				</div>
 				<div class="col-12 col-md-4 text-center text-md-end">
-					<img src="/images/payments.png" alt="Accepted Payments" />
+					<img src={paymentsImage} alt="Accepted Payments" />
 				</div>
 			</div>
 		</div>

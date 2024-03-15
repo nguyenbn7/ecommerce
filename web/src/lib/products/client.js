@@ -1,13 +1,8 @@
 import { createHttpClient, delayFetch, notifyFetchError } from "$lib/shared/client/http";
 
-const httpClientBackground = createHttpClient("products");
+const httpClient = createHttpClient("products");
 
-const httpClientWithSpinner = createHttpClient("products");
-httpClientWithSpinner.interceptors.request.use(config => {
-    // TODO: add spinner here
-    return config;
-})
-httpClientWithSpinner.interceptors.response.use(async (response) => {
+httpClient.interceptors.response.use(async (response) => {
     await delayFetch(1000);
     return response;
 }, async (error) => {
@@ -15,13 +10,12 @@ httpClientWithSpinner.interceptors.response.use(async (response) => {
     notifyFetchError(error);
 });
 
-
 /**
  * @param {number} id
  * @returns {Promise<Product>}
  */
 export async function getProduct(id) {
-    const response = await httpClientWithSpinner.get(`${id}`);
+    const response = await httpClient.get(`${id}`);
     return response.data;
 }
 
@@ -29,7 +23,7 @@ export async function getProduct(id) {
  * @returns {Promise<ProductBrand[]>}
  */
 export async function getProductBrands() {
-    const response = await httpClientWithSpinner.get("brands");
+    const response = await httpClient.get("brands");
     return response.data;
 }
 
@@ -37,7 +31,7 @@ export async function getProductBrands() {
  * @returns {Promise<ProductType[]>}
  */
 export async function getProductTypes() {
-    const response = await httpClientWithSpinner.get('types');
+    const response = await httpClient.get('types');
     return response.data;
 }
 
@@ -54,7 +48,7 @@ export async function getPageProduct(shopParams) {
     params['pageSize'] = shopParams.pageSize;
     if (shopParams.search) params['search'] = shopParams.search;
 
-    const response = await httpClientWithSpinner.get('', {
+    const response = await httpClient.get('', {
         params
     });
     return response.data;
@@ -65,7 +59,7 @@ export async function getPageProduct(shopParams) {
  * @returns {Promise<Product>}
  */
 export async function getDealProduct() {
-    const response = await httpClientBackground.get('deal');
+    const response = await httpClient.get('deal');
     return response.data;
 }
 /**
@@ -73,6 +67,6 @@ export async function getDealProduct() {
  * @returns {Promise<Array<Product>>}
  */
 export async function getNewArrivalProducts() {
-    const response = await httpClientBackground.get('new-arrivals');
+    const response = await httpClient.get('new-arrivals');
     return response.data;
 }
