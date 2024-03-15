@@ -1,11 +1,12 @@
 <script>
 	import { onMount } from 'svelte';
-	import ProductItem from '$lib/products/components/product-item.svelte';
-	import { getDefaultShopParams, loadShopData, getSortOptions } from '$lib/products/service';
-	import { getPageProduct } from '$lib/products/client';
+	import ProductItem from '$lib/products/product-item.svelte';
+	import { getDefaultShopParams, getSortOptions } from '$lib/products/service';
+	import { getPageProduct, getProductBrands, getProductTypes } from '$lib/products/request';
 	import Pagination from '$lib/shared/components/pagination.svelte';
 	import PaginationHeader from '$lib/shared/components/pagination-header.svelte';
 	import PageLoader from '$lib/shared/spinner/page-loader.svelte';
+	import Loader from '$lib/shared/spinner/loader.svelte';
 
 	const sortOptions = getSortOptions();
 
@@ -23,7 +24,8 @@
 		/** @type {string | undefined} */
 		searchTerm: undefined,
 		totalItems: 0,
-		maxPageDisplay: 5
+		maxPageDisplay: 5,
+		shopParamsUpdated: false
 	};
 
 	/**
@@ -33,7 +35,6 @@
 		shopParams.brandId = brandId;
 		shopParams.pageNumber = 1;
 		shopParams.pageSize = shopParams.pageSize < 6 ? 6 : shopParams.pageSize;
-		await getNewPageProduct(shopParams);
 	}
 
 	/**
@@ -43,7 +44,6 @@
 		shopParams.typeId = typeId;
 		shopParams.pageNumber = 1;
 		shopParams.pageSize = shopParams.pageSize < 6 ? 6 : shopParams.pageSize;
-		await getNewPageProduct(shopParams);
 	}
 
 	/**
@@ -51,7 +51,6 @@
 	 */
 	async function pageChanged($event) {
 		shopParams.pageNumber = $event.detail.pageNumber;
-		await getNewPageProduct(shopParams);
 	}
 
 	async function search() {
@@ -59,8 +58,9 @@
 			shopParams.search = pageData.searchTerm;
 			shopParams.pageNumber = 1;
 			return;
+		} else {
+			shopParams = getDefaultShopParams();
 		}
-		shopParams = getDefaultShopParams();
 	}
 
 	/**
@@ -83,8 +83,11 @@
 	async function getNewPageProduct(shopParams) {
 		// TODO: handle error
 		const pageProduct = await getPageProduct(shopParams);
+
 		pageData.products = [...pageProduct.data];
 		pageData.totalItems = pageProduct.totalItems;
+
+		return pageData.products;
 	}
 
 	onMount(async () => {
@@ -92,12 +95,10 @@
 			isLoadingPage = true;
 			loadingError = false;
 
-			const data = await loadShopData(shopParams);
+			const data = await Promise.all([getProductBrands(), getProductTypes()]);
 
-			pageData.products = [...data.pageProducts.data];
-			pageData.productBrands = [...data.productBrands];
-			pageData.productTypes = [...data.productTypes];
-			pageData.totalItems = data.pageProducts.totalItems;
+			pageData.productBrands = [{ id: 0, name: 'All' }, ...data[0]];
+			pageData.productTypes = [{ id: 0, name: 'All' }, ...data[1]];
 		} catch (error) {
 			loadingError = true;
 			console.log(error);
@@ -178,12 +179,21 @@
 						/>
 					</div>
 
-					<div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-3 g-3 mb-4">
-						{#each pageData.products as product}
-							<div class="col">
-								<ProductItem {product} />
+					<div
+						class="row row-cols-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-3 g-3 mb-4"
+						style="min-height: 80%;"
+					>
+						{#await getNewPageProduct(shopParams)}
+							<div class="d-flex align-items-center flex-fill">
+								<Loader class="text-center flex-fill" />
 							</div>
-						{/each}
+						{:then products}
+							{#each products as product}
+								<div class="col">
+									<ProductItem {product} />
+								</div>
+							{/each}
+						{/await}
 					</div>
 
 					<div class="d-flex justify-content-center mb-3">

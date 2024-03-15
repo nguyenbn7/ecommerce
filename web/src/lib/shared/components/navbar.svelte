@@ -10,7 +10,6 @@
 	let y;
 
 	const paths = [
-		{ link: '/', name: 'Home' },
 		{ link: '/shop', name: 'Shop' },
 		{ link: '/about', name: 'About' },
 		{ link: '/blog', name: 'Blog' },

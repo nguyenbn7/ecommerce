@@ -4,7 +4,8 @@
 	import { LoginForm } from '$lib/auth/form';
 	import { loginAsUser } from '$lib/auth/service';
 	import { APP_NAME } from '$lib/shared/constant';
-	import ValidationFeedback from '$lib/shared/form/components/validation-feedback.svelte';
+	import ValidationFeedback from '$lib/shared/form/validation-feedback.svelte';
+	import ButtonLoader from '$lib/shared/spinner/button-loader.svelte';
 	import { notifySuccess } from '$lib/shared/toasts/toastr.svelte';
 
 	let loginForm = new LoginForm();
@@ -95,14 +96,16 @@
 			disabled={!$loginForm.isValid || isSubmitted}
 		>
 			Login
-			<!-- {#if isSubmitted}
-				<ButtonSpinner />
-			{/if} -->
+			{#if isSubmitted}
+				<ButtonLoader />
+			{/if}
 		</button>
 	</div>
 	<div class="col-12 mb-3">
 		<p class="small mb-3 text-center">
-			Don't have account? <a href="/account/register" class="text-decoration-none">Create an account</a>
+			Don't have account? <a href="/account/register" class="text-decoration-none">
+				Create an account
+			</a>
 		</p>
 		<p class="small mb-0 text-center">
 			Sign in as <a href="/account/login/demo" class="text-decoration-none">Demo Users</a>

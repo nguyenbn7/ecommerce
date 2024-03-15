@@ -70,3 +70,24 @@ type ProductType = {
 	id: number;
 	name: string;
 };
+
+type Basket = {
+	id: string;
+	items: BasketItem[];
+};
+
+type BasketItem = {
+	id: number;
+	productName: string;
+	price: number;
+	quantity: number;
+	pictureUrl: string;
+	brand: string;
+	type: string;
+};
+
+type BasketTotals = {
+	shipping: number;
+	subtotal: number;
+	total: number;
+};

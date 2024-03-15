@@ -4,6 +4,13 @@
 	import { onMount } from 'svelte';
 	import { APP_NAME } from '$lib/shared/constant';
 
+	const heroImagesModules = import.meta.glob('$lib/assets/home/hero/*.jpg', {
+		eager: true,
+		import: 'default'
+	});
+
+	const heroImagesPath = Object.keys(heroImagesModules)[0].split('/').slice(0, -1).join('/');
+
 	const heroSectionId = 'hero-section';
 	const heroes = getHeroSectionData();
 
@@ -40,7 +47,7 @@
 		{#each heroes as hero, idx}
 			<div class="carousel-item" class:active={idx === 0}>
 				<img
-					src="/images/home/hero/{hero.image}"
+					src="{heroImagesPath}/{hero.image}"
 					class="m-0 min-vw-100 min-vh-100 hero-img"
 					alt="slide"
 				/>

@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/stores';
-	import Breadcrumb from '$lib/shared/breadcrumbs/components/breadcrumb.svelte';
+	import Breadcrumb from '$lib/shared/breadcrumbs/breadcrumb.svelte';
 	import { buildAliasPaths, mapper } from '$lib/shared/breadcrumbs/service';
 	import { APP_NAME } from '$lib/shared/constant';
 

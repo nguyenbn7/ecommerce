@@ -1,22 +1,3 @@
-import { getPageProduct, getProductBrands, getProductTypes } from "./client";
-
-/**
- * @param {ShopParams} shopParams
- */
-export async function loadShopData(shopParams) {
-    const result = await Promise.all([
-        getProductBrands(),
-        getProductTypes(),
-        getPageProduct(shopParams)
-    ]);
-
-    return {
-        productBrands: [{ id: 0, name: 'All' }, ...result[0]],
-        productTypes: [{ id: 0, name: 'All' }, ...result[1]],
-        pageProducts: result[2]
-    };
-}
-
 /**
  * @returns {ShopParams}
  */

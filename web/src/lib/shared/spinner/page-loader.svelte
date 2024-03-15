@@ -5,14 +5,14 @@
 <div class="modal fade modal-background-custom show" {...$$restProps}>
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="w-100 text-center">
-			<img src={BeanEaterSVG} alt="Loading" />
+			<img src={BeanEaterSVG} alt="Loading..." />
 		</div>
 	</div>
 </div>
 
 <style>
 	.modal-background-custom {
-		background: rgba(0, 0, 0, 0.65);
+		background: rgba(255, 255, 255, 1);
 	}
 
 	.show {
