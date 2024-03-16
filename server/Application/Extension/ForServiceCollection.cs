@@ -3,9 +3,12 @@ using Ecommerce.Application.DbProvider;
 using Ecommerce.Application.Middleware;
 using Ecommerce.Auth.Entities;
 using Ecommerce.Auth.Services;
+using Ecommerce.Baskets;
 using Ecommerce.Shared;
+using Ecommerce.Shared.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using StackExchange.Redis;
@@ -18,6 +21,7 @@ public static class ForServiceCollection
     {
         // TODO: Add defined services here
         services.AddScoped<ITokenGenerator, TokenGenerator>();
+        services.AddScoped<IBasketRepository, BasketRepository>();
 
         services.AddTransient<ApplicationExceptionHandler>();
         services.AddTransient<RouteNotFoundHandler>();
@@ -156,7 +160,7 @@ public static class ForServiceCollection
 
         return services;
     }
-    
+
     public static IServiceCollection AddRedis(this IServiceCollection services,
                                               IConfiguration configuration)
     {
@@ -165,12 +169,33 @@ public static class ForServiceCollection
             var connectionString = configuration.GetConnectionString("RedisConn");
 
             if (string.IsNullOrEmpty(connectionString?.Trim()))
-                throw new Exception("Can not find redis connection string");
+                throw new Exception("Can not find or empty redis connection string (RedisConn)");
 
             var options = ConfigurationOptions.Parse(connectionString);
             return ConnectionMultiplexer.Connect(options);
         });
 
+        return services;
+    }
+
+    public static IServiceCollection ConfigureApiBehaviourOptions(this IServiceCollection services)
+    {
+        services.Configure<ApiBehaviorOptions>(options =>
+        {
+            options.InvalidModelStateResponseFactory = actionContext =>
+            {
+                var errors = actionContext.ModelState
+                    .Where(e => e.Value?.Errors.Count > 0)
+                    .SelectMany(x => x.Value?.Errors ?? [])
+                    .Select(x => x.ErrorMessage)
+                    .ToArray();
+
+                var errorResponse = new ValidationErrorResponse(errors);
+
+                return new BadRequestObjectResult(errorResponse);
+            };
+        });
+        
         return services;
     }
 }

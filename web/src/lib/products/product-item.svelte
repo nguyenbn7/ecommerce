@@ -1,5 +1,6 @@
 <script>
-	import { currency } from "$lib/shared/helper";
+	import { addItemToBasket } from '$lib/baskets/service';
+	import { currency } from '$lib/shared/helper';
 
 	/**
 	 * @type {Product}
@@ -11,7 +12,11 @@
 	<div class="image position-relative">
 		<img src={product.pictureUrl} alt={product.name} class="img-fluid bg-info" />
 		<div class="d-flex align-items-center justify-content-center hover-overlay">
-			<button class="btn btn-success me-2" title="Add to basket">
+			<button
+				class="btn btn-success me-2"
+				title="Add to basket"
+				on:click={() => addItemToBasket(product)}
+			>
 				<i class="fa-solid fa-basket-shopping"></i>
 			</button>
 			<a class="btn btn-primary" href="/shop/{product.id}" title="Detail">

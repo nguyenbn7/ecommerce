@@ -3,6 +3,8 @@
 	import { page } from '$app/stores';
 	import { currentUser } from '$lib/auth/service';
 	import { onMount } from 'svelte';
+	import { basket } from '$lib/baskets/service';
+	import { readMoreString } from '$lib/shared/helper';
 
 	/**
 	 * @type {number}
@@ -16,12 +18,12 @@
 		{ link: '/contact', name: 'Contact' }
 	];
 
-	// /**
-	//  * @param {BasketItem[]} items
-	//  */
-	// function getCount(items) {
-	// 	return items.reduce((total, item) => total + item.quantity, 0);
-	// }
+	/**
+	 * @param {BasketItem[]} items
+	 */
+	function getCount(items) {
+		return items.reduce((total, item) => total + item.quantity, 0);
+	}
 
 	onMount(async () => {
 		(await import('bootstrap/js/dist/dropdown')).default;
@@ -29,6 +31,7 @@
 </script>
 
 <svelte:window bind:scrollY={y} />
+
 <nav class="navbar navbar-expand-md py-3" class:bg-primary={y >= 56}>
 	<div class="container">
 		<div class="col-3">
@@ -69,15 +72,19 @@
 				<a class="nav-link text-white me-3" href="/favorites" title="Wish list">
 					<i class="fa-solid fa-heart"></i>
 				</a>
-				<!-- class:text-secondary={!$basket || !$basket.items.length}
-                class:text-info={$basket && $basket.items.length} -->
-				<a class="nav-link text-white me-3" href="/basket" title="Basket">
+				<a
+					class="nav-link text-white me-3"
+					class:text-secondary={!$basket || !$basket.items.length}
+					class:text-info={$basket && $basket.items.length}
+					href="/basket"
+					title="Basket"
+				>
 					<i class="fa-solid fa-basket-shopping"></i>
-					<!-- {#if $basket && $basket.items.length}
+					{#if $basket && $basket.items.length}
 						<span class="position-absolute translate-middle bg-danger badge rounded-pill">
 							{getCount($basket.items)}
 						</span>
-					{/if} -->
+					{/if}
 				</a>
 				{#if !$currentUser}
 					<a href="/account/login" class="btn btn-outline-success text-white px-3 me-3"> Login </a>
@@ -93,9 +100,9 @@
 					</a>
 					<ul class="dropdown-menu dropdown-menu-end me-5">
 						<li>
-							<!-- <h2 class="dropdown-header" title={$currentUser.displayName}>
+							<h2 class="dropdown-header" title={$currentUser.displayName}>
 								{readMoreString($currentUser.displayName, 25)}
-							</h2> -->
+							</h2>
 						</li>
 						<li>
 							<a class="dropdown-item" href={'#'}>

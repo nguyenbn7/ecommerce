@@ -19,7 +19,8 @@ public class RouteNotFoundHandler : IMiddleware
 
             memStream.Position = 0;
             string responseBody = new StreamReader(memStream).ReadToEnd();
-            if (string.IsNullOrEmpty(responseBody))
+
+            if (string.IsNullOrEmpty(responseBody) && !(context.Response.StatusCode >= 200 && context.Response.StatusCode < 300))
             {
                 context.Response.ContentType = MediaTypeNames.Application.Json;
                 var response = new ErrorResponse(500, "Unknown error");

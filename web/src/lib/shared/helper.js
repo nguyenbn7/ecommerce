@@ -11,3 +11,10 @@ export function currency(amount, code = CURRENCY_CODE.US_Dollar) {
         currency: code
     }).format(amount);
 }
+
+/**
+ * @param {string} str
+ */
+export function readMoreString(str, max_length = 50) {
+    return str.length > max_length ? `${str.substring(0, max_length)}...` : str;
+}

@@ -6,7 +6,7 @@ const httpClient = createHttpClient("basket");
  * @param {string} id
  */
 export async function getBasket(id) {
-    return await httpClient.get(`basket?id=${id}`);
+    return await httpClient.get(`?id=${id}`);
 }
 
 /**
@@ -20,5 +20,5 @@ export async function setBasket(basket) {
  * @param {Basket} basket
  */
 export async function deleteBasket(basket) {
-    return await httpClient.delete(`basket?id=${basket.id}`);
+    return await httpClient.delete(`?id=${basket.id}`);
 }

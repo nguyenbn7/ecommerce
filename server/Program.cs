@@ -24,6 +24,8 @@ builder.Services.AddRedis(builder.Configuration);
 
 builder.Services.AddAppServices();
 
+builder.Services.ConfigureApiBehaviourOptions();
+
 builder.Services.AddAppCors();
 
 var app = builder.Build();
@@ -37,6 +39,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseMiddleware<ApplicationExceptionHandler>();
 
+app.UseMiddleware<RouteNotFoundHandler>();
+
 app.UseStaticFiles();
 
 app.UseCors("DevCor");
@@ -44,8 +48,6 @@ app.UseCors("DevCor");
 app.UseAuthentication();
 
 app.UseAuthorization();
-
-app.UseMiddleware<RouteNotFoundHandler>();
 
 app.MapControllers();
 
