@@ -24,7 +24,7 @@
 
 {#if y > 100}
 	<a
-		href={'#'}
+		href={'javascript:;'}
 		class="btn btn-info back-to-top"
 		transition:fade={{ duration: 400 }}
 		on:click={scrollToTop}
