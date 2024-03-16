@@ -23,7 +23,7 @@ public class AccountController(ILogger<AccountController> logger,
     {
         var unauthorizedResponse = new ErrorResponse("User name or Password is incorrect");
 
-        var user = await _userManager.FindByNameAsync(loginDTO.Username);
+        var user = await _userManager.FindByNameAsync(loginDTO.Email);
         if (user == null)
             return Unauthorized(unauthorizedResponse);
 

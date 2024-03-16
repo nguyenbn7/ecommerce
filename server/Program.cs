@@ -20,6 +20,8 @@ builder.Services.UseJWTForAuthentication(builder.Configuration);
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+builder.Services.AddRedis(builder.Configuration);
+
 builder.Services.AddAppServices();
 
 builder.Services.AddAppCors();

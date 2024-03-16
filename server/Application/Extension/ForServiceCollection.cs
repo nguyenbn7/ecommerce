@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using StackExchange.Redis;
 
 namespace Ecommerce.Application.Extension;
 
@@ -151,6 +152,23 @@ public static class ForServiceCollection
                     .AllowAnyHeader()
                     .AllowAnyMethod();
             });
+        });
+
+        return services;
+    }
+    
+    public static IServiceCollection AddRedis(this IServiceCollection services,
+                                              IConfiguration configuration)
+    {
+        services.AddSingleton<IConnectionMultiplexer>(_ =>
+        {
+            var connectionString = configuration.GetConnectionString("RedisConn");
+
+            if (string.IsNullOrEmpty(connectionString?.Trim()))
+                throw new Exception("Can not find redis connection string");
+
+            var options = ConfigurationOptions.Parse(connectionString);
+            return ConnectionMultiplexer.Connect(options);
         });
 
         return services;

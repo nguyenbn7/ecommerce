@@ -1,5 +1,5 @@
-import { browser } from '$app/environment';
 import { getAccessToken } from '$lib/auth/service';
+import { notifyDanger } from '$lib/shared/toastr/service';
 
 export async function delayFetch(ms = 1500) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
@@ -15,11 +15,7 @@ export async function notifyFetchError(error) {
 		errorMessage = error.response.data.message;
 	}
 
-	if (browser) {
-		// Weird thing is dat you have to do this instead of import modudle like normal
-		const toastModules = await import("$lib/shared/toasts/toastr.svelte");
-		toastModules.notifyDanger(errorMessage);
-	}
+	notifyDanger(errorMessage);
 	throw error;
 }
 
