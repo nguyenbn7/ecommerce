@@ -6,7 +6,7 @@
 	import { APP_NAME } from '$lib/shared/constant';
 	import ValidationFeedback from '$lib/shared/form/validation-feedback.svelte';
 	import ButtonLoader from '$lib/shared/spinner/button-loader.svelte';
-	import { notifySuccess } from '$lib/shared/toast/toastr.svelte';
+	import { notifySuccess } from '$lib/shared/toastr/service';
 
 	let registerForm = new RegisterForm();
 	let isSubmitted = false;
