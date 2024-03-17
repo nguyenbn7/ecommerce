@@ -1,7 +1,7 @@
 <script>
 	import logo from '$lib/assets/images/logo.png';
 	import { page } from '$app/stores';
-	import { currentUser } from '$lib/auth/service';
+	import { userInfo } from '$lib/auth/service';
 	import { onMount } from 'svelte';
 	import { basket } from '$lib/baskets/service';
 	import { readMoreString } from '$lib/shared/helper';
@@ -86,7 +86,7 @@
 						</span>
 					{/if}
 				</a>
-				{#if !$currentUser}
+				{#if !$userInfo}
 					<a href="/account/login" class="btn btn-outline-success text-white px-3 me-3"> Login </a>
 				{:else}
 					<a
@@ -100,8 +100,8 @@
 					</a>
 					<ul class="dropdown-menu dropdown-menu-end me-5">
 						<li>
-							<h2 class="dropdown-header" title={$currentUser.displayName}>
-								{readMoreString($currentUser.displayName, 25)}
+							<h2 class="dropdown-header" title={$userInfo.displayName}>
+								{readMoreString($userInfo.displayName, 25)}
 							</h2>
 						</li>
 						<li>

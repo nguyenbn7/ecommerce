@@ -1,13 +1,13 @@
 <script>
 	import { onMount } from 'svelte';
 	import { startCase, toLower } from 'lodash';
-	import { OrderService, basket, basketTotals } from '$lib/share/service';
-	import { APP_NAME } from '$lib/share/constant';
-	import OrderSummary from '$lib/component/(root)/(no-navbar-footer)/checkout/order-summary.svelte';
-	import Address, {
-		AddressFormGroup
-	} from '$lib/component/(root)/(no-navbar-footer)/checkout/address.svelte';
-	import { currency } from '$lib/share/helper';
+	import OrderSummary from '$lib/order/order-summary.svelte';
+	import { OrderFormGroup } from '$lib/order/form';
+	import { basket, basketTotals } from '$lib/baskets/service';
+	import { APP_NAME } from '$lib/shared/constant';
+	import Address from '$lib/order/address.svelte';
+	import { currency } from '$lib/shared/helper';
+	import { createOrder, getDeliveryMethods, getPaymentTypes } from '$lib/order/request';
 
 	let hasSameAddress = true;
 	/**
@@ -93,16 +93,13 @@
 		order.paymentType = paymentType;
 		order.deliveryMethodId = deliveryMethodId;
 
-		await OrderService.createOrder(order);
+		await createOrder(order);
 	}
-    
+
 	onMount(async () => {
-		const result = await Promise.all([
-			OrderService.getPaymentTypes(),
-			OrderService.getDeliveryMethods()
-		]);
-		paymentTypes = [...result[0]];
-		deliveryMethods = [...result[1]];
+		const result = await Promise.all([getPaymentTypes(), getDeliveryMethods()]);
+		paymentTypes = [...result[0].data];
+		deliveryMethods = [...result[1].data];
 	});
 </script>
 
@@ -238,7 +235,7 @@
 						</div>
 					</div>
 
-					<button class="w-100 btn btn-primary btn-lg" type="submit" disabled={!orderForm.valid}>
+					<button class="w-100 btn btn-primary btn-lg" type="submit" disabled={!orderForm.isValid}>
 						Continue to checkout
 					</button>
 				</form>

@@ -1,91 +1,147 @@
 import { get, readonly, writable } from 'svelte/store';
-import { createHttpClient, delayFetch, notifyFetchError } from '$lib/shared/client/http';
+import { getDisplayName, login, register } from './request';
+import { notifyDanger } from '$lib/shared/toastr/service';
 
-const httpClient = createHttpClient('account');
+const ACCESS_TOKEN_KEY_NAME = "access_token";
 
-httpClient.interceptors.response.use(
-	async (response) => {
-		await delayFetch(1500);
-		return response;
-	},
-	async (error) => {
-		await delayFetch(1500);
-		notifyFetchError(error);
-	}
-);
-
-const ACCESS_TOKEN = 'token';
 
 /**
- * @type {import("svelte/store").Writable<Account.UserInfo | null>}
+ * @type {import("svelte/store").Writable<UserInfo | null>}
  */
-const currentUserStore = writable(null);
-
-export const currentUser = readonly(currentUserStore);
+const userInfoStore = writable(null);
+export const userInfo = readonly(userInfoStore);
 
 export function getAccessToken() {
-	return localStorage.getItem(ACCESS_TOKEN) ?? '';
+	return localStorage.getItem(ACCESS_TOKEN_KEY_NAME) ?? '';
 }
 
 export async function loadUser() {
 	const accessToken = getAccessToken();
 	if (!accessToken) return;
 
-	const response = await httpClient.get('display', {
-		headers: {
-			Authorization: `Bearer ${getAccessToken()}`
+	const response = await getDisplayName();
+	/**
+	 * @type {string}
+	 */
+	const displayName = response.data;
+
+	userInfoStore.update(() => {
+		return {
+			displayName: displayName
 		}
 	});
-
-	/**
-	 * @type {Account.UserDisplayInfoResponse}
-	 */
-	const data = response.data;
-	currentUserStore.update(() => ({
-		email: data.email,
-		displayName: `${data.firstName} ${data.lastName}`
-	}));
 }
 
 export function logout() {
-	localStorage.removeItem(ACCESS_TOKEN);
-	currentUserStore.update(() => null);
+	localStorage.removeItem(ACCESS_TOKEN_KEY_NAME);
+	userInfoStore.update(() => null);
 }
 
 /**
- * @param {Account.UserLoginForm} loginForm
+ * @param {LoginSuccess} data
+ */
+function updateUserInfo(data) {
+	localStorage.setItem(ACCESS_TOKEN_KEY_NAME, data.accessToken);
+
+	userInfoStore.update((_) => {
+		return {
+			displayName: data.displayName
+		}
+	})
+}
+
+/**
+ * @param {LoginDTO} loginDTO
+ */
+export async function loginAsUserDemo(loginDTO) {
+	try {
+		const response = await login(loginDTO);
+
+		/**
+		 * @type {LoginSuccess}
+		 */
+		const data = response.data;
+
+		updateUserInfo(data);
+
+		return data.displayName;
+	} catch (err) {
+		/**
+		 * @type {import('axios').AxiosError}
+		 */
+		// @ts-ignore
+		let error = err;
+		notifyDanger(error.message);
+		return undefined;
+	}
+}
+
+/**
+ * @param {import('./form').LoginForm} loginForm
  */
 export async function loginAsUser(loginForm) {
 	/**
-	 * @type {Account.LoginSuccessResponse}
+	 * @type {LoginDTO}
 	 */
-	const data = (await httpClient.post('login', loginForm)).data;
+	const loginDTO = {
+		email: loginForm.emailField.value,
+		password: loginForm.passwordField.value
+	}
 
-	localStorage.setItem(ACCESS_TOKEN, data.accessToken);
+	try {
+		const response = await login(loginDTO);
 
-	currentUserStore.update(() => ({
-		email: data.email,
-		displayName: `${data.firstName} ${data.lastName}`
-	}));
+		/**
+		 * @type {LoginSuccess}
+		 */
+		const data = response.data;
 
-	return get(currentUserStore);
+		updateUserInfo(data);
+
+		return data.displayName;
+	} catch (err) {
+		/**
+		 * @type {import('axios').AxiosError}
+		 */
+		// @ts-ignore
+		let error = err;
+		notifyDanger(error.message);
+		return undefined;
+	}
 }
 
 /**
- * @param {Account.UserRegisterForm} registerForm
+ * @param {import('./form').RegisterForm} registerForm
  */
 export async function registerAsUser(registerForm) {
 	/**
-	 * @type {Account.LoginSuccessResponse}
+	 * @type {RegisterDTO}
 	 */
-	const data = (await httpClient.post('register', registerForm)).data;
+	const registerDTO = {
+		fullName: registerForm.fullNameField.value,
+		displayName: registerForm.displayNameField.value,
+		email: registerForm.emailField.value,
+		password: registerForm.passwordField.value,
+		confirmPassword: registerForm.confirmPasswordField.value
+	};
 
-	localStorage.setItem(ACCESS_TOKEN, data.accessToken);
+	try {
+		const response = await register(registerDTO);
+		/**
+		 * @type {LoginSuccess}
+		 */
+		const data = response.data;
 
-	currentUserStore.update(() => ({
-		email: data.email,
-		displayName: `${data.firstName} ${data.lastName}`
-	}));
+		updateUserInfo(data);
 
-	return get(currentUserStore);
+		return data.displayName;
+	} catch (err) {
+		/**
+		 * @type {import('axios').AxiosError}
+		 */
+		// @ts-ignore
+		let error = err;
+		notifyDanger(error.message);
+		return undefined;
+	}
 }

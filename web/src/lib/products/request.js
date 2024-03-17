@@ -1,4 +1,4 @@
-import { createHttpClient, delayFetch, notifyFetchError } from '$lib/shared/client/http';
+import { createHttpClient, delayFetch } from '$lib/shared/client/http';
 
 const httpClient = createHttpClient('products');
 
@@ -9,7 +9,7 @@ httpClient.interceptors.response.use(
 	},
 	async (error) => {
 		await delayFetch(1000);
-		notifyFetchError(error);
+		throw error;
 	}
 );
 

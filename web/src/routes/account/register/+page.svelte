@@ -12,27 +12,19 @@
 	let isSubmitted = false;
 
 	async function onSubmitForm() {
-		try {
-			isSubmitted = true;
-			const userInfo = await registerAsUser({
-				email: registerForm.emailField.value,
-				password: registerForm.passwordField.value,
-				firstName: registerForm.firstNameField.value,
-				lastName: registerForm.lastNameField.value,
-				confirmPassword: registerForm.confirmPasswordField.value
-			});
+		isSubmitted = true;
+		const displayName = await registerAsUser(registerForm);
 
-			if (userInfo) {
-				notifySuccess(`Welcome ${userInfo.displayName}`);
+		if (displayName) {
+			notifySuccess(`Welcome ${displayName}`);
 
-				const returnUrl = $page.url.searchParams.get('redirect');
-				if (returnUrl) return goto(returnUrl);
+			const returnUrl = $page.url.searchParams.get('returnUrl');
+			if (returnUrl) return goto(returnUrl);
 
-				return goto('/');
-			}
-		} finally {
-			isSubmitted = false;
+			return goto('/');
 		}
+
+		isSubmitted = false;
 	}
 </script>
 
@@ -50,18 +42,18 @@
 		<div class="form-floating">
 			<input
 				type="text"
-				id="firstName"
+				id="fullName"
 				class="form-control rounded-3"
-				placeholder="John"
-				use:registerForm.firstNameField.bind
-				class:is-invalid={$registerForm.firstNameField.isTouched &&
-					!$registerForm.firstNameField.isValid}
-				class:is-valid={$registerForm.firstNameField.isTouched &&
-					$registerForm.firstNameField.isValid}
+				placeholder="John Doe"
+				use:registerForm.fullNameField.bind
+				class:is-invalid={$registerForm.fullNameField.isTouched &&
+					!$registerForm.fullNameField.isValid}
+				class:is-valid={$registerForm.fullNameField.isTouched &&
+					$registerForm.fullNameField.isValid}
 				disabled={isSubmitted}
 			/>
-			<label for="firstName">First Name</label>
-			<ValidationFeedback field={$registerForm.firstNameField} />
+			<label for="fullName">Full name</label>
+			<ValidationFeedback field={$registerForm.fullNameField} />
 		</div>
 	</div>
 
@@ -69,18 +61,18 @@
 		<div class="form-floating">
 			<input
 				type="text"
-				id="lastName"
+				id="displayName"
 				class="form-control rounded-3"
-				placeholder="Doe"
-				use:registerForm.lastNameField.bind
-				class:is-invalid={$registerForm.lastNameField.isTouched &&
-					!$registerForm.lastNameField.isValid}
-				class:is-valid={$registerForm.lastNameField.isTouched &&
-					$registerForm.lastNameField.isValid}
+				placeholder="John"
+				use:registerForm.displayNameField.bind
+				class:is-invalid={$registerForm.displayNameField.isTouched &&
+					!$registerForm.displayNameField.isValid}
+				class:is-valid={$registerForm.displayNameField.isTouched &&
+					$registerForm.displayNameField.isValid}
 				disabled={isSubmitted}
 			/>
-			<label for="lastName">Last Name</label>
-			<ValidationFeedback field={$registerForm.lastNameField} />
+			<label for="displayName">Display name</label>
+			<ValidationFeedback field={$registerForm.displayNameField} />
 		</div>
 	</div>
 
@@ -163,7 +155,12 @@
 	</div>
 	<div class="col-12">
 		<p class="small mb-3 text-center">
-			Already have an account? <a href="/account/login" class="text-decoration-none">Log in</a>
+			Already have an account? <a
+				href="/account/login{$page.url.search}"
+				class="text-decoration-none"
+			>
+				Log in
+			</a>
 		</p>
 	</div>
 </form>

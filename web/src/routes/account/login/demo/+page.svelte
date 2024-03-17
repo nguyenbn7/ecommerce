@@ -1,5 +1,7 @@
 <script>
-	import { loginAsUser } from '$lib/auth/service';
+	import { page } from '$app/stores';
+	import { PUBLIC_DEMO_CUSTOMER_PWD } from '$env/static/public';
+	import { loginAsUserDemo } from '$lib/auth/service';
 	import ButtonLoader from '$lib/shared/spinner/button-loader.svelte';
 
 	let isSubmitting = false;
@@ -12,32 +14,34 @@
 	 * @param {string} accountName
 	 */
 	async function loginAs(accountName) {
-		try {
-			isSubmitting = true;
-			accountSubmitting = accountName;
-			const loginForm = {
-				email: `${accountName}@test.com`,
-				password: 'Pa$$w0rd'
-			};
+		isSubmitting = true;
+		accountSubmitting = accountName;
 
-			await loginAsUser(loginForm);
-		} catch (error) {
-			console.log(error);
-		} finally {
-			isSubmitting = false;
-			accountSubmitting = undefined;
-		}
+		const loginDTO = {
+			email: `${accountName}@test.com`,
+			password: `${PUBLIC_DEMO_CUSTOMER_PWD}`
+		};
+
+		await loginAsUserDemo(loginDTO);
+
+		accountSubmitting = undefined;
+		isSubmitting = false;
 	}
 </script>
 
 <div class="col-12 mb-3">
 	<p class="small mb-3 text-center">
-		Don't have account? <a href="/account/register" class="text-decoration-none">
+		Don't have account? <a href="/account/register{$page.url.search}" class="text-decoration-none">
 			Create an account
 		</a>
 	</p>
 	<p class="small mb-3 text-center">
-		Already have an account? <a href="/account/login" class="text-decoration-none">Log in</a>
+		Already have an account? <a
+			href="/account/login{$page.url.search}"
+			class="text-decoration-none"
+		>
+			Log in
+		</a>
 	</p>
 </div>
 

@@ -12,25 +12,20 @@
 	let isSubmitted = false;
 
 	async function onSubmit() {
-		try {
-			isSubmitted = true;
+		isSubmitted = true;
 
-			const userInfo = await loginAsUser({
-				email: loginForm.emailField.value,
-				password: loginForm.passwordField.value
-			});
+		const displayName = await loginAsUser(loginForm);
 
-			if (userInfo) {
-				notifySuccess(`Welcome back ${userInfo.displayName}`);
+		if (displayName) {
+			notifySuccess(`Welcome back ${displayName}`);
 
-				const returnUrl = $page.url.searchParams.get('redirect');
-				if (returnUrl) return goto(returnUrl);
+			const returnUrl = $page.url.searchParams.get('returnUrl');
+			if (returnUrl) return goto(returnUrl);
 
-				return goto('/');
-			}
-		} finally {
-			isSubmitted = false;
+			return goto('/');
 		}
+
+		isSubmitted = false;
 	}
 </script>
 
@@ -104,12 +99,17 @@
 
 	<div class="col-12 mb-3">
 		<p class="small mb-3 text-center">
-			Don't have account? <a href="/account/register" class="text-decoration-none">
+			Don't have account? <a
+				href="/account/register{$page.url.search}"
+				class="text-decoration-none"
+			>
 				Create an account
 			</a>
 		</p>
 		<p class="small mb-0 text-center">
-			Sign in as <a href="/account/login/demo" class="text-decoration-none">Demo Users</a>
+			Sign in as <a href="/account/login/demo{$page.url.search}" class="text-decoration-none">
+				Demo Users
+			</a>
 		</p>
 	</div>
 </form>

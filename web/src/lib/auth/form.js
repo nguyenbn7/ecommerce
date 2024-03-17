@@ -12,24 +12,24 @@ export class LoginForm extends FormGroup {
 }
 
 export class RegisterForm extends FormGroup {
-	constructor(firstNameMaxLen = 255, lastNameMaxLen = 255) {
+	constructor(fullNameMaxLen = 256, displayNameMaxLen = 55) {
 		super();
 
-		this.firstNameField = new FormField(
-			Validators.checkRequired('First Name is required'),
-			Validators.containsAlnumAndSpace('First Name contains only letters and spaces'),
+		this.fullNameField = new FormField(
+			Validators.checkRequired('Full name is required'),
+			Validators.containsAlnumAndSpace('Full name contains only letters and spaces'),
 			Validators.checkMaxLength(
-				`First Name's max length is ${firstNameMaxLen} characters`,
-				firstNameMaxLen
+				`Full name's max length is ${fullNameMaxLen} characters`,
+				fullNameMaxLen
 			)
 		);
 
-		this.lastNameField = new FormField(
-			Validators.checkRequired('Last Name is required'),
-			Validators.containsAlnumAndSpace('Last Name contains only letters and spaces'),
+		this.displayNameField = new FormField(
+			Validators.checkRequired('Display name is required'),
+			Validators.containsAlnumAndSpace('Display name contains only letters and spaces'),
 			Validators.checkMaxLength(
-				`Last Name's max length is ${lastNameMaxLen} characters`,
-				lastNameMaxLen
+				`Display name's max length is ${displayNameMaxLen} characters`,
+				displayNameMaxLen
 			)
 		);
 
