@@ -3,24 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="{% static "favicon.ico" %}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon" />
     <link rel="stylesheet" href="{% static 'libs/bootstrap/bootstrap.min.css' %}" />
     <link rel="stylesheet" href="{% static 'libs/fontawesome/css/all.min.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
     {% block head %}
 
     {% endblock %}
   </head>
   <body>
-    <div class="fixed-top">
-      {% include "navbar.html" %}
-    </div>
     {% block content %}
+
     {% endblock %}
-    {% include "footer.html" %}
+    <script src="{% static 'libs/bootstrap/bootstrap.bundle.min.js' %}"></script>
+    {% block script %}
+
+    {% endblock %}
   </body>
-  <script src="{% static 'libs/bootstrap/bootstrap.bundle.min.js' %}"></script>
-  <script src="{% static 'js/navbar.js' %}"></script>
-  {% block scripts %}
-  {% endblock %}
 </html>

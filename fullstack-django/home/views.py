@@ -22,8 +22,8 @@ def index(request: HttpRequest):
         },
     ]
 
-    return render(request, "index.html", {"heroes": heroes})
+    return render(request, "home/index.html", {"heroes": heroes})
 
 
 def contact(request: HttpRequest):
-    return render(request, "contact.html", {})
+    return render(request, "contact/index.html", {})
