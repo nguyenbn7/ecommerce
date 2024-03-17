@@ -55,6 +55,8 @@ await app.ApplyMigration();
 
 await app.CreateSystemAdminAsync();
 
+await app.CreateDemoCustomersAsync();
+
 await app.SeedFakeDataAsync();
 
 app.Run();

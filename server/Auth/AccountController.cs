@@ -24,7 +24,7 @@ public class AccountController(ILogger<AccountController> logger,
     {
         var unauthorizedResponse = new ErrorResponse("User name or Password is incorrect");
 
-        var user = await _userManager.FindByNameAsync(loginDTO.Email);
+        var user = await _userManager.FindByEmailAsync(loginDTO.Email);
         if (user == null)
             return Unauthorized(unauthorizedResponse);
 
@@ -43,7 +43,7 @@ public class AccountController(ILogger<AccountController> logger,
     [HttpPost("Register")]
     public async Task<ActionResult<LoginSuccess>> Register(RegisterDTO registerDTO)
     {
-        var user = await _userManager.FindByNameAsync(registerDTO.Email);
+        var user = await _userManager.FindByEmailAsync(registerDTO.Email);
         if (user == null)
         {
             return BadRequest(new ErrorResponse(400, "Email address already in use"));

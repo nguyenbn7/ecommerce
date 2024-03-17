@@ -29,7 +29,7 @@ export async function register(registerDTO) {
 }
 
 export async function getDisplayName() {
-    return await httpClient.get('display', {
+    return await httpClient.get('display-name', {
         headers: {
             Authorization: `Bearer ${getAccessToken()}`
         }

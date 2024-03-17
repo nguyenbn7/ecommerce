@@ -1,7 +1,7 @@
 <script>
 	import logo from '$lib/assets/images/logo.png';
 	import { page } from '$app/stores';
-	import { userInfo } from '$lib/auth/service';
+	import { logout, userInfo } from '$lib/auth/service';
 	import { onMount } from 'svelte';
 	import { basket } from '$lib/baskets/service';
 	import { readMoreString } from '$lib/shared/helper';
@@ -115,11 +115,11 @@
 							</a>
 						</li>
 						<li><hr class="dropdown-divider" /></li>
-						<!-- <li>
-							<a class="dropdown-item" href={'#'} on:click={AccountService.logout}>
+						<li>
+							<a class="dropdown-item" href={'javascript:;'} on:click={logout}>
 								<i class="fa-solid fa-right-from-bracket"></i> Logout
 							</a>
-						</li> -->
+						</li>
 					</ul>
 				{/if}
 			</ul>

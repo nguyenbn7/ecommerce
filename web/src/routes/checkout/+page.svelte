@@ -1,4 +1,5 @@
 <script>
+	import logo from '$lib/assets/images/logo.png';
 	import { onMount } from 'svelte';
 	import { startCase, toLower } from 'lodash';
 	import OrderSummary from '$lib/order/order-summary.svelte';
@@ -111,7 +112,7 @@
 	<main>
 		<div class="py-5 text-center">
 			<a href="/">
-				<img class="d-block mx-auto mb-4" src="/images/logo.png" alt="" width="250" height="100" />
+				<img class="d-block mx-auto mb-4" src={logo} alt="" width="250" height="100" />
 			</a>
 			<h2>Checkout</h2>
 		</div>

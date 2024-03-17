@@ -73,7 +73,6 @@ public static class ForServiceCollection
 
             // User settings.
             options.User.AllowedUserNameCharacters = userSettingsConfig.GetValue<string>("AllowedUserNameCharacters") ?? options.User.AllowedUserNameCharacters;
-            options.User.RequireUniqueEmail = userSettingsConfig.GetValue("RequireUniqueEmail", options.User.RequireUniqueEmail);
         });
 
         return services;

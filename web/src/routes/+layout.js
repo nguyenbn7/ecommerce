@@ -5,6 +5,5 @@ export const ssr = false;
 
 /** @type {import('./$types').LayoutLoad} */
 export async function load() {
-	loadBasket();
-	loadUser();
+	await Promise.all([loadUser(), loadBasket()]);
 }

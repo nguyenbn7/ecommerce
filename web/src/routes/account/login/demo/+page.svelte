@@ -1,8 +1,10 @@
 <script>
+	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { PUBLIC_DEMO_CUSTOMER_PWD } from '$env/static/public';
 	import { loginAsUserDemo } from '$lib/auth/service';
 	import ButtonLoader from '$lib/shared/spinner/button-loader.svelte';
+	import { notifySuccess } from '$lib/shared/toastr/service';
 
 	let isSubmitting = false;
 	/**
@@ -18,11 +20,20 @@
 		accountSubmitting = accountName;
 
 		const loginDTO = {
-			email: `${accountName}@test.com`,
+			email: `demo.${accountName}@test.com`,
 			password: `${PUBLIC_DEMO_CUSTOMER_PWD}`
 		};
 
-		await loginAsUserDemo(loginDTO);
+		const displayName = await loginAsUserDemo(loginDTO);
+
+		if (displayName) {
+			notifySuccess(`Welcome back ${displayName}`);
+
+			const returnUrl = $page.url.searchParams.get('returnUrl');
+			if (returnUrl) return goto(returnUrl);
+
+			return goto('/');
+		}
 
 		accountSubmitting = undefined;
 		isSubmitting = false;
