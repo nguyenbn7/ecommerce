@@ -4,8 +4,8 @@ import { get } from 'svelte/store';
 
 /** @type {import('./$types').LayoutLoad} */
 export async function load() {
-    if (get(currentUser)) {
-        throw redirect(302, "/");
-    }
-    return;
+	if (get(currentUser)) {
+		throw redirect(302, '/');
+	}
+	return;
 }

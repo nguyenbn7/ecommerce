@@ -19,7 +19,7 @@ public class AccountController(ILogger<AccountController> logger,
     private readonly ITokenGenerator _tokenGenerator = tokenGenerator;
 
     [HttpPost("Login")]
-    public async Task<IActionResult> Login(LoginDTO loginDTO)
+    public async Task<ActionResult<LoginSuccess>> Login(LoginDTO loginDTO)
     {
         var unauthorizedResponse = new ErrorResponse("User name or Password is incorrect");
 
@@ -32,16 +32,38 @@ public class AccountController(ILogger<AccountController> logger,
         if (!result.Succeeded)
             return Unauthorized(unauthorizedResponse);
 
-        return Ok(new LoginSuccess
+        return new LoginSuccess
         {
             AccessToken = _tokenGenerator.GenerateJWTToken(BuildUserClaims(user)),
-        });
+        };
     }
 
     [HttpPost("Register")]
-    public IActionResult Register()
+    public async Task<ActionResult<LoginSuccess>> Register(RegisterDTO registerDTO)
     {
-        return Ok();
+        if ((await CheckEmailExists(registerDTO.Email)).Value)
+        {
+            return BadRequest(new ValidationErrorResponse
+            (
+                new string[] { "Email address in use" }
+            ));
+        }
+
+        var user = new AppUser
+        {
+            Email = registerDTO.Email,
+            UserName = registerDTO.Email
+        };
+
+        var result = await _userManager.CreateAsync(user, registerDTO.Password);
+
+        if (!result.Succeeded)
+            return BadRequest(new ErrorResponse(400));
+
+        return new LoginSuccess
+        {
+            AccessToken = _tokenGenerator.GenerateJWTToken(BuildUserClaims(user)),
+        };
     }
 
     private static List<Claim> BuildUserClaims(AppUser user)
@@ -49,5 +71,11 @@ public class AccountController(ILogger<AccountController> logger,
         return [
             new(ClaimTypes.NameIdentifier, user.UserName!)
         ];
+    }
+
+    [HttpGet("Email-exists")]
+    public async Task<ActionResult<bool>> CheckEmailExists([FromQuery] string email)
+    {
+        return await _userManager.FindByEmailAsync(email) != null;
     }
 }

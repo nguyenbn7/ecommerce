@@ -11,7 +11,6 @@ export class LoginForm extends FormGroup {
 	}
 }
 
-
 export class RegisterForm extends FormGroup {
 	constructor(firstNameMaxLen = 255, lastNameMaxLen = 255) {
 		super();
@@ -55,4 +54,3 @@ export class RegisterForm extends FormGroup {
 		);
 	}
 }
-

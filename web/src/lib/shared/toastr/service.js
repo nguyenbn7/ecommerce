@@ -18,7 +18,7 @@ let showSingleToast = true;
  * @param {boolean} flag
  */
 export function saveShowSingleToastOption(flag) {
-    showSingleToast = flag;
+	showSingleToast = flag;
 }
 
 /**
@@ -26,39 +26,39 @@ export function saveShowSingleToastOption(flag) {
  * @param {ToastType} type
  */
 export function notify(message, type) {
-    if (showSingleToast)
-        return toastStore.update((_) => ({
-            message,
-            type
-        }));
-        
-    return toastsStore.update(toasts => [...toasts, { message, type }]);
+	if (showSingleToast)
+		return toastStore.update((_) => ({
+			message,
+			type
+		}));
+
+	return toastsStore.update((toasts) => [...toasts, { message, type }]);
 }
 
 /**
  * @param {string} message
  */
 export function notifyDanger(message) {
-    notify(message, 'DANGER');
+	notify(message, 'DANGER');
 }
 
 /**
  * @param {string} message
  */
 export function notifySuccess(message) {
-    notify(message, 'SUCCESS');
+	notify(message, 'SUCCESS');
 }
 
 /**
  * @param {string} message
  */
 export function notifyWarning(message) {
-    notify(message, 'WARNING');
+	notify(message, 'WARNING');
 }
 
 /**
  * @param {string} message
  */
 export function notifyInfo(message) {
-    notify(message, 'INFO');
+	notify(message, 'INFO');
 }

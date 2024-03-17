@@ -16,14 +16,14 @@ const basketTotalsSource = writable(null);
 export const basketTotals = readonly(basketTotalsSource);
 
 function calculateTotals() {
-    const basket = get(basketSource);
-    if (!basket) return;
+	const basket = get(basketSource);
+	if (!basket) return;
 
-    const shipping = 0;
-    const subtotal = basket.items.reduce((total, item) => total + item.price * item.quantity, 0);
-    const total = subtotal + shipping;
+	const shipping = 0;
+	const subtotal = basket.items.reduce((total, item) => total + item.price * item.quantity, 0);
+	const total = subtotal + shipping;
 
-    basketTotalsSource.update(() => ({ shipping, subtotal, total }));
+	basketTotalsSource.update(() => ({ shipping, subtotal, total }));
 }
 
 /**
@@ -31,28 +31,28 @@ function calculateTotals() {
  * @param {Basket | null} newBasket
  */
 function updateStores(newBasket = null) {
-    if (newBasket === null) {
-        basketSource.update(() => null);
-        basketTotalsSource.update(() => null);
-        return;
-    }
+	if (newBasket === null) {
+		basketSource.update(() => null);
+		basketTotalsSource.update(() => null);
+		return;
+	}
 
-    basketSource.update(() => newBasket);
-    calculateTotals();
+	basketSource.update(() => newBasket);
+	calculateTotals();
 }
 
 export async function loadBasket() {
-    const basketId = localStorage.getItem(BASKET_ID);
-    if (!basketId) return;
+	const basketId = localStorage.getItem(BASKET_ID);
+	if (!basketId) return;
 
-    const response = await getBasket(basketId);
+	const response = await getBasket(basketId);
 
-    /**
-     * @type {Basket}
-     */
-    const basket = response.data;
-    
-    return updateStores(basket);
+	/**
+	 * @type {Basket}
+	 */
+	const basket = response.data;
+
+	return updateStores(basket);
 }
 
 /**
@@ -60,7 +60,7 @@ export async function loadBasket() {
  * @returns {item is Product}
  */
 function isProduct(item) {
-    return Object.hasOwn(item, 'productBrand');
+	return Object.hasOwn(item, 'productBrand');
 }
 
 /**
@@ -68,29 +68,29 @@ function isProduct(item) {
  * @returns {BasketItem}
  */
 function mapProductItemToBasketItem(item) {
-    return {
-        id: item.id,
-        productName: item.name,
-        price: item.price,
-        quantity: 0,
-        pictureUrl: item.pictureUrl,
-        brand: item.productBrand,
-        type: item.productType
-    };
+	return {
+		id: item.id,
+		productName: item.name,
+		price: item.price,
+		quantity: 0,
+		pictureUrl: item.pictureUrl,
+		brand: item.productBrand,
+		type: item.productType
+	};
 }
 
 function createBasket() {
-    /**
-     * @type {Basket}
-     */
-    // TODO: set key here
-    const basket = {
-        id: 'basket1',
-        items: []
-    };
+	/**
+	 * @type {Basket}
+	 */
+	// TODO: set key here
+	const basket = {
+		id: 'basket1',
+		items: []
+	};
 
-    localStorage.setItem(BASKET_ID, basket.id);
-    return basket;
+	localStorage.setItem(BASKET_ID, basket.id);
+	return basket;
 }
 
 /**
@@ -99,13 +99,13 @@ function createBasket() {
  * @param {number} quantity
  */
 function addOrUpdateItem(items, itemToAdd, quantity) {
-    const item = items.find((i) => i.id === itemToAdd.id);
-    if (item) item.quantity += quantity;
-    else {
-        itemToAdd.quantity = quantity;
-        items.push(itemToAdd);
-    }
-    return items;
+	const item = items.find((i) => i.id === itemToAdd.id);
+	if (item) item.quantity += quantity;
+	else {
+		itemToAdd.quantity = quantity;
+		items.push(itemToAdd);
+	}
+	return items;
 }
 
 /**
@@ -113,40 +113,40 @@ function addOrUpdateItem(items, itemToAdd, quantity) {
  * @param {number} quantity
  */
 export async function addItemToBasket(item, quantity = 1) {
-    if (isProduct(item)) item = mapProductItemToBasketItem(item);
+	if (isProduct(item)) item = mapProductItemToBasketItem(item);
 
-    const basket = get(basketSource) ?? createBasket();
-    basket.items = addOrUpdateItem(basket.items, item, quantity);
+	const basket = get(basketSource) ?? createBasket();
+	basket.items = addOrUpdateItem(basket.items, item, quantity);
 
-    const response = await setBasket(basket);
-    const newBasket = response.data;
+	const response = await setBasket(basket);
+	const newBasket = response.data;
 
-    return updateStores(newBasket);
+	return updateStores(newBasket);
 }
 
 /**
  * @param {number} id
  */
 export async function removeItemFromBasket(id, quantity = 1) {
-    const basket = get(basketSource);
-    if (!basket) return;
+	const basket = get(basketSource);
+	if (!basket) return;
 
-    const item = basket.items.find((i) => i.id === id);
-    if (!item) return;
+	const item = basket.items.find((i) => i.id === id);
+	if (!item) return;
 
-    item.quantity -= quantity;
-    if (item.quantity <= 0) {
-        basket.items = basket.items.filter((i) => i.id !== id);
-    }
+	item.quantity -= quantity;
+	if (item.quantity <= 0) {
+		basket.items = basket.items.filter((i) => i.id !== id);
+	}
 
-    if (basket.items.length > 0) {
-        const response = await setBasket(basket);
-        const newBasket = response.data;
+	if (basket.items.length > 0) {
+		const response = await setBasket(basket);
+		const newBasket = response.data;
 
-        return updateStores(newBasket);
-    }
+		return updateStores(newBasket);
+	}
 
-    const response = await deleteBasket(basket);
+	const response = await deleteBasket(basket);
 
-    if (response.status === 200) return updateStores();
+	if (response.status === 200) return updateStores();
 }

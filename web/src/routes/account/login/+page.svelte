@@ -101,7 +101,7 @@
 			{/if}
 		</button>
 	</div>
-	
+
 	<div class="col-12 mb-3">
 		<p class="small mb-3 text-center">
 			Don't have account? <a href="/account/register" class="text-decoration-none">
