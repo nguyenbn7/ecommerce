@@ -22,7 +22,30 @@ def index(request: HttpRequest):
         },
     ]
 
-    return render(request, "home/index.html", {"heroes": heroes})
+    features = [
+        {
+            "iconClass": "fa-solid fa-check",
+            "name": "Quality Product",
+            "description": "Product with long lifespan",
+        },
+        {
+            "iconClass": "fa-solid fa-truck-fast",
+            "name": "Free Shipping",
+            "description": "When order over $100",
+        },
+        {
+            "iconClass": "fa-solid fa-rotate",
+            "name": "7-Day Return",
+            "description": "Get refund within 3 days!",
+        },
+        {
+            "iconClass": "fa-solid fa-phone-volume",
+            "name": "24/7 Support",
+            "description": "Get support all day",
+        },
+    ]
+
+    return render(request, "home/index.html", {"heroes": heroes, "features": features})
 
 
 def contact(request: HttpRequest):

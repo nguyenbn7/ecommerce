@@ -42,6 +42,24 @@
       <span class="visually-hidden">Next</span>
     </button>
   </section>
+
+  <section class="features-section">
+    <div class="container">
+      <div class="row py-5">
+        {% for feature in features %}
+          <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="d-flex align-items-center" style="padding: 30px;">
+              <h1 class="text-warning fs-1 fw-bolder me-3"><i class="{{ feature.iconClass }}"></i></h1>
+              <span>
+                <h5 class="fw-semibold m-0 mb-1">{{ feature.name }}</h5>
+                <p class="text-muted fw-light">{{ feature.description }}</p>
+              </span>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
 {% endblock %}
 
 {% block script %}
