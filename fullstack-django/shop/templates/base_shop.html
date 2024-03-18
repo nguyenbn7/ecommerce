@@ -1,13 +1,44 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% load util %}
+
 {% block head %}
   <link rel="stylesheet" href="{% static 'css/navbar.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/base_shop.css' %}" />
 {% endblock %}
 
 {% block content %}
   <div class="fixed-top">
     {% include 'navbar.html' %}
+  </div>
+
+  <div class="container-fluid bg-secondary pb-2 pb-5 page-title">
+    {% build_breadcrumb request alias as breadcrumb %}
+    {% get_page_title breadcrumb as page_title %}
+
+    <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+      <h2 class="fw-semibold text-uppercase mb-3">{{ page_title }}</h2>
+      <div class="d-inline-flex">
+        <ol class="breadcrumb ps-1 pb-3" aria-label="breadcrumb" style="--bs-breadcrumb-divider: '>';">
+          {% for page, path in breadcrumb.items %}
+            {% if page != page_title %}
+              <li class="breadcrumb-item">
+                <a class="link-primary fw-semibold text-decoration-none" href="{{ path }}">
+                  {% if page == 'root' %}
+                    {{ 'Home' }}
+                  {% else %}
+                    {{ page|title }}
+                  {% endif %}
+                </a>
+              </li>
+            {% else %}
+              <li class="breadcrumb-item active" aria-current="page">{{ page|title }}</li>
+            {% endif %}
+          {% endfor %}
+        </ol>
+      </div>
+    </div>
   </div>
   {% block main %}
 

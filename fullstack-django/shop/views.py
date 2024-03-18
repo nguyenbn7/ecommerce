@@ -8,4 +8,5 @@ def index(request: HttpRequest):
 
 
 def detail(request: HttpRequest, product_id: int):
-    return render(request, "shop/detail.html")
+    context = {"alias": {f"{product_id}": "Angular"}}
+    return render(request, "shop/detail.html", context)
