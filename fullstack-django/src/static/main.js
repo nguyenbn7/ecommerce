@@ -1,2 +1,2 @@
 import 'bootswatch/dist/flatly/bootstrap.min.css';
-import './fontawesome';
+import '$static/shared/layout/_base.scss';

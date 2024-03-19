@@ -10,6 +10,7 @@ export default defineConfig({
     resolve: {
         alias: [
             { find: "$static", replacement: path.resolve(__dirname, 'src', 'static') },
+            { find: '~fontawesome', replacement: path.resolve(__dirname, 'node_modules/@fortawesome/fontawesome-free') }
         ]
     }
 })
