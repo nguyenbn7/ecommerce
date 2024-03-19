@@ -6,7 +6,7 @@ register = template.Library()
 
 
 @register.simple_tag
-def build_breadcrumb(request: HttpRequest, alias_dict: Dict[str, str] = None):
+def build_breadcrumb_dict(request: HttpRequest, alias_dict: Dict[str, str] = None):
     paths = request.path.split("/")[1:]
 
     breadcrumb = {"root": "/"}
@@ -30,5 +30,5 @@ def build_breadcrumb(request: HttpRequest, alias_dict: Dict[str, str] = None):
 
 
 @register.simple_tag
-def get_page_title(breadcrumb: Dict[str, str]):
-    return list(breadcrumb.keys())[-1]
+def get_page_title(breadcrumb_dict: Dict[str, str]):
+    return list(breadcrumb_dict.keys())[-1]

@@ -45,8 +45,8 @@ def index(request: HttpRequest):
         },
     ]
 
-    return render(request, "home/index.html", {"heroes": heroes, "features": features})
+    return render(request, "root/home.html", {"heroes": heroes, "features": features})
 
 
 def contact(request: HttpRequest):
-    return render(request, "contact/index.html", {})
+    return render(request, "root/contact.html", {})
