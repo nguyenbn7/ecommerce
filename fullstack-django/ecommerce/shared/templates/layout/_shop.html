@@ -4,8 +4,10 @@
 {% load breadcrumb %}
 
 {% block head %}
-  <link rel="stylesheet" href="{% static 'css/navbar.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/base_shop.css' %}" />
+  {% if debug %}
+    <script type="module" src="http://localhost:5173/static/shared/navbar/index.js"></script>
+    <script type="module" src="http://localhost:5173/static/shared/layout/_shop.css"></script>
+  {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -44,8 +46,4 @@
 
   {% endblock %}
   {% include 'components/footer.html' %}
-{% endblock %}
-
-{% block script %}
-  <script src="{% static 'js/navbar.js' %}"></script>
 {% endblock %}

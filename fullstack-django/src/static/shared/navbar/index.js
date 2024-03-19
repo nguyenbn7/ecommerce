@@ -1,3 +1,5 @@
+import './style.css';
+
 const navbar = document.getElementById("navbar-app");
 const thresholdPixel = 56;
 const backgroundClass = "bg-primary";

@@ -3,8 +3,10 @@
 
 {% block head %}
   {{ block.super }}
-  <link rel="stylesheet" href="{% static 'libs/animate.css/animate.min.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+  {% if debug %}
+    <script type="module" src="http://localhost:5173/static/animate.css.js"></script>
+    <script type="module" src="http://localhost:5173/static/root/home/index.js"></script>
+  {% endif %}
   <title>Ecommerce | Home</title>
 {% endblock %}
 
@@ -19,7 +21,7 @@
     <div class="carousel-inner">
       {% for hero in heroes %}
         <div class="carousel-item {% if forloop.counter == 1 %}{{ 'active' }}{% endif %}">
-          <img src="{% static 'home/index/hero-section/images' %}/{{ hero.image }}" class="m-0 min-vw-100 min-vh-100 hero-img" alt="slide" />
+          <img src="{% static 'home/hero-section/images' %}/{{ hero.image }}" class="m-0 min-vw-100 min-vh-100 hero-img" alt="slide" />
           <div class="carousel-caption h-100 d-flex justify-content-center align-items-center hero-text">
             <div>
               <p class="subtitle animated animate__animated animate__fadeInUp">{{ hero.subtitle }}</p>
@@ -60,9 +62,4 @@
       </div>
     </div>
   </section>
-{% endblock %}
-
-{% block script %}
-  {{ block.super }}
-  <script src="{% static 'js/home.js' %}"></script>
 {% endblock %}

@@ -4,9 +4,6 @@
         "paths": {
             "$static/*": [
                 "./src/static/*",
-            ],
-            "$public/*": [
-                "./src/public/*",
             ]
         },
         "lib": [

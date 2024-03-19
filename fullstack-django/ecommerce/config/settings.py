@@ -25,7 +25,12 @@ SECRET_KEY = "django-insecure-z5$@48yrp@q($5zw+rgi*)%-14&itcdg9yp)nr3vupa3!569^u
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# Needed for production. Avoid using '*'.
+ALLOWED_HOSTS = ["*"]
+
+# Needed for 'debug' to be available inside templates.
+# https://docs.djangoproject.com/en/3.2/ref/templates/api/#django-template-context-processors-debug
+INTERNAL_IPS = ['127.0.0.1']
 
 
 # Application definition

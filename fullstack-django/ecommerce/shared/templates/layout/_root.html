@@ -1,8 +1,9 @@
 {% extends 'layout/_base.html' %}
-{% load static %}
 
 {% block head %}
-  <link rel="stylesheet" href="{% static 'css/navbar.css' %}" />
+  {% if debug %}
+    <script type="module" src="http://localhost:5173/static/shared/navbar/index.js"></script>
+  {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -13,8 +14,4 @@
 
   {% endblock %}
   {% include 'components/footer.html' %}
-{% endblock %}
-
-{% block script %}
-  <script src="{% static 'js/navbar.js' %}"></script>
 {% endblock %}
