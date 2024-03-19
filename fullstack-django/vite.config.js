@@ -10,7 +10,10 @@ export default defineConfig({
     resolve: {
         alias: [
             { find: "$static", replacement: path.resolve(__dirname, 'src', 'static') },
-            { find: '~fontawesome', replacement: path.resolve(__dirname, 'node_modules/@fortawesome/fontawesome-free') }
         ]
+    },
+    // https://vitejs.dev/config/server-options#server-origin
+    server: {
+        origin: 'http://localhost:5173',
     }
 })
