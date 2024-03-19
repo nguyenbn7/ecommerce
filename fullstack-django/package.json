@@ -1,21 +1,21 @@
 {
-  "name": "fullstack-django",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "ecommerce-django",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "gulp": "gulp"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
-  "author": "",
-  "license": "ISC",
+  "devDependencies": {
+    "vite": "^5.1.6"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.5.1",
     "animate.css": "^4.1.1",
     "bootstrap": "^5.3.3",
-    "bootswatch": "^5.3.3"
-  },
-  "devDependencies": {
-    "gulp": "^4.0.2"
+    "bootswatch": "^5.3.3",
+    "lodash": "^4.17.21"
   }
 }
