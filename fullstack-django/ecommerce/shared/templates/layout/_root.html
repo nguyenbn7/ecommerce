@@ -1,9 +1,11 @@
 {% extends 'layout/_base.html' %}
 
+{% load vite_static %}
+
 {% block head %}
-  {% if debug %}
-    <script type="module" src="http://localhost:5173/static/shared/navbar/index.js"></script>
-  {% endif %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% get_static_file 'static/shared/navbar/style.css' %}" />
+  <script type="module" src="{% get_static_file 'static/shared/navbar/index.js' %}"></script>
 {% endblock %}
 
 {% block content %}

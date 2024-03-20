@@ -30,7 +30,7 @@ ALLOWED_HOSTS = ["*"]
 
 # Needed for 'debug' to be available inside templates.
 # https://docs.djangoproject.com/en/3.2/ref/templates/api/#django-template-context-processors-debug
-INTERNAL_IPS = ['127.0.0.1']
+INTERNAL_IPS = ["127.0.0.1"]
 
 
 # Application definition
@@ -133,3 +133,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+
+VITE_DEV_SERVER = "http://localhost:5173/"

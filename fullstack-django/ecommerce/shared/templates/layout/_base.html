@@ -1,22 +1,25 @@
 {% load static %}
+{% load vite_static %}
+
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon" />
+
     {% if debug %}
-      <script type="module" src="http://localhost:5173/@vite/client"></script>
-      <script type="module" src="http://localhost:5173/static/main.js"></script>
+      <script type="module" src="{% get_static_file '@vite/client' %}"></script>
     {% endif %}
+
+    <link rel="stylesheet" href="{% get_static_file 'static/libs/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% get_static_file 'static/libs/fontawesome.min.css' %}" />
+
     {% block head %}
 
     {% endblock %}
   </head>
   <body>
     {% block content %}
-
-    {% endblock %}
-    {% block script %}
 
     {% endblock %}
   </body>

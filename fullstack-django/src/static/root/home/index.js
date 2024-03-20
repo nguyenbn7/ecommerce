@@ -1,5 +1,3 @@
-import './style.css';
-
 import { Carousel } from "bootstrap";
 const heroSection = document.getElementById("hero-section");
 

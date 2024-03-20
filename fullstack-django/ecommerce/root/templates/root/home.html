@@ -1,12 +1,13 @@
 {% extends 'layout/_root.html' %}
+
 {% load static %}
+{% load vite_static %}
 
 {% block head %}
   {{ block.super }}
-  {% if debug %}
-    <script type="module" src="http://localhost:5173/static/animate.css.js"></script>
-    <script type="module" src="http://localhost:5173/static/root/home/index.js"></script>
-  {% endif %}
+  <link rel="stylesheet" href="{% get_static_file 'static/libs/animate.min.css' %}" />
+  <link rel="stylesheet" href="{% get_static_file 'static/root/home/style.css' %}" />
+  <script type="module" src="{% get_static_file 'static/root/home/index.js' %}"></script>
   <title>Ecommerce | Home</title>
 {% endblock %}
 

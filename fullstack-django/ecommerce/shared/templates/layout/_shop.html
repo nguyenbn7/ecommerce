@@ -1,13 +1,14 @@
 {% extends 'layout/_base.html' %}
-{% load static %}
 
+{% load static %}
+{% load vite_static %}
 {% load breadcrumb %}
 
 {% block head %}
-  {% if debug %}
-    <script type="module" src="http://localhost:5173/static/shared/navbar/index.js"></script>
-    <script type="module" src="http://localhost:5173/static/shared/layout/_shop.css"></script>
-  {% endif %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% get_static_file 'static/shared/navbar/style.css' %}" />
+  <script type="module" src="{% get_static_file 'static/shared/navbar/index.js' %}"></script>
+  <link rel="stylesheet" href="{% get_static_file 'static/shared/layout/_shop.css' %}" />
 {% endblock %}
 
 {% block content %}
