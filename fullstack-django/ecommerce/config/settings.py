@@ -138,6 +138,7 @@ VITE_PUBLIC_ASSET_URL = VITE_DEV_SERVER + "public/"
 
 VITE_APP_DIR = BASE_DIR.parent / "src"
 
-STATICFILES_DIRS = [VITE_APP_DIR / "dist"]
-
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+if DEBUG:
+    STATICFILES_DIRS = [VITE_APP_DIR / "dist"]
