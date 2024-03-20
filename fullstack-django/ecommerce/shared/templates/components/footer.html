@@ -1,4 +1,4 @@
-{% load static %}
+{% load vite_static %}
 
 <footer class="bg-light-subtle">
 	<div class="container-fluid px-5">
@@ -178,7 +178,7 @@
 					</div>
 				</div>
 				<div class="col-12 col-md-4 text-center text-md-end">
-					<img src="{% static "images/payments.png" %}" alt="Accepted Payments" />
+					<img src="{% get_static_file "images/payments.png" %}" alt="Accepted Payments" />
 				</div>
 			</div>
 		</div>

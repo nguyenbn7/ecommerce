@@ -1,25 +1,22 @@
-import { defineConfig, splitVendorChunkPlugin } from 'vite';
+import { defineConfig } from 'vite';
 import path from 'path';
 import { glob } from 'glob';
 
 const staticFiles = glob.sync("./src/static/**/*.{css,js}", { dotRelative: true }).map((v) => path.resolve(__dirname, v));
 
-
 export default defineConfig({
     build: {
-        minify: "esbuild",
-        cssMinify: "esbuild",
         cssCodeSplit: true,
         lib: {
             entry: staticFiles,
             formats: ['es']
         },
         rollupOptions: {
-            external: [/node_modules/],
             output: {
                 preserveModules: true,
-            },
-        }
+                preserveModulesRoot: path.resolve(__dirname, "./src/static"),
+            }
+        },
     },
     root: "./src",
     resolve: {

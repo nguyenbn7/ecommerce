@@ -1,36 +1,44 @@
+import os
+
 from django import template
 from django.conf import settings
+from django.templatetags.static import static
 
 register = template.Library()
 
 
 @register.simple_tag
 def get_static_file(f_name: str):
+    if not f_name:
+        raise Exception("file name can not be empty")
+
     if settings.DEBUG:
-        if not settings.VITE_DEV_SERVER:
-            raise Exception(f"Can not find VITE_DEV_SERVER in settings")
+        filename, file_ext = os.path.splitext(f_name)
 
-        if not isinstance(settings.VITE_DEV_SERVER, str):
-            raise Exception(f"VITE_DEV_SERVER should be a string")
+        if not settings.VITE_STATIC_URL:
+            raise Exception(f"Can not find VITE_STATIC_URL in settings")
 
-        if not f_name:
-            raise Exception("file name can not be empty")
+        if not isinstance(settings.VITE_STATIC_URL, str):
+            raise Exception(f"VITE_STATIC_URL should be a string")
 
-        vite_url = settings.VITE_DEV_SERVER
-        file_name = f_name
+        if settings.VITE_STATIC_URL[-1] != "/":
+            raise Exception(f"VITE_STATIC_URL should have '/' at the end")
 
-        if vite_url[-1] == "/":
-            vite_url = vite_url[:-1]
+        if not settings.VITE_PUBLIC_ASSET_URL:
+            raise Exception(f"Can not find VITE_PUBLIC_ASSET_URL in settings")
 
-        if file_name[0] == "/":
-            file_name = file_name[1:]
+        if not isinstance(settings.VITE_PUBLIC_ASSET_URL, str):
+            raise Exception(f"VITE_PUBLIC_ASSET_URL should be a string")
 
-        print(f"{vite_url}/{file_name}")
-        return f"{vite_url}/{file_name}"
+        if settings.VITE_PUBLIC_ASSET_URL[-1] != "/":
+            raise Exception(f"VITE_PUBLIC_ASSET_URL should have '/' at the end")
 
-    file_name = f_name
+        if filename[0] == "/":
+            filename = filename[1:]
 
-    if file_name[0] == "/":
-        file_name = file_name[1:]
+        if file_ext in [".js", ".css"]:
+            return f"{settings.VITE_STATIC_URL}{filename}{file_ext}"
 
-    return f"/static/{file_name}"
+        return f"{settings.VITE_PUBLIC_ASSET_URL}{filename}{file_ext}"
+
+    return static(f_name)

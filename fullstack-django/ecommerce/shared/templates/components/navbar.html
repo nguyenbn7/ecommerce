@@ -1,9 +1,9 @@
-{% load static %}
+{% load vite_static %}
 
 <nav class="navbar navbar-expand-md py-3" id="navbar-app">
   <div class="container">
     <div class="col-3">
-      <a class="navbar-brand" href="/"><img src="{% static 'images/logo.png' %}" alt="logo" style="max-height: 2.5em;" class="logo" /></a>
+      <a class="navbar-brand" href="/"><img src="{% get_static_file 'images/logo.png' %}" alt="logo" style="max-height: 2.5em;" class="logo" /></a>
     </div>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#linkNavbar" aria-controls="linkNavbar" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
     <div class="collapse navbar-collapse" id="linkNavbar">

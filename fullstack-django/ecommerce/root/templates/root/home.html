@@ -1,13 +1,12 @@
 {% extends 'layout/_root.html' %}
 
-{% load static %}
 {% load vite_static %}
 
 {% block head %}
   {{ block.super }}
-  <link rel="stylesheet" href="{% get_static_file 'static/libs/animate.min.css' %}" />
-  <link rel="stylesheet" href="{% get_static_file 'static/root/home/style.css' %}" />
-  <script type="module" src="{% get_static_file 'static/root/home/index.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% get_static_file 'libs/animate.min.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% get_static_file 'home/style.css' %}" />
+  <script type="module" src="{% get_static_file 'home/index.js' %}"></script>
   <title>Ecommerce | Home</title>
 {% endblock %}
 
@@ -22,7 +21,7 @@
     <div class="carousel-inner">
       {% for hero in heroes %}
         <div class="carousel-item {% if forloop.counter == 1 %}{{ 'active' }}{% endif %}">
-          <img src="{% static 'home/hero-section/images' %}/{{ hero.image }}" class="m-0 min-vw-100 min-vh-100 hero-img" alt="slide" />
+          <img src="{% get_static_file 'home/hero-section/images' %}/{{ hero.image }}" class="m-0 min-vw-100 min-vh-100 hero-img" alt="slide" />
           <div class="carousel-caption h-100 d-flex justify-content-center align-items-center hero-text">
             <div>
               <p class="subtitle animated animate__animated animate__fadeInUp">{{ hero.subtitle }}</p>

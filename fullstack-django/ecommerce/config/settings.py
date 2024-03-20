@@ -130,8 +130,14 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
-
 VITE_DEV_SERVER = "http://localhost:5173/"
+
+VITE_STATIC_URL = VITE_DEV_SERVER + "static/"
+
+VITE_PUBLIC_ASSET_URL = VITE_DEV_SERVER + "public/"
+
+VITE_APP_DIR = BASE_DIR.parent / "src"
+
+STATICFILES_DIRS = [VITE_APP_DIR / "dist"]
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
