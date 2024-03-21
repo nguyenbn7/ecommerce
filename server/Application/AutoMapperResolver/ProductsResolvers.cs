@@ -2,7 +2,8 @@ using AutoMapper;
 using Ecommerce.Products.Entities;
 using Ecommerce.Products.Models;
 
-namespace Ecommerce.Application;
+namespace Ecommerce.Application.AutoMapperResolver;
+
 
 public class ProductImageUrl(IConfiguration configuration) : IValueResolver<Product, ProductDto, string?>
 {

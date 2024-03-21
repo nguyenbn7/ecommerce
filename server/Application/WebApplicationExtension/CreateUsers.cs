@@ -1,40 +1,10 @@
-using Ecommerce.Application.DbProvider;
 using Ecommerce.Auth.Entities;
-using Ecommerce.Seeding;
-using Ecommerce.Shared;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
-namespace Ecommerce.Application.Extension;
+namespace Ecommerce.Application.WebApplicationExtension;
 
-public static class ForWebApplication
+public static class CreateUsers
 {
-    public static async Task ApplyMigration(this WebApplication app)
-    {
-        using var scope = app.Services.CreateScope();
-        var services = scope.ServiceProvider;
-
-        AppDbContext context;
-
-        context = app.Configuration.GetValue<string>("DatabaseProvider") switch
-        {
-            "Postgre" => services.GetRequiredService<PostgreDbContext>(),
-            _ => services.GetRequiredService<SqliteDbContext>()
-        };
-
-        var logger = services.GetRequiredService<ILogger<Program>>();
-
-        try
-        {
-            await context.Database.MigrateAsync();
-        }
-        catch (Exception ex)
-        {
-            logger.LogError("An error occured during migration: {}", ex.Message);
-            logger.LogError("Details: {}", ex.StackTrace);
-        }
-    }
-
     public static async Task CreateSystemAdminAsync(this WebApplication app)
     {
         using var scope = app.Services.CreateScope();
@@ -74,23 +44,6 @@ public static class ForWebApplication
             logger.LogError("An error occured during create system admin: {}", ex.Message);
             logger.LogError("Details: {}", ex.StackTrace);
         }
-    }
-
-    public static async Task SeedFakeDataAsync(this WebApplication app)
-    {
-        using var scope = app.Services.CreateScope();
-        var services = scope.ServiceProvider;
-
-        var logger = services.GetRequiredService<ILogger<Program>>();
-        AppDbContext context = app.Configuration.GetValue<string>("DatabaseProvider") switch
-        {
-            "Postgre" => services.GetRequiredService<PostgreDbContext>(),
-            _ => services.GetRequiredService<SqliteDbContext>(),
-        };
-
-        await SeedData.CreateProductBrandsAsync(context, logger);
-        await SeedData.CreateProductTypesAsync(context, logger);
-        await SeedData.CreateProductsAsync(context, logger);
     }
 
     public static async Task CreateDemoCustomersAsync(this WebApplication app)

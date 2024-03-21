@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore;
 namespace Ecommerce.Shared;
 
 // https://dev.to/moesmp/ef-core-multiple-database-providers-3gb7 
-public abstract class AppDbContext(IConfiguration configuration, IWebHostEnvironment environment) : IdentityDbContext<AppUser, AppRole, string, IdentityUserClaim<string>, AppUserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
+public abstract class AppDbContext(DbContextOptions options, IHostEnvironment environment)
+    : IdentityDbContext<AppUser, AppRole, string, IdentityUserClaim<string>, AppUserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>(options)
 {
-    protected readonly IConfiguration _configuration = configuration;
-    private readonly IWebHostEnvironment _env = environment;
+    private readonly IHostEnvironment _environment = environment;
 
     public required DbSet<Product> Products { get; set; }
     public required DbSet<ProductBrand> ProductBrands { get; set; }
@@ -24,12 +24,14 @@ public abstract class AppDbContext(IConfiguration configuration, IWebHostEnviron
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        if (_env.IsDevelopment())
+        base.OnConfiguring(optionsBuilder);
+
+        if (_environment.IsDevelopment())
         {
-            optionsBuilder.UseLoggerFactory(LoggerFactory.Create(builder =>
-            {
-                builder.AddConsole();
-            }));
+            // optionsBuilder.UseLoggerFactory(LoggerFactory.Create(builder =>
+            // {
+            //     builder.AddConsole();
+            // }));
 
             optionsBuilder.EnableSensitiveDataLogging();
         }
@@ -38,11 +40,6 @@ public abstract class AppDbContext(IConfiguration configuration, IWebHostEnviron
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-
-        builder.Ignore<IdentityUserClaim<string>>();
-        builder.Ignore<IdentityUserLogin<string>>();
-        builder.Ignore<IdentityRoleClaim<string>>();
-        builder.Ignore<IdentityUserToken<string>>();
 
         builder.Entity<AppUser>()
             .HasMany(u => u.UserRoles)
@@ -59,5 +56,18 @@ public abstract class AppDbContext(IConfiguration configuration, IWebHostEnviron
         builder.Entity<AppUserRole>().ToTable("UserRoles");
         builder.Entity<AppRole>().ToTable("Roles");
         builder.Entity<AppUser>().ToTable("Users");
+
+        builder.Entity<CustomerOrderItem>()
+            .OwnsOne(coi => coi.OrderedProduct, op => { op.WithOwner(); });
+
+        builder.Entity<CustomerOrder>(co =>
+        {
+            co.Property(o => o.OrderStatus)
+              .HasConversion(s => s.ToString(), x => (OrderStatus)Enum.Parse(typeof(OrderStatus), x));
+        });
+
+        // builder.Entity<CustomerOrderItem>.HasMany(o => o.OrderItems)
+        //     .WithOne()
+        //     .OnDelete(DeleteBehavior.Cascade);
     }
 }

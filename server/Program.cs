@@ -1,5 +1,6 @@
-using Ecommerce.Application.Extension;
 using Ecommerce.Application.Middleware;
+using Ecommerce.Application.ServiceCollectionExtension;
+using Ecommerce.Application.WebApplicationExtension;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,12 +52,12 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-await app.ApplyMigration();
+await app.ApplyMigrationsAsync();
 
 await app.CreateSystemAdminAsync();
 
-await app.CreateDemoCustomersAsync();
+await app.SeedProductsDataAsync();
 
-await app.SeedFakeDataAsync();
+await app.CreateDemoCustomersAsync();
 
 app.Run();

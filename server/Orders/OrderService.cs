@@ -5,14 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Orders;
 
-public class OrderService : IOrderService
+public class OrderService(AppDbContext dbContext) : IOrderService
 {
-    private readonly AppDbContext _dbContext;
-
-    public OrderService(AppDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
+    private readonly AppDbContext _dbContext = dbContext;
 
     public async Task<CustomerOrder?> CreateOrderAsync(string buyerEmail, Basket basket, BillingAddress billingAddress, ShippingAddress shippingAddress, ShippingMethod shippingMethod)
     {
