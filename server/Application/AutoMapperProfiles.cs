@@ -1,6 +1,8 @@
 using AutoMapper;
 using Ecommerce.Baskets.Entities;
 using Ecommerce.Baskets.Models;
+using Ecommerce.Orders.Entities;
+using Ecommerce.Orders.Models;
 using Ecommerce.Products.Entities;
 using Ecommerce.Products.Models;
 
@@ -23,5 +25,14 @@ public class BasketMapper : Profile
     {
         CreateMap<CustomerBasket, Basket>();
         CreateMap<CustomerBasketItem, BasketItem>();
+    }
+}
+
+public class OrderMapper : Profile
+{
+    public OrderMapper()
+    {
+        CreateMap<AddressDTO, BillingAddress>();
+        CreateMap<AddressDTO, ShippingAddress>();
     }
 }

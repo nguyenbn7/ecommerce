@@ -1,4 +1,5 @@
 using Ecommerce.Auth.Entities;
+using Ecommerce.Orders.Entities;
 using Ecommerce.Products.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -15,6 +16,11 @@ public abstract class AppDbContext(IConfiguration configuration, IWebHostEnviron
     public required DbSet<Product> Products { get; set; }
     public required DbSet<ProductBrand> ProductBrands { get; set; }
     public required DbSet<ProductType> ProductTypes { get; set; }
+    public required DbSet<CustomerOrder> CustomerOrders { get; set; }
+    public required DbSet<CustomerOrderItem> CustomerOrderItems { get; set; }
+    public required DbSet<BillingAddress> BillingAddresses { get; set; }
+    public required DbSet<ShippingAddress> ShippingAddresses { get; set; }
+    public required DbSet<ShippingMethod> ShippingMethods { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -24,7 +30,7 @@ public abstract class AppDbContext(IConfiguration configuration, IWebHostEnviron
             {
                 builder.AddConsole();
             }));
-            
+
             optionsBuilder.EnableSensitiveDataLogging();
         }
     }
