@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 
 export class FormGroup {
 	#history = writable(this);
@@ -30,14 +30,17 @@ export class FormGroup {
 	/** @type {import('svelte/action').Action}  */
 	bind(node) {
 		const update = (/** @type {Event} */ $event) => {
-			$event.preventDefault();
-			this.#history.set(this);
+			this.#history.update(_ => this);
 		};
 
+		node.addEventListener('input', update);
+		node.addEventListener('focusout', update);
 		node.addEventListener('fieldHasChanged', update);
 
 		return {
 			destroy() {
+				node.removeEventListener('input', update);
+				node.removeEventListener('focusout', update);
 				node.removeEventListener('fieldHasChanged', update);
 			}
 		};

@@ -23,6 +23,10 @@ export async function createOrder(data) {
     return await httpClient.post('', data);
 }
 
+export async function getOrderPreview() {
+    return await httpClient.get('preview');
+}
+
 /**
  * 
  * @returns {Promise<string[]>}

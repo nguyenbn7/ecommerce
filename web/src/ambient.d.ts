@@ -96,6 +96,7 @@ type OrderAddress = {
 	address: string;
 	address2: string | null;
 	country: string;
+	city: string;
 	state: string;
 	zipCode: string | null;
 };

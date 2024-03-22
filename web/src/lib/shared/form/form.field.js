@@ -15,6 +15,10 @@ export class FormField {
 	#success;
 	/*** @type {Validator[]} */
 	#validators;
+	/**
+	 * @type {HTMLElement | null}
+	 */
+	#node = null;
 	#history = writable(this);
 
 	get isDirty() {
@@ -33,7 +37,8 @@ export class FormField {
 		this.#value = newValue;
 		this.#dirty = true;
 		this.#touched = true;
-		this.#validate();
+		this.#node?.dispatchEvent(new CustomEvent('fieldHasChanged', { bubbles: true }));
+		this.#validateAndUpdateHistory();
 	}
 
 	get value() {
@@ -66,33 +71,29 @@ export class FormField {
 		this.#valid = true;
 	}
 
-	/**
-	 * @param {HTMLElement} node
-	 */
-	#validateAndNotifyParent(node) {
+	#validateAndUpdateHistory() {
 		this.#validate();
-		this.#history.set(this);
-		node.dispatchEvent(new CustomEvent('fieldHasChanged', { bubbles: true }));
+		this.#history.update(_ => this);
 	}
 
 	/** @type {import('svelte/action').Action}  */
 	bind(node) {
+		this.#node = node;
+
 		const onFocusOut = (/** @type {Event} */ $event) => {
-			$event.stopPropagation();
 			this.#touched = true;
 			this.#dirty = false; // not sure about this field but just a dummy (not gonna to use it)
-			this.#validateAndNotifyParent(node);
+			this.#validateAndUpdateHistory();
 		};
 
 		const onInput = (/** @type {Event} */ $event) => {
-			$event.stopPropagation();
 			const target = $event.target;
 			if (!target) return;
 
 			this.#dirty = true; // not sure about this field but just a dummy (not gonna to use it)
 			this.#value = /** @type {HTMLInputElement} */ (target).value;
 
-			this.#validateAndNotifyParent(node);
+			this.#validateAndUpdateHistory();
 		};
 
 		node.addEventListener('focusout', onFocusOut);
@@ -104,6 +105,13 @@ export class FormField {
 				node.removeEventListener('input', onInput);
 			}
 		};
+	}
+
+	/**
+	 * @param {import("svelte/store").Subscriber<this>} subscriber
+	 */
+	subscribe(subscriber) {
+		return this.#history.subscribe(subscriber);
 	}
 
 	/**

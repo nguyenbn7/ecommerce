@@ -4,21 +4,22 @@
 	/**
 	 * @type {import("./form").AddressFormGroup}
 	 */
-	export let addressForm;
+	export let addressFormGroup;
 </script>
 
-<div class="col-12" use:addressForm.bind>
+<div class="col-12">
 	<div class="col-12">
 		<label for="full-name">Full Name</label>
 		<input
 			id="full-name"
 			class="form-control rounded-1"
 			placeholder="Example: John Doe"
-			use:addressForm.fullName.bind
-			class:is-invalid={$addressForm.fullName.isTouched && !$addressForm.fullName.isValid}
-			class:is-valid={$addressForm.fullName.isTouched && $addressForm.fullName.isValid}
+			use:addressFormGroup.fullName.bind
+			value={$addressFormGroup.fullName.value}
+			class:is-invalid={$addressFormGroup.fullName.isTouched && !$addressFormGroup.fullName.isValid}
+			class:is-valid={$addressFormGroup.fullName.isTouched && $addressFormGroup.fullName.isValid}
 		/>
-		<ValidationFeedback field={$addressForm.fullName} />
+		<ValidationFeedback field={$addressFormGroup.fullName} />
 	</div>
 </div>
 
@@ -29,10 +30,10 @@
 		class="form-control rounded-1"
 		placeholder="+1 (999) 999-9999"
 		use:addressForm.phoneNumber.bind
-		class:is-invalid={$addressForm.phoneNumber.isTouched && !$addressForm.phoneNumber.isValid}
-		class:is-valid={$addressForm.phoneNumber.isTouched && $addressForm.phoneNumber.isValid}
+		class:is-invalid={addressForm.phoneNumber.isTouched && !addressForm.phoneNumber.isValid}
+		class:is-valid={addressForm.phoneNumber.isTouched && addressForm.phoneNumber.isValid}
 	/>
-	<ValidationFeedback field={$addressForm.phoneNumber} />
+	<ValidationFeedback field={addressForm.phoneNumber} />
 </div> -->
 
 <div class="col-12">
@@ -41,11 +42,12 @@
 		id="email"
 		class="form-control rounded-1"
 		placeholder="johndoe@gmail.com"
-		use:addressForm.email.bind
-		class:is-invalid={$addressForm.email.isTouched && !$addressForm.email.isValid}
-		class:is-valid={$addressForm.email.isTouched && $addressForm.email.isValid}
+		use:addressFormGroup.email.bind
+		value={$addressFormGroup.email.value}
+		class:is-invalid={$addressFormGroup.email.isTouched && !$addressFormGroup.email.isValid}
+		class:is-valid={$addressFormGroup.email.isTouched && $addressFormGroup.email.isValid}
 	/>
-	<ValidationFeedback field={$addressForm.email} />
+	<ValidationFeedback field={$addressFormGroup.email} />
 </div>
 
 <div class="col-12">
@@ -54,11 +56,11 @@
 		id="address"
 		class="form-control rounded-1"
 		placeholder="1234 Main St"
-		use:addressForm.address.bind
-		class:is-invalid={$addressForm.address.isTouched && !$addressForm.address.isValid}
-		class:is-valid={$addressForm.address.isTouched && $addressForm.address.isValid}
+		use:addressFormGroup.address.bind
+		class:is-invalid={$addressFormGroup.address.isTouched && !$addressFormGroup.address.isValid}
+		class:is-valid={$addressFormGroup.address.isTouched && $addressFormGroup.address.isValid}
 	/>
-	<ValidationFeedback field={$addressForm.address} />
+	<ValidationFeedback field={$addressFormGroup.address} />
 </div>
 
 <div class="col-12">
@@ -69,11 +71,11 @@
 		id="address2"
 		class="form-control rounded-1"
 		placeholder="Apartment or suite"
-		use:addressForm.address2.bind
-		class:is-invalid={$addressForm.address2.isTouched && !$addressForm.address2.isValid}
-		class:is-valid={$addressForm.address2.isTouched && $addressForm.address2.isValid}
+		use:addressFormGroup.address2.bind
+		class:is-invalid={$addressFormGroup.address2.isTouched && !$addressFormGroup.address2.isValid}
+		class:is-valid={$addressFormGroup.address2.isTouched && $addressFormGroup.address2.isValid}
 	/>
-	<ValidationFeedback field={$addressForm.address2} />
+	<ValidationFeedback field={$addressFormGroup.address2} />
 </div>
 
 <!-- TODO: Validate Country -->

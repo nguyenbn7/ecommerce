@@ -3,8 +3,8 @@
 	import { onMount } from 'svelte';
 	import { startCase, toLower } from 'lodash';
 	import OrderSummary from '$lib/order/order-summary.svelte';
-	import { OrderFormGroup } from '$lib/order/form';
-	import { basket, basketTotals } from '$lib/baskets/service';
+	import { AddressFormGroup, OrderFormGroup } from '$lib/order/form';
+	import { basket, basketTotals, updateBasketAndBasketTotals } from '$lib/baskets/service';
 	import { APP_NAME } from '$lib/shared/constant';
 	import Address from '$lib/order/address.svelte';
 	import { currency } from '$lib/shared/helper';
@@ -33,6 +33,12 @@
 	 * @type {number}
 	 */
 	let deliveryMethodId;
+
+	$: if (!hasSameAddress) {
+		orderForm.shippingAddress = new AddressFormGroup();
+	} else {
+		orderForm.shippingAddress = null;
+	}
 
 	/**
 	 * @param {Event} $event
@@ -75,6 +81,7 @@
 			email: orderForm.billingAddress.email.value ?? '',
 			address: orderForm.billingAddress.address.value ?? '',
 			address2: orderForm.billingAddress.address2.value ?? '',
+			city: 'Dallas',
 			country: 'USA',
 			state: 'Texas',
 			zipCode: '74494'
@@ -86,7 +93,8 @@
 				email: orderForm.shippingAddress.email.value,
 				address: orderForm.shippingAddress.address.value,
 				address2: orderForm.shippingAddress.address.value,
-				// TODO: 
+				city: 'Dallas',
+				// TODO:
 				country: 'USA',
 				state: 'Texas',
 				zipCode: '74494'
@@ -96,20 +104,19 @@
 		order.deliveryMethodId = deliveryMethodId;
 
 		const response = await createOrder(order);
+
 		if (response.status === 200) {
 			notifySuccess(`Create order successfully`);
+			updateBasketAndBasketTotals();
 			return goto('/order');
 		}
 	}
-	$: ba = $orderForm.billingAddress;
-	$: console.log($ba.fullName.isValid);
-	$: console.log($ba.email.isValid);
 
 	onMount(async () => {
 		const result = await Promise.all([getUserProfile(), getPaymentTypes(), getDeliveryMethods()]);
 
-		// orderForm.billingAddress.fullName.value = result[0].fullName;
-		// orderForm.billingAddress.email.value = result[0].email;
+		orderForm.billingAddress.fullName.value = result[0].fullName;
+		orderForm.billingAddress.email.value = result[0].email;
 
 		paymentTypes = [...result[1]];
 		deliveryMethods = [...result[2]];
@@ -134,14 +141,14 @@
 				<OrderSummary basket={$basket} basketTotals={$basketTotals} />
 			</div>
 			<div class="col-md-7 col-lg-8">
-				<form on:submit={onSubmitForm}>
+				<form on:submit={onSubmitForm} use:orderForm.bind>
 					<div class="card">
 						<div class="card-header">
 							<h4 class="mb-0">Billing address</h4>
 						</div>
 						<div class="card-body px-4 pb-4">
 							<div class="row g-3">
-								<Address bind:addressForm={orderForm.billingAddress}></Address>
+								<Address addressFormGroup={$orderForm.billingAddress}></Address>
 
 								<div class="form-check mt-4 ms-2">
 									<input
@@ -165,7 +172,7 @@
 							</div>
 							<div class="card-body px-4 pb-4">
 								<div class="row g-3">
-									<Address addressForm={orderForm.shippingAddress} />
+									<Address addressFormGroup={$orderForm.shippingAddress} />
 								</div>
 							</div>
 						</div>
@@ -248,7 +255,7 @@
 						</div>
 					</div>
 
-					<button class="w-100 btn btn-primary btn-lg" type="submit" disabled={!orderForm.isValid}>
+					<button class="w-100 btn btn-primary btn-lg" type="submit" disabled={!$orderForm.isValid}>
 						Continue to checkout
 					</button>
 				</form>

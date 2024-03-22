@@ -30,7 +30,7 @@ function calculateTotals() {
  * if newBasket is null, reset the stores
  * @param {Basket | null} newBasket
  */
-function updateStores(newBasket = null) {
+export function updateBasketAndBasketTotals(newBasket = null) {
 	if (newBasket === null) {
 		basketSource.update(() => null);
 		basketTotalsSource.update(() => null);
@@ -52,7 +52,7 @@ export async function loadBasket() {
 	 */
 	const basket = response.data;
 
-	return updateStores(basket);
+	return updateBasketAndBasketTotals(basket);
 }
 
 /**
@@ -121,7 +121,7 @@ export async function addItemToBasket(item, quantity = 1) {
 	const response = await setBasket(basket);
 	const newBasket = response.data;
 
-	return updateStores(newBasket);
+	return updateBasketAndBasketTotals(newBasket);
 }
 
 /**
@@ -143,10 +143,10 @@ export async function removeItemFromBasket(id, quantity = 1) {
 		const response = await setBasket(basket);
 		const newBasket = response.data;
 
-		return updateStores(newBasket);
+		return updateBasketAndBasketTotals(newBasket);
 	}
 
 	const response = await deleteBasket(basket);
 
-	if (response.status === 200) return updateStores();
+	if (response.status === 200) return updateBasketAndBasketTotals();
 }
