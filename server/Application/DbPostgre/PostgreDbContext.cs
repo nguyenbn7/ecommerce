@@ -1,5 +1,5 @@
 using System.Reflection;
-using Ecommerce.Shared;
+using Ecommerce.Shared.BaseDb;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Application.DbPostgre;
@@ -10,7 +10,7 @@ public class PostgreDbContext(DbContextOptions<PostgreDbContext> options, IHostE
     {
         base.OnModelCreating(builder);
 
-        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly(), t => t.Name.Contains("DbPostgre"));
+        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly(), t => t.FullName?.Contains("BaseDb") ?? false);
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)

@@ -1,5 +1,4 @@
-using Ecommerce.Products.Entities;
-using Ecommerce.Shared;
+using Ecommerce.Shared.BaseDb;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Application.DbSqlite;

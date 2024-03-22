@@ -1,3 +1,4 @@
+using System.Reflection;
 using Ecommerce.Auth.Entities;
 using Ecommerce.Orders.Entities;
 using Ecommerce.Products.Entities;
@@ -5,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Ecommerce.Shared;
+namespace Ecommerce.Shared.BaseDb;
 
 // https://dev.to/moesmp/ef-core-multiple-database-providers-3gb7 
 public abstract class AppDbContext(DbContextOptions options, IHostEnvironment environment)
@@ -18,8 +19,6 @@ public abstract class AppDbContext(DbContextOptions options, IHostEnvironment en
     public required DbSet<ProductType> ProductTypes { get; set; }
     public required DbSet<CustomerOrder> CustomerOrders { get; set; }
     public required DbSet<CustomerOrderItem> CustomerOrderItems { get; set; }
-    public required DbSet<BillingAddress> BillingAddresses { get; set; }
-    public required DbSet<ShippingAddress> ShippingAddresses { get; set; }
     public required DbSet<ShippingMethod> ShippingMethods { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -28,11 +27,6 @@ public abstract class AppDbContext(DbContextOptions options, IHostEnvironment en
 
         if (_environment.IsDevelopment())
         {
-            // optionsBuilder.UseLoggerFactory(LoggerFactory.Create(builder =>
-            // {
-            //     builder.AddConsole();
-            // }));
-
             optionsBuilder.EnableSensitiveDataLogging();
         }
     }
@@ -57,17 +51,6 @@ public abstract class AppDbContext(DbContextOptions options, IHostEnvironment en
         builder.Entity<AppRole>().ToTable("Roles");
         builder.Entity<AppUser>().ToTable("Users");
 
-        builder.Entity<CustomerOrderItem>()
-            .OwnsOne(coi => coi.OrderedProduct, op => { op.WithOwner(); });
-
-        builder.Entity<CustomerOrder>(co =>
-        {
-            co.Property(o => o.OrderStatus)
-              .HasConversion(s => s.ToString(), x => (OrderStatus)Enum.Parse(typeof(OrderStatus), x));
-        });
-
-        // builder.Entity<CustomerOrderItem>.HasMany(o => o.OrderItems)
-        //     .WithOne()
-        //     .OnDelete(DeleteBehavior.Cascade);
+        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly(), t => t.FullName?.Contains("BaseDb") ?? false);
     }
 }

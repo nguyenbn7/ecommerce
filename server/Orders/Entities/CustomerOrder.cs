@@ -11,15 +11,13 @@ public class CustomerOrder
 
     [SetsRequiredMembers]
     public CustomerOrder(
-        string buyerEmail,
-        decimal subTotal,
-        ShippingAddress shippingAddress,
-        BillingAddress billingAddress,
+        AppUser customer,
         List<CustomerOrderItem> customerOrderItems,
-        ShippingMethod shippingMethod,
-        AppUser customer)
+        decimal subTotal,
+        OrderAddress shippingAddress,
+        OrderAddress billingAddress,
+        ShippingMethod shippingMethod)
     {
-        BuyerEmail = buyerEmail;
         SubTotal = subTotal;
         ShippingAddress = shippingAddress;
         BillingAddress = billingAddress;
@@ -29,17 +27,15 @@ public class CustomerOrder
     }
 
     public int Id { get; set; }
-    public required string BuyerEmail { get; set; }
     public decimal SubTotal { get; set; }
+    public required OrderAddress ShippingAddress { get; set; }
+    public required OrderAddress BillingAddress { get; set; }
+    public OrderStatus OrderStatus { get; set; } = OrderStatus.Pending;
     public DateTime OrderDate { get; set; } = DateTime.UtcNow;
 
-    public required ShippingAddress ShippingAddress { get; set; }
-    public required BillingAddress BillingAddress { get; set; }
-    public List<CustomerOrderItem> CustomerOrderItems { get; set; } = [];
-    public OrderStatus OrderStatus { get; set; } = OrderStatus.Pending;
-    public string? PaymentIntentId { get; set; }
-    public required ShippingMethod ShippingMethod { get; set; }
     public required AppUser Customer { get; set; }
+    public List<CustomerOrderItem> CustomerOrderItems { get; set; } = [];
+    public required ShippingMethod ShippingMethod { get; set; }
 
     public decimal Total
     {

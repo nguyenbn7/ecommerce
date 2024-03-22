@@ -29,6 +29,13 @@ export class FormField {
 		return this.#valid;
 	}
 
+	set value(newValue) {
+		this.#value = newValue;
+		this.#dirty = true;
+		this.#touched = true;
+		this.#validate();
+	}
+
 	get value() {
 		return this.#value;
 	}

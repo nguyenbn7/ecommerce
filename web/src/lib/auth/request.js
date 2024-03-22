@@ -35,3 +35,17 @@ export async function getDisplayName() {
         }
     });
 }
+
+/**
+ * 
+ * @returns {Promise<UserProfile>}
+ */
+export async function getUserProfile() {
+    const response = await httpClient.get('profile', {
+        headers: {
+            Authorization: `Bearer ${getAccessToken()}`
+        }
+    });
+
+    return response.data;
+}

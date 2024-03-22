@@ -8,10 +8,9 @@ public interface IOrderService
 {
     Task<CustomerOrder?> CreateOrderAsync(
         AppUser customer,
-        string buyerEmail,
         Basket basket,
-        BillingAddress billingAddress,
-        ShippingAddress shippingAddress,
+        OrderAddress billingAddress,
+        OrderAddress shippingAddress,
         ShippingMethod shippingMethod);
     // Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail);
     // Task<Order> GetOrderByIdAsync(int id, string buyerEmail);

@@ -17,16 +17,26 @@ httpClient.interceptors.response.use(async (response) => {
 });
 
 /**
- * @param {Order} data
+ * @param {CreateOrder} data
  */
 export async function createOrder(data) {
     return await httpClient.post('', data);
 }
 
+/**
+ * 
+ * @returns {Promise<string[]>}
+ */
 export async function getPaymentTypes() {
-    return await httpClient.get('payments');
+    const response = await httpClient.get('payment/types');
+    return response.data;
 }
 
+/**
+ * 
+ * @returns {Promise<DeliveryMethod[]>}
+ */
 export async function getDeliveryMethods() {
-    return await httpClient.get('/delivery-methods');
+    const response = await httpClient.get('shipping/methods');
+    return response.data;
 }

@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using AutoMapper;
 using Ecommerce.Auth.Entities;
 using Ecommerce.Auth.Models;
 using Ecommerce.Auth.Services;
@@ -13,11 +14,12 @@ namespace Ecommerce.Auth;
 public class AccountController(ILogger<AccountController> logger,
                                UserManager<AppUser> userManager,
                                SignInManager<AppUser> signInManager,
-                               ITokenGenerator tokenGenerator) : APIController(logger)
+                               ITokenGenerator tokenGenerator, IMapper mapper) : APIController(logger)
 {
     private readonly UserManager<AppUser> _userManager = userManager;
     private readonly SignInManager<AppUser> _signInManager = signInManager;
     private readonly ITokenGenerator _tokenGenerator = tokenGenerator;
+    private readonly IMapper _mapper = mapper;
 
     [HttpPost("Login")]
     public async Task<ActionResult<LoginSuccess>> Login(LoginDTO loginDTO)
@@ -83,6 +85,26 @@ public class AccountController(ILogger<AccountController> logger,
             return "";
 
         return user.DisplayName;
+    }
+
+    [HttpGet("Profile")]
+    [Authorize]
+    public async Task<IActionResult> GetCustomerProfileAsync()
+    {
+        var email = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (email == null)
+            return Unauthorized();
+
+        var user = await _userManager.FindByEmailAsync(email);
+
+        if (user == null)
+            return Unauthorized();
+
+        var roles = await _userManager.GetRolesAsync(user);
+        if (!roles.Contains("Customer"))
+            return Forbid();
+
+        return Ok(_mapper.Map<AppUser, UserProfile>(user));
     }
 
     private static List<Claim> BuildUserClaims(AppUser user)

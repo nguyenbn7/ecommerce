@@ -8,7 +8,6 @@ public class OrderMapper : Profile
 {
     public OrderMapper()
     {
-        CreateMap<AddressDTO, BillingAddress>();
-        CreateMap<AddressDTO, ShippingAddress>();
+        CreateMap<AddressDTO, OrderAddress>();
     }
 }

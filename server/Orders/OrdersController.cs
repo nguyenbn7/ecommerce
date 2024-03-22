@@ -4,7 +4,7 @@ using Ecommerce.Auth.Entities;
 using Ecommerce.Baskets;
 using Ecommerce.Orders.Entities;
 using Ecommerce.Orders.Models;
-using Ecommerce.Shared;
+using Ecommerce.Shared.BaseDb;
 using Ecommerce.Shared.Controllers;
 using Ecommerce.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -27,8 +27,8 @@ public class OrdersController(
     private readonly IMapper _autoMapper = mapper;
     private readonly UserManager<AppUser> _userManager = userManager;
 
+    [Authorize]
     [HttpGet("Preview")]
-    [Authorize(Roles = "Customer")]
     public async Task<ActionResult<PreviewCustomerOrder>> PreviewOrderHistoriesAsync()
     {
         var email = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -40,12 +40,15 @@ public class OrdersController(
         if (customer == null)
             return Unauthorized();
 
+        var roles = await _userManager.GetRolesAsync(customer);
+        if (!roles.Contains("Customer"))
+            return Forbid();
+
         var orders = await _dbContext.CustomerOrders.AsNoTracking()
             .Where(o => o.Customer.Id == customer.Id)
             .Select(o => new PreviewCustomerOrder
             {
                 OrderId = o.Id,
-                BuyerEmail = o.BuyerEmail,
                 OrderStatus = o.OrderStatus.ToString(),
                 OrderDate = o.OrderDate
             }).ToListAsync();
@@ -53,8 +56,8 @@ public class OrdersController(
         return Ok(orders);
     }
 
+    [Authorize]
     [HttpPost]
-    [Authorize(Roles = "Customer")]
     public async Task<ActionResult<CreateOrderResponse>> CreateOrderAsync(CreateOrderRequest orderRequest)
     {
         var email = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -66,6 +69,10 @@ public class OrdersController(
         if (customer == null)
             return Unauthorized();
 
+        var roles = await _userManager.GetRolesAsync(customer);
+        if (!roles.Contains("Customer"))
+            return Forbid();
+
         var basket = await _basketRepository.GetBasketAsync(orderRequest.BasketId);
 
         if (basket == null)
@@ -76,19 +83,24 @@ public class OrdersController(
         if (shippingMethod == null)
             return BadRequest(new ErrorResponse(400, $"Shipping Method Id '{orderRequest.DeliveryMethodId}' not found"));
 
-        var billingAddress = _autoMapper.Map<AddressDTO, BillingAddress>(orderRequest.BillingAddress);
+        var billingAddress = _autoMapper.Map<AddressDTO, OrderAddress>(orderRequest.BillingAddress);
 
-        ShippingAddress shippingAddress;
+        OrderAddress shippingAddress;
         if (orderRequest.ShippingAdress != null)
         {
-            shippingAddress = _autoMapper.Map<AddressDTO, ShippingAddress>(orderRequest.ShippingAdress);
+            shippingAddress = _autoMapper.Map<AddressDTO, OrderAddress>(orderRequest.ShippingAdress);
         }
         else
         {
-            shippingAddress = _autoMapper.Map<AddressDTO, ShippingAddress>(orderRequest.BillingAddress);
+            shippingAddress = _autoMapper.Map<AddressDTO, OrderAddress>(orderRequest.BillingAddress);
         }
 
-        var order = await _orderService.CreateOrderAsync(customer, orderRequest.BuyerEmail, basket, billingAddress, shippingAddress, shippingMethod);
+        var order = await _orderService.CreateOrderAsync(
+            customer,
+            basket,
+            billingAddress,
+            shippingAddress,
+            shippingMethod);
 
         if (order == null)
             return BadRequest(new ErrorResponse(400, "Can not create an order. Please contact to our support for more details"));
@@ -102,8 +114,20 @@ public class OrdersController(
     }
 
     [HttpGet("Shipping/Methods")]
-    public async Task<IActionResult> GetShippingMethods()
+    public async Task<IActionResult> GetShippingMethodsAsync()
     {
         return Ok(await _dbContext.ShippingMethods.ToListAsync());
+    }
+
+    [HttpGet("Payment/Types")]
+    public ActionResult<List<string>> GetPaymentTypes()
+    {
+        var payments = new List<string>
+        {
+            "Cash",
+            "Credit",
+            "Debit"
+        };
+        return payments;
     }
 }

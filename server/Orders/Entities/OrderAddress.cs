@@ -1,6 +1,6 @@
-namespace Ecommerce.Orders.Models;
+namespace Ecommerce.Orders.Entities;
 
-public class AddressDTO
+public class OrderAddress
 {
     public required string FullName { get; set; }
     public required string Email { get; set; }

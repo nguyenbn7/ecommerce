@@ -22,7 +22,7 @@
 	</div>
 </div>
 
-<div class="col-12">
+<!-- <div class="col-12">
 	<label for="phone">Phone Number</label>
 	<input
 		id="phone"
@@ -33,7 +33,7 @@
 		class:is-valid={$addressForm.phoneNumber.isTouched && $addressForm.phoneNumber.isValid}
 	/>
 	<ValidationFeedback field={$addressForm.phoneNumber} />
-</div>
+</div> -->
 
 <div class="col-12">
 	<label for="email">Email</label>

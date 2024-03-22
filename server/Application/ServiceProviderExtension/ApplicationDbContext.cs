@@ -1,6 +1,6 @@
 using Ecommerce.Application.DbPostgre;
 using Ecommerce.Application.DbSqlite;
-using Ecommerce.Shared;
+using Ecommerce.Shared.BaseDb;
 
 namespace Ecommerce.Application.ServiceProviderExtension;
 

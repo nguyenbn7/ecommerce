@@ -1,3 +1,5 @@
+using Ecommerce.Shared.BaseDb;
+
 namespace Ecommerce.Shared.Controllers;
 
 public abstract class APiControllerWithAppDbContext(

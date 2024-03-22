@@ -1,7 +1,7 @@
 using AutoMapper;
 using Ecommerce.Products.Entities;
 using Ecommerce.Products.Models;
-using Ecommerce.Shared;
+using Ecommerce.Shared.BaseDb;
 using Ecommerce.Shared.Controllers;
 using Ecommerce.Shared.Models;
 using Microsoft.AspNetCore.Mvc;

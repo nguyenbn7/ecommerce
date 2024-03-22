@@ -1,7 +1,7 @@
 using System.Text.Json;
 using Ecommerce.Application.ServiceProviderExtension;
 using Ecommerce.Products.Entities;
-using Ecommerce.Shared;
+using Ecommerce.Shared.BaseDb;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Application.WebApplicationExtension;

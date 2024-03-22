@@ -83,28 +83,32 @@ type BasketTotals = {
 	total: number;
 };
 
-type Order = {
+type CreateOrder = {
 	basketId: string;
-	billingAddress: OrderAddress;
-	shippingAddress: OrderAddress?;
 	deliveryMethodId: number;
-	paymentType: string;
+	billingAddress: OrderAddress;
+	shippingAddress: OrderAddress | null;
 };
 
 type OrderAddress = {
 	fullName: string;
 	email: string;
-	phoneNumber: string;
 	address: string;
-	address2: string;
+	address2: string | null;
 	country: string;
 	state: string;
-	zipCode: string;
+	zipCode: string | null;
 };
 
 type DeliveryMethod = {
-	short_name: string;
-	delivery_time: string;
+	shortName: string;
+	deliveryTime: string;
 	price: number;
 	id: number;
 };
+
+type UserProfile = {
+	userId: number;
+	email: string;
+	fullName: string;
+}

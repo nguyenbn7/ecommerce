@@ -105,7 +105,7 @@
 							</h2>
 						</li>
 						<li>
-							<a class="dropdown-item" href={'#'}>
+							<a class="dropdown-item" href="/order">
 								<i class="bi bi-card-checklist"></i> View Order
 							</a>
 						</li>

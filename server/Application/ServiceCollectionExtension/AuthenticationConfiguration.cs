@@ -1,6 +1,6 @@
 using System.Text;
 using Ecommerce.Auth.Entities;
-using Ecommerce.Shared;
+using Ecommerce.Shared.BaseDb;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;

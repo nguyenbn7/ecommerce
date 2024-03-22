@@ -1,7 +1,7 @@
 using Ecommerce.Auth.Entities;
 using Ecommerce.Baskets.Entities;
 using Ecommerce.Orders.Entities;
-using Ecommerce.Shared;
+using Ecommerce.Shared.BaseDb;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Orders;
@@ -12,10 +12,9 @@ public class OrderService(AppDbContext dbContext) : IOrderService
 
     public async Task<CustomerOrder?> CreateOrderAsync(
         AppUser customer,
-        string buyerEmail,
         Basket basket,
-        BillingAddress billingAddress,
-        ShippingAddress shippingAddress,
+        OrderAddress billingAddress,
+        OrderAddress shippingAddress,
         ShippingMethod shippingMethod)
     {
         var productIds = basket.Items.Select(bi => bi.Id).ToArray();
@@ -26,7 +25,7 @@ public class OrderService(AppDbContext dbContext) : IOrderService
         {
             var queriedProductIds = products.Select(p => p.Id).ToList();
             var missedProductIds = productIds.Except(queriedProductIds);
-            throw new Exception($"Can not find product with ids: [{String.Join(", ", missedProductIds)}]");
+            throw new Exception($"Can not find product with ids: [{string.Join(", ", missedProductIds)}]");
         }
 
         var orderItems = new List<CustomerOrderItem>();
@@ -48,12 +47,12 @@ public class OrderService(AppDbContext dbContext) : IOrderService
                 Quantity = basket.Items[0].Quantity
             };
 
-            subTotal += (customerOrderItem.Price * customerOrderItem.Quantity);
+            subTotal += customerOrderItem.Price * customerOrderItem.Quantity;
 
             orderItems.Add(customerOrderItem);
         }
 
-        var order = new CustomerOrder(buyerEmail, subTotal, shippingAddress, billingAddress, orderItems, shippingMethod, customer);
+        var order = new CustomerOrder(customer, orderItems, subTotal, shippingAddress, billingAddress, shippingMethod);
 
         _dbContext.CustomerOrders.Add(order);
 

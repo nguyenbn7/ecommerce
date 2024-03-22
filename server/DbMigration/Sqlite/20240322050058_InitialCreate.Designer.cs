@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecommerce.DbMigration.Sqlite
 {
     [DbContext(typeof(SqliteDbContext))]
-    [Migration("20240321165610_InitialCreate")]
+    [Migration("20240322050058_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -142,52 +142,13 @@ namespace Ecommerce.DbMigration.Sqlite
                     b.ToTable("UserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Ecommerce.Orders.Entities.BillingAddress", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("State")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ZipCode")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("BillingAddresses");
-                });
-
             modelBuilder.Entity("Ecommerce.Orders.Entities.CustomerOrder", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("BillingAddressId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("BuyerEmail")
-                        .IsRequired()
+                    b.Property<string>("CustomerId")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("OrderDate")
@@ -197,12 +158,6 @@ namespace Ecommerce.DbMigration.Sqlite
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("PaymentIntentId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("ShippingAddressId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("ShippingMethodId")
                         .HasColumnType("INTEGER");
 
@@ -211,9 +166,7 @@ namespace Ecommerce.DbMigration.Sqlite
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BillingAddressId");
-
-                    b.HasIndex("ShippingAddressId");
+                    b.HasIndex("CustomerId");
 
                     b.HasIndex("ShippingMethodId");
 
@@ -242,41 +195,6 @@ namespace Ecommerce.DbMigration.Sqlite
                     b.ToTable("CustomerOrderItems");
                 });
 
-            modelBuilder.Entity("Ecommerce.Orders.Entities.ShippingAddress", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("State")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ZipCode")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ShippingAddresses");
-                });
-
             modelBuilder.Entity("Ecommerce.Orders.Entities.ShippingMethod", b =>
                 {
                     b.Property<int>("Id")
@@ -291,6 +209,10 @@ namespace Ecommerce.DbMigration.Sqlite
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("Price")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ShortName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -472,17 +394,9 @@ namespace Ecommerce.DbMigration.Sqlite
 
             modelBuilder.Entity("Ecommerce.Orders.Entities.CustomerOrder", b =>
                 {
-                    b.HasOne("Ecommerce.Orders.Entities.BillingAddress", "BillingAddress")
+                    b.HasOne("Ecommerce.Auth.Entities.AppUser", "Customer")
                         .WithMany()
-                        .HasForeignKey("BillingAddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Ecommerce.Orders.Entities.ShippingAddress", "ShippingAddress")
-                        .WithMany()
-                        .HasForeignKey("ShippingAddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CustomerId");
 
                     b.HasOne("Ecommerce.Orders.Entities.ShippingMethod", "ShippingMethod")
                         .WithMany()
@@ -490,9 +404,99 @@ namespace Ecommerce.DbMigration.Sqlite
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("BillingAddress");
+                    b.OwnsOne("Ecommerce.Orders.Entities.OrderAddress", "BillingAddress", b1 =>
+                        {
+                            b1.Property<int>("CustomerOrderId")
+                                .HasColumnType("INTEGER");
 
-                    b.Navigation("ShippingAddress");
+                            b1.Property<string>("Address")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("Address2")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("Country")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("Email")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("FullName")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("State")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("ZipCode")
+                                .HasColumnType("TEXT");
+
+                            b1.HasKey("CustomerOrderId");
+
+                            b1.ToTable("CustomerOrders");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CustomerOrderId");
+                        });
+
+                    b.OwnsOne("Ecommerce.Orders.Entities.OrderAddress", "ShippingAddress", b1 =>
+                        {
+                            b1.Property<int>("CustomerOrderId")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<string>("Address")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("Address2")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("Country")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("Email")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("FullName")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("State")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("ZipCode")
+                                .HasColumnType("TEXT");
+
+                            b1.HasKey("CustomerOrderId");
+
+                            b1.ToTable("CustomerOrders");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CustomerOrderId");
+                        });
+
+                    b.Navigation("BillingAddress")
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("ShippingAddress")
+                        .IsRequired();
 
                     b.Navigation("ShippingMethod");
                 });
@@ -501,7 +505,8 @@ namespace Ecommerce.DbMigration.Sqlite
                 {
                     b.HasOne("Ecommerce.Orders.Entities.CustomerOrder", null)
                         .WithMany("CustomerOrderItems")
-                        .HasForeignKey("CustomerOrderId");
+                        .HasForeignKey("CustomerOrderId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.OwnsOne("Ecommerce.Orders.Entities.OrderedProduct", "OrderedProduct", b1 =>
                         {

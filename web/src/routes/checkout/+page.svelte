@@ -9,6 +9,9 @@
 	import Address from '$lib/order/address.svelte';
 	import { currency } from '$lib/shared/helper';
 	import { createOrder, getDeliveryMethods, getPaymentTypes } from '$lib/order/request';
+	import { getUserProfile } from '$lib/auth/request';
+	import { goto } from '$app/navigation';
+	import { notifySuccess } from '$lib/shared/toastr/service';
 
 	let hasSameAddress = true;
 	/**
@@ -59,7 +62,7 @@
 		if ($basket === null) return;
 
 		/**
-		 * @type {Order}
+		 * @type {CreateOrder}
 		 */
 		const order = {};
 
@@ -70,7 +73,6 @@
 		order.billingAddress = {
 			fullName: orderForm.billingAddress.fullName.value ?? '',
 			email: orderForm.billingAddress.email.value ?? '',
-			phoneNumber: orderForm.billingAddress.phoneNumber.value ?? '',
 			address: orderForm.billingAddress.address.value ?? '',
 			address2: orderForm.billingAddress.address2.value ?? '',
 			country: 'USA',
@@ -82,25 +84,35 @@
 			order.shippingAddress = {
 				fullName: orderForm.shippingAddress.fullName.value,
 				email: orderForm.shippingAddress.email.value,
-				phoneNumber: orderForm.shippingAddress.phoneNumber.value,
 				address: orderForm.shippingAddress.address.value,
 				address2: orderForm.shippingAddress.address.value,
+				// TODO: 
 				country: 'USA',
 				state: 'Texas',
 				zipCode: '74494'
 			};
 		}
 
-		order.paymentType = paymentType;
 		order.deliveryMethodId = deliveryMethodId;
 
-		await createOrder(order);
+		const response = await createOrder(order);
+		if (response.status === 200) {
+			notifySuccess(`Create order successfully`);
+			return goto('/order');
+		}
 	}
+	$: ba = $orderForm.billingAddress;
+	$: console.log($ba.fullName.isValid);
+	$: console.log($ba.email.isValid);
 
 	onMount(async () => {
-		const result = await Promise.all([getPaymentTypes(), getDeliveryMethods()]);
-		paymentTypes = [...result[0].data];
-		deliveryMethods = [...result[1].data];
+		const result = await Promise.all([getUserProfile(), getPaymentTypes(), getDeliveryMethods()]);
+
+		// orderForm.billingAddress.fullName.value = result[0].fullName;
+		// orderForm.billingAddress.email.value = result[0].email;
+
+		paymentTypes = [...result[1]];
+		deliveryMethods = [...result[2]];
 	});
 </script>
 
@@ -171,12 +183,12 @@
 											type="radio"
 											class="form-check-input"
 											value={method.id}
-											id={method.short_name}
+											id={method.shortName}
 											checked={deliveryMethodId === method.id}
 											on:change={onChangeDeliveryMethod}
 										/>
-										<label class="form-check-label" for={method.short_name}>
-											{method.short_name} - {currency(method.price)} ({method.delivery_time})
+										<label class="form-check-label" for={method.shortName}>
+											{method.shortName} - {currency(method.price)} ({method.deliveryTime})
 										</label>
 									</div>
 								{/each}

@@ -35,7 +35,7 @@ function containsAlnumAndSpace(errorMessage = 'Field contains only numbers, lett
  */
 function checkEmailFormat(errorMessage = 'Email has incorrect format') {
 	return {
-		check: (value) => /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(value),
+		check: (value) => /^.+@[^\.].*\.[a-z]{2,}$/.test(value),
 		errorMessage
 	};
 }
