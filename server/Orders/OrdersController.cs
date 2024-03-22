@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Orders;
 
-public class OrdersController(ILogger logger, AppDbContext context, IBasketRepository basketRepository, IOrderService orderService, IMapper mapper) : APiControllerWithAppDbContext(logger, context)
+public class OrdersController(ILogger<OrdersController> logger, AppDbContext context, IBasketRepository basketRepository, IOrderService orderService, IMapper mapper) : APiControllerWithAppDbContext(logger, context)
 {
     private readonly IBasketRepository _basketRepository = basketRepository;
     private readonly IOrderService _orderService = orderService;
@@ -46,15 +46,17 @@ public class OrdersController(ILogger logger, AppDbContext context, IBasketRepos
         if (order == null)
             return BadRequest(new ErrorResponse(400, "Can not create an order. Please contact to our support for more details"));
 
+        await _basketRepository.DeleteBasketAsync(orderRequest.BasketId);
+        
         return Ok(new
         {
             OrderId = order.Id
         });
     }
 
-    [HttpGet("Shipping/Method")]
+    [HttpGet("Shipping/Methods")]
     public async Task<IActionResult> GetShippingMethods()
     {
-        return Ok(await _context.ShippingAddresses.ToListAsync());
+        return Ok(await _context.ShippingMethods.ToListAsync());
     }
 }

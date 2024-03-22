@@ -1,6 +1,7 @@
 using Ecommerce.Application.Middleware;
 using Ecommerce.Auth.Services;
 using Ecommerce.Baskets;
+using Ecommerce.Orders;
 
 namespace Ecommerce.Application.ServiceCollectionExtension;
 
@@ -13,6 +14,8 @@ public static class ApplicationServices
 
         services.AddTransient<ApplicationExceptionHandler>();
         services.AddTransient<RouteNotFoundHandler>();
+
+        services.AddScoped<IOrderService, OrderService>();
 
         return services;
     }

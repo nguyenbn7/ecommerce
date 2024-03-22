@@ -58,6 +58,8 @@ await app.CreateSystemAdminAsync();
 
 await app.SeedProductsDataAsync();
 
+await app.SeedDeliveryMethodsAsync();
+
 await app.CreateDemoCustomersAsync();
 
 app.Run();
