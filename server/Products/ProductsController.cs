@@ -18,7 +18,7 @@ public class ProductsController(ILogger<ProductsController> logger,
     [HttpGet]
     public async Task<ActionResult<Page<ProductDto>>> GetProductsAsync([FromQuery] ProductsQuery query)
     {
-        var queryable = _context.Products.AsNoTracking().AsQueryable();
+        var queryable = _dbContext.Products.AsNoTracking().AsQueryable();
 
         if (query.BrandId.HasValue)
             queryable = queryable.Where(p => p.ProductBrandId == query.BrandId);
@@ -65,7 +65,7 @@ public class ProductsController(ILogger<ProductsController> logger,
     [HttpGet("{id}")]
     public async Task<ActionResult<ProductDto>> GetProduct(int id)
     {
-        var queryable = _context.Products.AsNoTracking().AsQueryable();
+        var queryable = _dbContext.Products.AsNoTracking().AsQueryable();
 
         queryable = queryable.Include(p => p.ProductBrand).Include(p => p.ProductType);
 
@@ -80,12 +80,12 @@ public class ProductsController(ILogger<ProductsController> logger,
     [HttpGet("Types")]
     public async Task<ActionResult<IReadOnlyList<ProductType>>> GetProductTypes()
     {
-        return await _context.ProductTypes.AsNoTracking().ToListAsync();
+        return await _dbContext.ProductTypes.AsNoTracking().ToListAsync();
     }
 
     [HttpGet("Brands")]
     public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductBrands()
     {
-        return await _context.ProductBrands.AsNoTracking().ToListAsync();
+        return await _dbContext.ProductBrands.AsNoTracking().ToListAsync();
     }
 }

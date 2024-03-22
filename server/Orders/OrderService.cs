@@ -1,3 +1,4 @@
+using Ecommerce.Auth.Entities;
 using Ecommerce.Baskets.Entities;
 using Ecommerce.Orders.Entities;
 using Ecommerce.Shared;
@@ -9,7 +10,13 @@ public class OrderService(AppDbContext dbContext) : IOrderService
 {
     private readonly AppDbContext _dbContext = dbContext;
 
-    public async Task<CustomerOrder?> CreateOrderAsync(string buyerEmail, Basket basket, BillingAddress billingAddress, ShippingAddress shippingAddress, ShippingMethod shippingMethod)
+    public async Task<CustomerOrder?> CreateOrderAsync(
+        AppUser customer,
+        string buyerEmail,
+        Basket basket,
+        BillingAddress billingAddress,
+        ShippingAddress shippingAddress,
+        ShippingMethod shippingMethod)
     {
         var productIds = basket.Items.Select(bi => bi.Id).ToArray();
 
@@ -46,7 +53,7 @@ public class OrderService(AppDbContext dbContext) : IOrderService
             orderItems.Add(customerOrderItem);
         }
 
-        var order = new CustomerOrder(buyerEmail, subTotal, shippingAddress, billingAddress, orderItems, shippingMethod);
+        var order = new CustomerOrder(buyerEmail, subTotal, shippingAddress, billingAddress, orderItems, shippingMethod, customer);
 
         _dbContext.CustomerOrders.Add(order);
 
