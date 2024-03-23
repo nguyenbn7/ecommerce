@@ -62,7 +62,12 @@
 	<ul class="pagination">
 		{#if firstText}
 			<li class="page-item" class:disabled={pageNumber <= 1} title="First">
-				<a class="page-link" href={'#'} aria-label="First" on:click={() => onClickPage(1)}>
+				<a
+					class="page-link"
+					href={'javascript:;'}
+					aria-label="First"
+					on:click={() => onClickPage(1)}
+				>
 					<span aria-hidden="true">{firstText}</span>
 				</a>
 			</li>
