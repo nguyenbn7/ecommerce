@@ -5,7 +5,10 @@
 <div class="modal fade modal-background-custom show" {...$$restProps}>
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="w-100 text-center">
-			<img src={BeanEaterSVG} alt="Loading..." />
+			<div>
+				<img src={BeanEaterSVG} alt="Loading..." />
+			</div>
+			<span>Loading your page. Please be patient</span>
 		</div>
 	</div>
 </div>

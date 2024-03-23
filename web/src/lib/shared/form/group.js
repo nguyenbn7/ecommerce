@@ -30,7 +30,7 @@ export class FormGroup {
 	/** @type {import('svelte/action').Action}  */
 	bind(node) {
 		const update = (/** @type {Event} */ $event) => {
-			this.#history.update(_ => this);
+			this.#history.update((_) => this);
 		};
 
 		node.addEventListener('input', update);

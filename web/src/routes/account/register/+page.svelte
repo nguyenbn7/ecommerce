@@ -2,10 +2,10 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { RegisterForm } from '$lib/auth/form';
-	import { registerAsUser } from '$lib/auth/service';
+	import { registerAsCustomer } from '$lib/auth/service';
 	import { APP_NAME } from '$lib/shared/constant';
 	import ValidationFeedback from '$lib/shared/form/validation-feedback.svelte';
-	import ButtonLoader from '$lib/shared/spinner/button-loader.svelte';
+	import ButtonLoader from '$lib/core/loader/button-loader.svelte';
 	import { notifySuccess } from '$lib/shared/toastr/service';
 
 	let registerForm = new RegisterForm();
@@ -13,7 +13,7 @@
 
 	async function onSubmitForm() {
 		isSubmitted = true;
-		const displayName = await registerAsUser(registerForm);
+		const displayName = await registerAsCustomer(registerForm);
 
 		if (displayName) {
 			notifySuccess(`Welcome ${displayName}`);
@@ -145,7 +145,7 @@
 		<button
 			class="btn btn-info w-100 py-2 mt-2 mb-3 rounded-4"
 			type="submit"
-			disabled={!$registerForm.isValid || isSubmitted}
+			disabled={!$registerForm.valid || isSubmitted}
 		>
 			Create Account
 			{#if isSubmitted}

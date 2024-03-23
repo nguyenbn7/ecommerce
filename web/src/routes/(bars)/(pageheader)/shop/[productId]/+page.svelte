@@ -2,11 +2,10 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { getProduct } from '$lib/products/request';
-	import { createPathVariableAlias } from '$lib/shared/breadcrumbs/service';
-	import { APP_NAME } from '$lib/shared/constant';
 	import { currency } from '$lib/shared/helper';
 	import { addItemToBasket, basket, removeItemFromBasket } from '$lib/baskets/service';
-	import PageLoader from '$lib/shared/spinner/page-loader.svelte';
+	import { addAlias } from '$lib/core/breadcrumb.svelte';
+	import PageLoader from '$lib/core/loader/page-loader.svelte';
 
 	/**
 	 * @type {Product | null}
@@ -31,7 +30,7 @@
 		const productId = Number($page.params.productId);
 		product = await getProduct(productId);
 		productName = product.name;
-		createPathVariableAlias('[productId]', productName);
+		addAlias('[productId]', productName);
 	});
 
 	function incrementQuantity() {
@@ -57,12 +56,6 @@
 		}
 	}
 </script>
-
-<svelte:head>
-	{#if productName}
-		<title>{APP_NAME} | {productName}</title>
-	{/if}
-</svelte:head>
 
 {#if product}
 	<div class="container">

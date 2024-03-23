@@ -5,8 +5,13 @@
 	let classNames = '';
 
 	export let inputAbove = false;
+
 	export let validationFeedback = false;
+
 	export let name = '';
+
+	export let disabled = false;
+
 	/**
 	 * @type {null | string}
 	 */
@@ -16,14 +21,10 @@
 	 * @type {import('./reactive.field').default}
 	 */
 	export let reactiveFormField;
-	/**
-	 * @type {any}
-	 */
-	export let validCondition;
-	/**
-	 * @type {any}
-	 */
-	export let invalidCondition;
+
+	$: validCondition = reactiveFormField.valid;
+
+	$: invalidCondition = reactiveFormField.touched && !reactiveFormField.valid;
 </script>
 
 {#if inputAbove}
@@ -36,6 +37,9 @@
 		bind:this={reactiveFormField.instance}
 		bind:value={reactiveFormField.value}
 		{placeholder}
+		on:focusout={(_) => (reactiveFormField.touched = true)}
+		{disabled}
+		{...$$restProps}
 	/>
 	<slot name="label" />
 {:else}
@@ -48,7 +52,9 @@
 		class:is-valid={validCondition}
 		bind:this={reactiveFormField.instance}
 		bind:value={reactiveFormField.value}
+		on:focusout={(_) => (reactiveFormField.touched = true)}
 		{placeholder}
+		{...$$restProps}
 	/>
 {/if}
 

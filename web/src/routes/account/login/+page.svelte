@@ -1,20 +1,21 @@
 <script>
 	import { goto } from '$app/navigation';
+	import { APP_NAME } from '$lib/shared/constant';
 	import { page } from '$app/stores';
 	import { LoginForm } from '$lib/auth/form';
-	import { loginAsUser } from '$lib/auth/service';
-	import { APP_NAME } from '$lib/shared/constant';
-	import ValidationFeedback from '$lib/shared/form/validation-feedback.svelte';
-	import ButtonLoader from '$lib/shared/spinner/button-loader.svelte';
+	import { loginAsCustomer } from '$lib/auth/service';
 	import { notifySuccess } from '$lib/shared/toastr/service';
+	import PasswordField from '$lib/core/form/password-field.svelte';
+	import TextField from '$lib/core/form/text-field.svelte';
+	import ButtonLoader from '$lib/core/loader/button-loader.svelte';
 
 	let loginForm = new LoginForm();
-	let isSubmitted = false;
+	let disabled = false;
 
 	async function onSubmit() {
-		isSubmitted = true;
+		disabled = true;
 
-		const displayName = await loginAsUser(loginForm);
+		const displayName = await loginAsCustomer(loginForm);
 
 		if (displayName) {
 			notifySuccess(`Welcome back ${displayName}`);
@@ -25,7 +26,7 @@
 			return goto('/');
 		}
 
-		isSubmitted = false;
+		disabled = false;
 	}
 </script>
 
@@ -37,62 +38,51 @@
 	<h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
 </div>
 
-<form class="row g-3 px-1 needs-validation" on:submit={onSubmit} use:loginForm.bind>
+<form class="row g-3 px-1 needs-validation" on:submit={onSubmit} bind:this={loginForm.instance}>
 	<div class="col-12">
 		<div class="form-floating">
-			<input
-				type="text"
-				id="email"
+			<TextField
 				class="form-control rounded-3"
+				name="email"
+				inputAbove={true}
 				placeholder="name@example.com"
-				use:loginForm.emailField.bind
-				bind:this={loginForm.emailField.instance}
-				class:is-invalid={$loginForm.emailField.isTouched && !$loginForm.emailField.isValid}
-				class:is-valid={$loginForm.emailField.isTouched && $loginForm.emailField.isValid}
-				disabled={isSubmitted}
-			/>
-			<label for="email">Email</label>
-			<ValidationFeedback field={$loginForm.emailField} />
+				validationFeedback={true}
+				bind:reactiveFormField={loginForm.emailField}
+				bind:disabled
+			>
+				<svelte:fragment slot="label">
+					<label for="email">Email</label>
+				</svelte:fragment>
+			</TextField>
 		</div>
 	</div>
 
 	<div class="col-12">
 		<div class="form-floating">
-			<input
-				type="password"
-				id="password"
+			<PasswordField
 				class="form-control rounded-3"
+				name="password"
+				inputAbove={true}
 				placeholder="*********"
-				use:loginForm.passwordField.bind
-				class:is-invalid={$loginForm.passwordField.isTouched && !$loginForm.passwordField.isValid}
-				class:is-valid={$loginForm.passwordField.isTouched && $loginForm.passwordField.isValid}
-				disabled={isSubmitted}
-			/>
-			<label for="password">Password</label>
-			<ValidationFeedback field={$loginForm.passwordField} />
+				validationFeedback={true}
+				bind:reactiveFormField={loginForm.passwordField}
+				{disabled}
+			>
+				<svelte:fragment slot="label">
+					<label for="password">Password</label>
+				</svelte:fragment>
+			</PasswordField>
 		</div>
 	</div>
 
-	<!-- <div class="col-12">
-		<div class="form-check">
-			<input
-				class="form-check-input"
-				type="checkbox"
-				name="remember"
-				value="true"
-				id="rememberMe"
-			/>
-			<label class="form-check-label" for="rememberMe">Remember me</label>
-		</div>
-	</div> -->
 	<div class="col-12">
 		<button
 			class="btn btn-info w-100 py-2 mt-2 mb-3 rounded-4"
 			type="submit"
-			disabled={!$loginForm.isValid || isSubmitted}
+			disabled={!$loginForm.valid || disabled}
 		>
 			Login
-			{#if isSubmitted}
+			{#if disabled}
 				<ButtonLoader />
 			{/if}
 		</button>

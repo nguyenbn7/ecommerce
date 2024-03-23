@@ -1,9 +1,9 @@
 import { get, readonly, writable } from 'svelte/store';
 import { getDisplayName, login, register } from './request';
 import { notifyDanger } from '$lib/shared/toastr/service';
+import { showClientError } from '$lib/core/httpClient/plugin';
 
-const ACCESS_TOKEN_KEY_NAME = "access_token";
-
+const ACCESS_TOKEN_KEY_NAME = 'access_token';
 
 /**
  * @type {import("svelte/store").Writable<UserInfo | null>}
@@ -28,7 +28,7 @@ export async function loadUser() {
 	userInfoStore.update(() => {
 		return {
 			displayName: displayName
-		}
+		};
 	});
 }
 
@@ -46,14 +46,14 @@ function updateUserInfo(data) {
 	userInfoStore.update((_) => {
 		return {
 			displayName: data.displayName
-		}
-	})
+		};
+	});
 }
 
 /**
  * @param {LoginDTO} loginDTO
  */
-export async function loginAsUserDemo(loginDTO) {
+export async function loginAsCustomerDemo(loginDTO) {
 	try {
 		const response = await login(loginDTO);
 
@@ -78,15 +78,16 @@ export async function loginAsUserDemo(loginDTO) {
 
 /**
  * @param {import('./form').LoginForm} loginForm
+ * @returns {Promise<string | null>} customer display name
  */
-export async function loginAsUser(loginForm) {
+export async function loginAsCustomer(loginForm) {
 	/**
 	 * @type {LoginDTO}
 	 */
 	const loginDTO = {
 		email: loginForm.emailField.value,
 		password: loginForm.passwordField.value
-	}
+	};
 
 	try {
 		const response = await login(loginDTO);
@@ -100,20 +101,16 @@ export async function loginAsUser(loginForm) {
 
 		return data.displayName;
 	} catch (err) {
-		/**
-		 * @type {import('axios').AxiosError}
-		 */
-		// @ts-ignore
-		let error = err;
-		notifyDanger(error.message);
-		return undefined;
+		showClientError(err);
+		return null;
 	}
 }
 
 /**
  * @param {import('./form').RegisterForm} registerForm
+ * @returns {Promise<string|null>} customer display name
  */
-export async function registerAsUser(registerForm) {
+export async function registerAsCustomer(registerForm) {
 	/**
 	 * @type {RegisterDTO}
 	 */
@@ -136,12 +133,7 @@ export async function registerAsUser(registerForm) {
 
 		return data.displayName;
 	} catch (err) {
-		/**
-		 * @type {import('axios').AxiosError}
-		 */
-		// @ts-ignore
-		let error = err;
-		notifyDanger(error.message);
-		return undefined;
+		showClientError(err);
+		return null;
 	}
 }

@@ -3,10 +3,10 @@
 	import ProductItem from '$lib/products/product-item.svelte';
 	import { getDefaultShopParams, getSortOptions } from '$lib/products/service';
 	import { getPageProduct, getProductBrands, getProductTypes } from '$lib/products/request';
-	import Pagination from '$lib/shared/components/pagination.svelte';
+	import Pagination from '$lib/core/pagination.svelte';
 	import PaginationHeader from '$lib/shared/components/pagination-header.svelte';
-	import PageLoader from '$lib/shared/spinner/page-loader.svelte';
-	import Loader from '$lib/shared/spinner/loader.svelte';
+	import PageLoader from '$lib/core/loader/page-loader.svelte';
+	import SectionLoader from '$lib/core/loader/section-loader.svelte';
 
 	const sortOptions = getSortOptions();
 
@@ -183,7 +183,7 @@
 			>
 				{#await getNewPageProduct(shopParams)}
 					<div class="d-flex align-items-center flex-fill">
-						<Loader class="text-center flex-fill" />
+						<SectionLoader class="text-center flex-fill" />
 					</div>
 				{:then products}
 					{#each products as product}

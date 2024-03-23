@@ -2,8 +2,8 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { PUBLIC_DEMO_CUSTOMER_PWD } from '$env/static/public';
-	import { loginAsUserDemo } from '$lib/auth/service';
-	import ButtonLoader from '$lib/shared/spinner/button-loader.svelte';
+	import { loginAsCustomerDemo } from '$lib/auth/service';
+	import ButtonLoader from '$lib/core/loader/button-loader.svelte';
 	import { notifySuccess } from '$lib/shared/toastr/service';
 
 	let isSubmitting = false;
@@ -24,7 +24,7 @@
 			password: `${PUBLIC_DEMO_CUSTOMER_PWD}`
 		};
 
-		const displayName = await loginAsUserDemo(loginDTO);
+		const displayName = await loginAsCustomerDemo(loginDTO);
 
 		if (displayName) {
 			notifySuccess(`Welcome back ${displayName}`);

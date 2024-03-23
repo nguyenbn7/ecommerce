@@ -1,18 +1,17 @@
-
 // Auth module
 type LoginDTO = {
 	email: string;
 	password: string;
-}
+};
 
 type LoginSuccess = {
-	displayName: string,
-	accessToken: string,
-}
+	displayName: string;
+	accessToken: string;
+};
 
 type UserInfo = {
-	displayName: string
-}
+	displayName: string;
+};
 
 type RegisterDTO = {
 	fullName: string;
@@ -20,7 +19,7 @@ type RegisterDTO = {
 	email: string;
 	password: string;
 	confirmPassword: string;
-}
+};
 
 type ToastType = 'DANGER' | 'INFO' | 'SUCCESS' | 'WARNING';
 
@@ -112,4 +111,4 @@ type UserProfile = {
 	userId: number;
 	email: string;
 	fullName: string;
-}
+};

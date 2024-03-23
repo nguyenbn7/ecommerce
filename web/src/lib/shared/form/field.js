@@ -21,7 +21,7 @@ export class FormField {
 	#node = null;
 	#history = writable(this);
 	/**
-	 * @type {HTMLElement | null} 
+	 * @type {HTMLElement | null}
 	 */
 	#instance = null;
 
@@ -77,7 +77,7 @@ export class FormField {
 
 	#validateAndUpdateHistory() {
 		this.#validate();
-		this.#history.update(_ => this);
+		this.#history.update((_) => this);
 	}
 
 	/** @type {import('svelte/action').Action}  */

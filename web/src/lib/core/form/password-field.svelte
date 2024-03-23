@@ -1,12 +1,17 @@
 <script>
 	import ValidationFeedback from './validation-feedback.svelte';
-	
+
 	export { classNames as class };
 	let classNames = '';
 
 	export let inputAbove = false;
+
 	export let name = '';
+
 	export let validationFeedback = false;
+
+	export let disabled = false;
+
 	/**
 	 * @type {null | string}
 	 */
@@ -16,14 +21,10 @@
 	 * @type {import('./reactive.field').default}
 	 */
 	export let reactiveFormField;
-	/**
-	 * @type {any}
-	 */
-	export let validCondition;
-	/**
-	 * @type {any}
-	 */
-	export let invalidCondition;
+
+	$: validCondition = reactiveFormField.valid;
+
+	$: invalidCondition = reactiveFormField.touched && !reactiveFormField.valid;
 </script>
 
 {#if inputAbove}
@@ -36,7 +37,10 @@
 		class:is-valid={validCondition}
 		bind:this={reactiveFormField.instance}
 		bind:value={reactiveFormField.value}
+		on:focusout={(_) => (reactiveFormField.touched = true)}
 		{placeholder}
+		{disabled}
+		{...$$restProps}
 	/>
 	<slot name="label" />
 {:else}
@@ -50,7 +54,10 @@
 		class:is-valid={validCondition}
 		bind:this={reactiveFormField.instance}
 		bind:value={reactiveFormField.value}
+		on:focusout={(_) => (reactiveFormField.touched = true)}
 		{placeholder}
+		{disabled}
+		{...$$restProps}
 	/>
 {/if}
 

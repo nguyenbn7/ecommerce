@@ -1,14 +1,18 @@
 <script>
 	import { page } from '$app/stores';
-	import Breadcrumb from '$lib/shared/breadcrumbs/breadcrumb.svelte';
-	import { buildAliasPaths, mapper } from '$lib/shared/breadcrumbs/service';
 	import { APP_NAME } from '$lib/shared/constant';
+	import Breadcrumb, {
+		aliases,
+		createBreadcrumbs,
+		getLastBreadcrumbItem
+	} from '$lib/core/breadcrumb.svelte';
 
-	$: breadcrumbs = buildAliasPaths($page, $mapper);
+	$: breadcrumbs = createBreadcrumbs($page, $aliases);
+	$: pageName = getLastBreadcrumbItem(breadcrumbs)?.name;
 </script>
 
 <svelte:head>
-	<title>{APP_NAME} | {breadcrumbs[breadcrumbs.length - 1].alias}</title>
+	<title>{APP_NAME} | {pageName}</title>
 </svelte:head>
 
 <div class="container-fluid bg-secondary pb-2 pb-5 page-title">
@@ -17,10 +21,10 @@
 		style="min-height: 300px"
 	>
 		<h2 class="fw-semibold text-uppercase mb-3">
-			{breadcrumbs[breadcrumbs.length - 1].alias}
+			{pageName}
 		</h2>
 		<div class="d-inline-flex">
-			<Breadcrumb class="ps-1 pb-3" {breadcrumbs} style="--bs-breadcrumb-divider: '>';" />
+			<Breadcrumb class="breadcrumb ps-1 pb-3" {breadcrumbs} --bs-breadcrumb-divider="'>'" />
 		</div>
 	</div>
 </div>
