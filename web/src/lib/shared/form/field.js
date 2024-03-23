@@ -20,6 +20,10 @@ export class FormField {
 	 */
 	#node = null;
 	#history = writable(this);
+	/**
+	 * @type {HTMLElement | null} 
+	 */
+	#instance = null;
 
 	get isDirty() {
 		return this.#dirty;
@@ -112,6 +116,40 @@ export class FormField {
 	 */
 	subscribe(subscriber) {
 		return this.#history.subscribe(subscriber);
+	}
+
+	/**
+	 * @param {HTMLElement} node
+	 */
+	set instance(node) {
+		const onFocusOut = (/** @type {Event} */ $event) => {
+			this.#touched = true;
+			this.#dirty = false; // not sure about this field but just a dummy (not gonna to use it)
+			this.#validateAndUpdateHistory();
+		};
+
+		const onInput = (/** @type {Event} */ $event) => {
+			const target = $event.target;
+			if (!target) return;
+
+			this.#dirty = true; // not sure about this field but just a dummy (not gonna to use it)
+			this.#value = /** @type {HTMLInputElement} */ (target).value;
+
+			this.#validateAndUpdateHistory();
+		};
+
+		if (node) {
+			this.#instance = node;
+			console.log(this.#instance);
+
+			this.#instance.addEventListener('focusout', onFocusOut);
+			this.#instance.addEventListener('input', onInput);
+			return;
+		}
+		this.#instance?.removeEventListener('focusout', onFocusOut);
+		this.#instance?.removeEventListener('input', onInput);
+		this.#instance = null;
+		console.log(this.#instance);
 	}
 
 	/**

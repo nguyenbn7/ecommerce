@@ -41,7 +41,7 @@ function checkEmailFormat(errorMessage = 'Email has incorrect format') {
 }
 
 /**
- * @param {import("./form.field").FormField} anotherField
+ * @param {import("./field").FormField} anotherField
  * @returns {Validator}
  */
 function doesFieldEqualTo(anotherField, errorMessage = 'Fields does not equal') {

@@ -4,7 +4,7 @@ export class FormGroup {
 	#history = writable(this);
 
 	/**
-	 * @this {{[field: string]: import('./form.field').FormField | FormGroup}}
+	 * @this {{[field: string]: import('./field').FormField | FormGroup}}
 	 * @returns {boolean}
 	 */
 	get isValid() {
@@ -12,7 +12,7 @@ export class FormGroup {
 	}
 
 	/**
-	 * @this {{[field: string]: import('./form.field').FormField | FormGroup}}
+	 * @this {{[field: string]: import('./field').FormField | FormGroup}}
 	 * @type {boolean}
 	 */
 	get isTouched() {
@@ -20,7 +20,7 @@ export class FormGroup {
 	}
 
 	/**
-	 * @this {{[field: string]: import('./form.field').FormField | FormGroup}}
+	 * @this {{[field: string]: import('./field').FormField | FormGroup}}
 	 * @type {boolean}
 	 */
 	get isDirty() {

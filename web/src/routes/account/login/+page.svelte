@@ -46,6 +46,7 @@
 				class="form-control rounded-3"
 				placeholder="name@example.com"
 				use:loginForm.emailField.bind
+				bind:this={loginForm.emailField.instance}
 				class:is-invalid={$loginForm.emailField.isTouched && !$loginForm.emailField.isValid}
 				class:is-valid={$loginForm.emailField.isTouched && $loginForm.emailField.isValid}
 				disabled={isSubmitted}
