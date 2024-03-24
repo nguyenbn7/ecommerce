@@ -22,7 +22,7 @@ httpClient.interceptors.response.use(
 /**
  * @param {CreateOrder} data
  */
-export async function createOrder(data) {
+export async function createCustomerOrder(data) {
 	return await httpClient.post('', data);
 }
 

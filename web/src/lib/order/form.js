@@ -1,22 +1,28 @@
-import { FormField, FormGroup, Validators } from '$lib/shared/form';
+import ReactiveFormBase from "$lib/core/form/reactive";
+import ReactiveFormField from "$lib/core/form/reactive.field";
+import { checkEmailFormat, checkRequired } from "$lib/core/form/validator";
 
-export class AddressFormGroup extends FormGroup {
+export class OrderAddressForm extends ReactiveFormBase {
 	constructor() {
 		super();
-		this.fullName = new FormField(Validators.checkRequired('Full name is required'));
-		this.email = new FormField(
-			Validators.checkRequired('Email is required'),
-			Validators.checkEmailFormat('Incorrect email. Example: bob@test.com')
+		this.fullName = ReactiveFormField.createField(checkRequired('Full name is required'));
+		this.email = ReactiveFormField.createField(
+			checkRequired('Email is required'),
+			checkEmailFormat('Incorrect email. Example: bob@test.com')
 		);
-		this.address = new FormField(Validators.checkRequired('Address is required'));
-		this.address2 = new FormField(Validators.isOptional());
+		this.address = ReactiveFormField.createField(checkRequired('Address is required'));
+		this.address2 = ReactiveFormField.createOptionalField();
 	}
 }
 
-export class OrderFormGroup extends FormGroup {
+export class OrderForm extends ReactiveFormBase {
 	constructor() {
 		super();
-		this.billingAddress = new AddressFormGroup();
+		this.billingAddress = new OrderAddressForm();
+		/**
+		 * @type {OrderAddressForm | null}
+		 */
 		this.shippingAddress = null;
+		this.deliveryMethodId = ReactiveFormField.createField(checkRequired("Delivery method not selected"));
 	}
 }

@@ -82,6 +82,7 @@ export default class ReactiveFormField {
 	#validate() {
 		this.#invalidFeedback = null;
 		this.#validFeedback = null;
+
 		this.#valid = false;
 
 		for (const validator of this.validators) {
@@ -110,7 +111,23 @@ export default class ReactiveFormField {
 	/**
 	 * @param {Validator[]} validators
 	 */
-	constructor(...validators) {
+	static createOptionalField(...validators) {
+		return new ReactiveFormField(true, ...validators);
+	}
+
+	/**
+	 * @param {Validator[]} validators
+	 */
+	static createField(...validators) {
+		return new ReactiveFormField(false, ...validators);
+	}
+
+	/**
+	 * @param {Validator[]} validators
+	 */
+	constructor(optional = false, ...validators) {
+		this.#valid = optional;
 		this.#validators = validators ?? [];
 	}
+
 }

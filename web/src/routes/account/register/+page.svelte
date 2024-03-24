@@ -4,15 +4,17 @@
 	import { RegisterForm } from '$lib/auth/form';
 	import { registerAsCustomer } from '$lib/auth/service';
 	import { APP_NAME } from '$lib/shared/constant';
-	import ValidationFeedback from '$lib/shared/form/validation-feedback.svelte';
 	import ButtonLoader from '$lib/core/loader/button-loader.svelte';
 	import { notifySuccess } from '$lib/shared/toastr/service';
+	import TextField from '$lib/core/form/text-field.svelte';
+	import PasswordField from '$lib/core/form/password-field.svelte';
 
 	let registerForm = new RegisterForm();
-	let isSubmitted = false;
+	let disabled = false;
 
 	async function onSubmitForm() {
-		isSubmitted = true;
+		disabled = true;
+
 		const displayName = await registerAsCustomer(registerForm);
 
 		if (displayName) {
@@ -24,7 +26,7 @@
 			return goto('/');
 		}
 
-		isSubmitted = false;
+		disabled = false;
 	}
 </script>
 
@@ -37,97 +39,94 @@
 	<p class="text-center small">Enter your personal details to create account</p>
 </div>
 
-<form class="row g-3 px-1" on:submit={onSubmitForm} use:registerForm.bind>
+<form class="row g-3 px-1" on:submit={onSubmitForm} bind:this={registerForm.instance}>
 	<div class="col-12">
 		<div class="form-floating">
-			<input
-				type="text"
-				id="fullName"
+			<TextField
 				class="form-control rounded-3"
+				name="fullName"
+				inputAbove={true}
 				placeholder="John Doe"
-				use:registerForm.fullNameField.bind
-				class:is-invalid={$registerForm.fullNameField.isTouched &&
-					!$registerForm.fullNameField.isValid}
-				class:is-valid={$registerForm.fullNameField.isTouched &&
-					$registerForm.fullNameField.isValid}
-				disabled={isSubmitted}
-			/>
-			<label for="fullName">Full name</label>
-			<ValidationFeedback field={$registerForm.fullNameField} />
+				validationFeedback={true}
+				bind:reactiveFormField={registerForm.fullName}
+				bind:disabled
+			>
+				<svelte:fragment slot="label">
+					<label for="fullName">Full Name</label>
+				</svelte:fragment>
+			</TextField>
 		</div>
 	</div>
 
 	<div class="col-12">
 		<div class="form-floating">
-			<input
-				type="text"
-				id="displayName"
+			<TextField
 				class="form-control rounded-3"
+				name="displayName"
+				inputAbove={true}
 				placeholder="John"
-				use:registerForm.displayNameField.bind
-				class:is-invalid={$registerForm.displayNameField.isTouched &&
-					!$registerForm.displayNameField.isValid}
-				class:is-valid={$registerForm.displayNameField.isTouched &&
-					$registerForm.displayNameField.isValid}
-				disabled={isSubmitted}
-			/>
-			<label for="displayName">Display name</label>
-			<ValidationFeedback field={$registerForm.displayNameField} />
+				validationFeedback={true}
+				bind:reactiveFormField={registerForm.displayName}
+				bind:disabled
+			>
+				<svelte:fragment slot="label">
+					<label for="displayName">Full Name</label>
+				</svelte:fragment>
+			</TextField>
 		</div>
 	</div>
 
 	<div class="col-12">
 		<div class="form-floating">
-			<input
-				type="text"
-				id="email"
+			<TextField
 				class="form-control rounded-3"
-				placeholder="name@example.com"
-				use:registerForm.emailField.bind
-				class:is-invalid={$registerForm.emailField.isTouched && !$registerForm.emailField.isValid}
-				class:is-valid={$registerForm.emailField.isTouched && $registerForm.emailField.isValid}
-				disabled={isSubmitted}
-			/>
-			<label for="email">Email</label>
-			<ValidationFeedback field={$registerForm.emailField} />
+				name="email"
+				inputAbove={true}
+				placeholder="john.doe@example.com"
+				validationFeedback={true}
+				bind:reactiveFormField={registerForm.email}
+				bind:disabled
+			>
+				<svelte:fragment slot="label">
+					<label for="email">Email</label>
+				</svelte:fragment>
+			</TextField>
 		</div>
 	</div>
 
 	<div class="col-12">
 		<div class="form-floating">
-			<input
-				type="password"
-				id="password"
+			<PasswordField
 				class="form-control rounded-3"
+				name="password"
+				inputAbove={true}
 				placeholder="*********"
-				use:registerForm.passwordField.bind
-				class:is-invalid={$registerForm.passwordField.isTouched &&
-					!$registerForm.passwordField.isValid}
-				class:is-valid={$registerForm.passwordField.isTouched &&
-					$registerForm.passwordField.isValid}
-				disabled={isSubmitted}
-			/>
-			<label for="password">Password</label>
-			<ValidationFeedback field={$registerForm.passwordField} />
+				validationFeedback={true}
+				bind:reactiveFormField={registerForm.password}
+				{disabled}
+			>
+				<svelte:fragment slot="label">
+					<label for="password">Password</label>
+				</svelte:fragment>
+			</PasswordField>
 		</div>
 	</div>
 
 	<div class="col-12">
 		<div class="form-floating mt-2 mb-3">
-			<input
-				type="password"
-				id="confirmPassword"
+			<PasswordField
 				class="form-control rounded-3"
+				name="confirmPassword"
+				inputAbove={true}
 				placeholder="*********"
-				use:registerForm.confirmPasswordField.bind
-				class:is-invalid={$registerForm.confirmPasswordField.isTouched &&
-					!$registerForm.confirmPasswordField.isValid}
-				class:is-valid={$registerForm.confirmPasswordField.isTouched &&
-					$registerForm.confirmPasswordField.isValid}
-				disabled={isSubmitted}
-			/>
-			<label for="confirmPassword">Confirm Password</label>
-			<ValidationFeedback field={$registerForm.confirmPasswordField} />
+				validationFeedback={true}
+				bind:reactiveFormField={registerForm.confirmPassword}
+				{disabled}
+			>
+				<svelte:fragment slot="label">
+					<label for="confirmPassword">Confirm Password</label>
+				</svelte:fragment>
+			</PasswordField>
 		</div>
 	</div>
 
@@ -135,7 +134,9 @@
 		<div class="form-check">
 			<input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" />
 			<label class="form-check-label" for="acceptTerms">
-				I agree and accept the <a href={'#'} class="text-decoration-none">terms and conditions</a>
+				I agree and accept the <a href={'javascript:;'} class="text-decoration-none">
+					terms and conditions
+				</a>
 			</label>
 			<!-- TODO:  -->
 			<div class="invalid-feedback">You must agree before submitting.</div>
@@ -145,10 +146,10 @@
 		<button
 			class="btn btn-info w-100 py-2 mt-2 mb-3 rounded-4"
 			type="submit"
-			disabled={!$registerForm.valid || isSubmitted}
+			disabled={!$registerForm.valid || disabled}
 		>
 			Create Account
-			{#if isSubmitted}
+			{#if disabled}
 				<ButtonLoader />
 			{/if}
 		</button>

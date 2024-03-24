@@ -1,26 +1,24 @@
 <script>
-	import ValidationFeedback from '$lib/shared/form/validation-feedback.svelte';
+	import TextField from '$lib/core/form/text-field.svelte';
 
 	/**
-	 * @type {import("./form").AddressFormGroup}
+	 * @type {import("./form").OrderAddressForm}
 	 */
-	export let addressFormGroup;
+	export let addressForm;
 </script>
 
 <div class="col-12">
-	<div class="col-12">
-		<label for="full-name">Full Name</label>
-		<input
-			id="full-name"
-			class="form-control rounded-1"
-			placeholder="Example: John Doe"
-			use:addressFormGroup.fullName.bind
-			value={$addressFormGroup.fullName.value}
-			class:is-invalid={$addressFormGroup.fullName.isTouched && !$addressFormGroup.fullName.isValid}
-			class:is-valid={$addressFormGroup.fullName.isTouched && $addressFormGroup.fullName.isValid}
-		/>
-		<ValidationFeedback field={$addressFormGroup.fullName} />
-	</div>
+	<TextField
+		class="form-control rounded-1"
+		name="fullName"
+		placeholder="John Doe"
+		validationFeedback={true}
+		bind:reactiveFormField={addressForm.fullName}
+	>
+		<svelte:fragment slot="label">
+			<label for="fullName">Full Name</label>
+		</svelte:fragment>
+	</TextField>
 </div>
 
 <!-- <div class="col-12">
@@ -37,45 +35,47 @@
 </div> -->
 
 <div class="col-12">
-	<label for="email">Email</label>
-	<input
-		id="email"
+	<TextField
 		class="form-control rounded-1"
+		name="email"
 		placeholder="johndoe@gmail.com"
-		use:addressFormGroup.email.bind
-		value={$addressFormGroup.email.value}
-		class:is-invalid={$addressFormGroup.email.isTouched && !$addressFormGroup.email.isValid}
-		class:is-valid={$addressFormGroup.email.isTouched && $addressFormGroup.email.isValid}
-	/>
-	<ValidationFeedback field={$addressFormGroup.email} />
+		validationFeedback={true}
+		bind:reactiveFormField={addressForm.email}
+	>
+		<svelte:fragment slot="label">
+			<label for="email">Email</label>
+		</svelte:fragment>
+	</TextField>
 </div>
 
 <div class="col-12">
-	<label for="address">Address</label>
-	<input
-		id="address"
+	<TextField
 		class="form-control rounded-1"
+		name="address"
 		placeholder="1234 Main St"
-		use:addressFormGroup.address.bind
-		class:is-invalid={$addressFormGroup.address.isTouched && !$addressFormGroup.address.isValid}
-		class:is-valid={$addressFormGroup.address.isTouched && $addressFormGroup.address.isValid}
-	/>
-	<ValidationFeedback field={$addressFormGroup.address} />
+		validationFeedback={true}
+		bind:reactiveFormField={addressForm.address}
+	>
+		<svelte:fragment slot="label">
+			<label for="address">Full Name</label>
+		</svelte:fragment>
+	</TextField>
 </div>
 
 <div class="col-12">
-	<label for="address2">
-		Address 2 <span class="text-body-secondary">(Optional)</span>
-	</label>
-	<input
-		id="address2"
+	<TextField
 		class="form-control rounded-1"
+		name="address2"
 		placeholder="Apartment or suite"
-		use:addressFormGroup.address2.bind
-		class:is-invalid={$addressFormGroup.address2.isTouched && !$addressFormGroup.address2.isValid}
-		class:is-valid={$addressFormGroup.address2.isTouched && $addressFormGroup.address2.isValid}
-	/>
-	<ValidationFeedback field={$addressFormGroup.address2} />
+		validationFeedback={true}
+		bind:reactiveFormField={addressForm.address2}
+	>
+		<svelte:fragment slot="label">
+			<label for="address2">
+				Address 2 <span class="text-body-secondary">(Optional)</span>
+			</label>
+		</svelte:fragment>
+	</TextField>
 </div>
 
 <!-- TODO: Validate Country -->

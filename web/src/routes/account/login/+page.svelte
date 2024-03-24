@@ -47,7 +47,7 @@
 				inputAbove={true}
 				placeholder="name@example.com"
 				validationFeedback={true}
-				bind:reactiveFormField={loginForm.emailField}
+				bind:reactiveFormField={loginForm.email}
 				bind:disabled
 			>
 				<svelte:fragment slot="label">
@@ -65,7 +65,7 @@
 				inputAbove={true}
 				placeholder="*********"
 				validationFeedback={true}
-				bind:reactiveFormField={loginForm.passwordField}
+				bind:reactiveFormField={loginForm.password}
 				{disabled}
 			>
 				<svelte:fragment slot="label">

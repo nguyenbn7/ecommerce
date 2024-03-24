@@ -1,6 +1,5 @@
-import { get, readonly, writable } from 'svelte/store';
+import { readonly, writable } from 'svelte/store';
 import { getDisplayName, login, register } from './request';
-import { notifyDanger } from '$lib/shared/toastr/service';
 import { showClientError } from '$lib/core/httpClient/plugin';
 
 const ACCESS_TOKEN_KEY_NAME = 'access_token';
@@ -66,12 +65,7 @@ export async function loginAsCustomerDemo(loginDTO) {
 
 		return data.displayName;
 	} catch (err) {
-		/**
-		 * @type {import('axios').AxiosError}
-		 */
-		// @ts-ignore
-		let error = err;
-		notifyDanger(error.message);
+		showClientError(err);
 		return undefined;
 	}
 }
@@ -85,8 +79,8 @@ export async function loginAsCustomer(loginForm) {
 	 * @type {LoginDTO}
 	 */
 	const loginDTO = {
-		email: loginForm.emailField.value,
-		password: loginForm.passwordField.value
+		email: loginForm.email.value,
+		password: loginForm.password.value
 	};
 
 	try {
@@ -115,11 +109,11 @@ export async function registerAsCustomer(registerForm) {
 	 * @type {RegisterDTO}
 	 */
 	const registerDTO = {
-		fullName: registerForm.fullNameField.value,
-		displayName: registerForm.displayNameField.value,
-		email: registerForm.emailField.value,
-		password: registerForm.passwordField.value,
-		confirmPassword: registerForm.confirmPasswordField.value
+		fullName: registerForm.fullName.value,
+		displayName: registerForm.displayName.value,
+		email: registerForm.email.value,
+		password: registerForm.password.value,
+		confirmPassword: registerForm.confirmPassword.value
 	};
 
 	try {
