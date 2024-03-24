@@ -8,11 +8,11 @@ function mapToOrderAddress(orderAddressForm) {
         fullName: orderAddressForm.fullName.value ?? '',
         email: orderAddressForm.email.value ?? '',
         address: orderAddressForm.address.value ?? '',
-        address2: orderAddressForm.address2.value ?? '',
-        city: 'Dallas',
-        country: 'USA',
-        state: 'Texas',
-        zipCode: '74494'
+        address2: orderAddressForm.address2.value,
+        country: orderAddressForm.country.value ?? '',
+        state: orderAddressForm.state.value ?? '',
+        city: orderAddressForm.city.value ?? '',
+        zipCode: orderAddressForm.zipCode.value
     }
 }
 

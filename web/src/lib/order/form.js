@@ -12,6 +12,10 @@ export class OrderAddressForm extends ReactiveFormBase {
 		);
 		this.address = ReactiveFormField.createField(checkRequired('Address is required'));
 		this.address2 = ReactiveFormField.createOptionalField();
+		this.country = ReactiveFormField.createField(checkRequired());
+		this.state = ReactiveFormField.createField(checkRequired());
+		this.city = ReactiveFormField.createField(checkRequired());
+		this.zipCode = ReactiveFormField.createOptionalField();
 	}
 }
 

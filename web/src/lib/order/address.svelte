@@ -7,6 +7,46 @@
 	export let addressForm;
 
 	export let disabled = false;
+
+	function getCountries() {
+		return ['United States', 'Canada', 'Australia'];
+	}
+
+	/**
+	 * @param {string} country
+	 */
+	function getCountryStates(country) {
+		/**
+		 * @type {{[country: string]: string[]}}
+		 */
+		const countryStates = {
+			'United States': ['California', 'Texas', 'Florida'],
+			Canada: ['Ontario', 'Quebec', 'Alberta'],
+			Australia: ['Victoria', 'New South Wales', 'Queensland']
+		};
+		return countryStates[country] ?? [];
+	}
+
+	/**
+	 * @param {string} countryState
+	 */
+	function getCities(countryState) {
+		/**
+		 * @type {{[state: string]: string[]}}
+		 */
+		const citiesByStates = {
+			California: ['Los Angeles', 'Sacramento'],
+			Texas: ['Austin', 'Houston'],
+			Florida: ['Tallahassee', 'Jacksonville'],
+			Ontario: ['Toronto', 'Ottawa'],
+			Quebec: ['Quebec City', 'Montreal'],
+			Alberta: ['Edmonton', 'Calgary'],
+			Victoria: ['Melbourne', 'Geelong'],
+			'New South Wales': ['Sydney', 'Wollongong'],
+			Queensland: ['Brisbane', 'Mackay']
+		};
+		return citiesByStates[countryState] ?? [];
+	}
 </script>
 
 <div class="col-12">
@@ -83,27 +123,60 @@
 	</TextField>
 </div>
 
-<!-- TODO: Validate Country -->
 <div class="col-md-5">
 	<label for="country" class="form-label">Country</label>
-	<select class="form-select" id="country">
-		<option value="">Choose...</option>
-		<option>United States</option>
+	<select
+		class="form-select"
+		id="country"
+		bind:value={addressForm.country.value}
+		bind:this={addressForm.country.instance}
+		on:change={() => {
+			addressForm.state.value = null;
+			addressForm.city.value = null;
+			addressForm.zipCode.value = null;
+		}}
+	>
+		{#each getCountries() as country}
+			<option value={country}>{country}</option>
+		{/each}
 	</select>
-	<div class="invalid-feedback">Please select a valid country.</div>
 </div>
 
 <div class="col-md-4">
 	<label for="state" class="form-label">State</label>
-	<select class="form-select" id="state">
-		<option value="">Choose...</option>
-		<option>California</option>
+	<select
+		class="form-select"
+		id="state"
+		bind:value={addressForm.state.value}
+		bind:this={addressForm.state.instance}
+	>
+		{#each getCountryStates(addressForm.country.value) as state}
+			<option value={state}>{state}</option>
+		{/each}
 	</select>
-	<div class="invalid-feedback">Please provide a valid state.</div>
 </div>
 
 <div class="col-md-3">
+	<label for="city" class="form-label">City</label>
+	<select
+		class="form-select"
+		id="city"
+		bind:value={addressForm.city.value}
+		bind:this={addressForm.city.instance}
+	>
+		{#each getCities(addressForm.state.value) as city}
+			<option value={city}>{city}</option>
+		{/each}
+	</select>
+</div>
+
+<div class="col-12">
 	<label for="zip" class="form-label">Zip</label>
-	<input type="text" class="form-control" id="zip" placeholder="" />
-	<div class="invalid-feedback">Zip code required.</div>
+	<input
+		type="text"
+		class="form-control"
+		id="zip"
+		bind:value={addressForm.zipCode.value}
+		bind:this={addressForm.zipCode.instance}
+	/>
 </div>
