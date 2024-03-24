@@ -13,6 +13,7 @@
 	 * @type {import('./reactive.field').default}
 	 */
 	export let reactiveFormField;
+	export let disabled=false;
 </script>
 
 {#if inputAbove}
@@ -24,6 +25,7 @@
 		bind:this={reactiveFormField.instance}
 		bind:group={reactiveFormField.value}
 		{value}
+		{disabled}
 	/>
 	<slot name="label" />
 {:else}
@@ -36,5 +38,6 @@
 		bind:this={reactiveFormField.instance}
 		bind:group={reactiveFormField.value}
 		{value}
+		{disabled}
 	/>
 {/if}

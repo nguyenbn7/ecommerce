@@ -1,7 +1,7 @@
 <script>
 	import OrderTotals from '$lib/baskets/order-totals.svelte';
 	import { addItemToBasket, basket, removeItemFromBasket } from '$lib/baskets/service';
-	import { currency } from '$lib/shared/helper';
+	import { currency } from '$lib/core/helper';
 </script>
 
 {#if !$basket?.items.length}
@@ -101,8 +101,10 @@
 		<div class="d-grid">
 			<a
 				href="/checkout"
-				class="btn btn-outline-primary py-2"
+				class="btn py-2"
+				class:btn-outline-primary={!$basket || ($basket && !$basket.items.length)}
 				class:disabled={!$basket || ($basket && !$basket.items.length)}
+				class:btn-primary={$basket && $basket.items.length}
 			>
 				Proceed to checkout
 			</a>

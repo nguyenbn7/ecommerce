@@ -29,7 +29,7 @@
 		if (displayName) {
 			notifySuccess(`Welcome back ${displayName}`);
 
-			const returnUrl = $page.url.searchParams.get('returnUrl');
+			const returnUrl = $page.url.searchParams.get('next');
 			if (returnUrl) return goto(returnUrl);
 
 			return goto('/');

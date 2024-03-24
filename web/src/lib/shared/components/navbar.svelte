@@ -4,7 +4,7 @@
 	import { logout, userInfo } from '$lib/auth/service';
 	import { onMount } from 'svelte';
 	import { basket } from '$lib/baskets/service';
-	import { readMoreString } from '$lib/shared/helper';
+	import { readMoreString } from '$lib/core/helper';
 
 	/**
 	 * @type {number}

@@ -4,13 +4,17 @@ export default class ReactiveFormField {
 	/**
 	 * @type {HTMLElement | null}
 	 */
-	instance = null;
+	#instance = null;
 	#history = writable(this);
 
 	#touched = false;
 	#dirty = false;
 	#valid = false;
+	/**
+	 * @type {any}
+	 */
 	#value = '';
+	#oldValue = '';
 
 	/**
 	 * @type {string | null}
@@ -25,6 +29,38 @@ export default class ReactiveFormField {
 	 * @type {Validator[]}
 	 */
 	#validators;
+
+	set instance(node) {
+		const makeFieldTouched = () => {
+			this.#touched = true;			
+			this.#validate();
+			this.#notifyFieldHasChanged();
+		}
+
+		const validateFieldWhenFocusout = () => {
+			this.#dirty = this.#oldValue != this.#value;
+			
+			if (this.#dirty) {
+				this.#validate();
+				this.#notifyFieldHasChanged();
+			}
+		}
+
+		if (node) {
+			this.#instance = node;
+			this.#instance.addEventListener('focusin', makeFieldTouched);
+			this.#instance.addEventListener('focusout', validateFieldWhenFocusout);
+			return;
+		}
+
+		this.#instance?.removeEventListener('focusin', makeFieldTouched);
+		this.#instance?.removeEventListener('focusout', validateFieldWhenFocusout);
+		this.#instance = null;
+	}
+
+	get instance() {
+		return this.#instance;
+	}
 
 	/**
 	 * @param {boolean} value
@@ -54,7 +90,9 @@ export default class ReactiveFormField {
 	}
 
 	set value(value) {
+		this.#oldValue = this.#value;
 		this.#value = value;
+		this.dirty = true;
 		this.#validate();
 		this.#notifyFieldHasChanged();
 	}
@@ -99,6 +137,10 @@ export default class ReactiveFormField {
 	#notifyFieldHasChanged() {
 		this.instance?.dispatchEvent(new CustomEvent('fieldHasChanged', { bubbles: true }));
 		this.#history.update((_) => this);
+	}
+
+	#validateAndNotify() {
+		this
 	}
 
 	/**

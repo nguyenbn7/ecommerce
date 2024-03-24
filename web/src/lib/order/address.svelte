@@ -5,6 +5,8 @@
 	 * @type {import("./form").OrderAddressForm}
 	 */
 	export let addressForm;
+
+	export let disabled = false;
 </script>
 
 <div class="col-12">
@@ -41,6 +43,7 @@
 		placeholder="johndoe@gmail.com"
 		validationFeedback={true}
 		bind:reactiveFormField={addressForm.email}
+		bind:disabled
 	>
 		<svelte:fragment slot="label">
 			<label for="email">Email</label>
@@ -55,9 +58,10 @@
 		placeholder="1234 Main St"
 		validationFeedback={true}
 		bind:reactiveFormField={addressForm.address}
+		bind:disabled
 	>
 		<svelte:fragment slot="label">
-			<label for="address">Full Name</label>
+			<label for="address">Address</label>
 		</svelte:fragment>
 	</TextField>
 </div>
@@ -69,6 +73,7 @@
 		placeholder="Apartment or suite"
 		validationFeedback={true}
 		bind:reactiveFormField={addressForm.address2}
+		bind:disabled
 	>
 		<svelte:fragment slot="label">
 			<label for="address2">

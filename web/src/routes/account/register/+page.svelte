@@ -3,7 +3,7 @@
 	import { page } from '$app/stores';
 	import { RegisterForm } from '$lib/auth/form';
 	import { registerAsCustomer } from '$lib/auth/service';
-	import { APP_NAME } from '$lib/shared/constant';
+	import { APP_NAME } from '$lib/core/constant';
 	import ButtonLoader from '$lib/core/loader/button-loader.svelte';
 	import { notifySuccess } from '$lib/shared/toastr/service';
 	import TextField from '$lib/core/form/text-field.svelte';
@@ -11,6 +11,7 @@
 
 	let registerForm = new RegisterForm();
 	let disabled = false;
+	$: returnUrl = $page.url.searchParams.get('next');
 
 	async function onSubmitForm() {
 		disabled = true;
@@ -20,7 +21,6 @@
 		if (displayName) {
 			notifySuccess(`Welcome ${displayName}`);
 
-			const returnUrl = $page.url.searchParams.get('returnUrl');
 			if (returnUrl) return goto(returnUrl);
 
 			return goto('/');
@@ -132,7 +132,14 @@
 
 	<div class="col-12">
 		<div class="form-check">
-			<input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" />
+			<input
+				class="form-check-input"
+				name="terms"
+				type="checkbox"
+				bind:this={registerForm.agree.instance}
+				bind:checked={registerForm.agree.value}
+				id="acceptTerms"
+			/>
 			<label class="form-check-label" for="acceptTerms">
 				I agree and accept the <a href={'javascript:;'} class="text-decoration-none">
 					terms and conditions

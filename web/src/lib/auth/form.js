@@ -55,5 +55,7 @@ export class RegisterForm extends ReactiveFormBase {
 			checkRequired('Confirm Password is required'),
 			doesFieldEqualTo(this.password, 'Confirm Password does not match with Password')
 		);
+
+		this.agree = ReactiveFormField.createField(checkRequired(''));
 	}
 }

@@ -2,7 +2,7 @@
 	import 'animate.css/animate.min.css';
 	import { getHeroSectionData } from '$lib/home/service';
 	import { onMount } from 'svelte';
-	import { APP_NAME } from '$lib/shared/constant';
+	import { APP_NAME } from '$lib/core/constant';
 
 	const heroImagesModules = import.meta.glob('$lib/assets/home/hero/*.jpg', {
 		eager: true,

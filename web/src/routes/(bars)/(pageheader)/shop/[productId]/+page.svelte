@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { getProduct } from '$lib/products/request';
-	import { currency } from '$lib/shared/helper';
+	import { currency } from '$lib/core/helper';
 	import { addItemToBasket, basket, removeItemFromBasket } from '$lib/baskets/service';
 	import { addAlias } from '$lib/core/breadcrumb.svelte';
 	import PageLoader from '$lib/core/loader/page-loader.svelte';

@@ -1,6 +1,6 @@
 <script>
 	import paymentsImage from '$lib/assets/images/payments.png';
-	import { APP_NAME } from '../constant';
+	import { APP_NAME } from '../../core/constant';
 </script>
 
 <footer class="bg-light-subtle">

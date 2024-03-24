@@ -1,6 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
-	import { APP_NAME } from '$lib/shared/constant';
+	import { APP_NAME } from '$lib/core/constant';
 	import { page } from '$app/stores';
 	import { LoginForm } from '$lib/auth/form';
 	import { loginAsCustomer } from '$lib/auth/service';
@@ -20,7 +20,7 @@
 		if (displayName) {
 			notifySuccess(`Welcome back ${displayName}`);
 
-			const returnUrl = $page.url.searchParams.get('returnUrl');
+			const returnUrl = $page.url.searchParams.get('next');
 			if (returnUrl) return goto(returnUrl);
 
 			return goto('/');

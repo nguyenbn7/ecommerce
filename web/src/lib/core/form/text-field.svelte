@@ -22,9 +22,9 @@
 	 */
 	export let reactiveFormField;
 
-	$: validCondition = reactiveFormField.valid;
+	$: valid = $reactiveFormField.valid && $reactiveFormField.dirty;
 
-	$: invalidCondition = reactiveFormField.touched && !reactiveFormField.valid;
+	$: invalid = $reactiveFormField.touched && !$reactiveFormField.valid;
 </script>
 
 {#if inputAbove}
@@ -32,12 +32,11 @@
 		class={classNames}
 		{name}
 		id={name}
-		class:is-invalid={invalidCondition}
-		class:is-valid={validCondition}
+		class:is-invalid={invalid}
+		class:is-valid={valid}
 		bind:this={reactiveFormField.instance}
 		bind:value={reactiveFormField.value}
 		{placeholder}
-		on:focusout={(_) => (reactiveFormField.touched = true)}
 		{disabled}
 		{...$$restProps}
 	/>
@@ -48,16 +47,15 @@
 		class={classNames}
 		{name}
 		id={name}
-		class:is-invalid={invalidCondition}
-		class:is-valid={validCondition}
+		class:is-invalid={invalid}
+		class:is-valid={valid}
 		bind:this={reactiveFormField.instance}
 		bind:value={reactiveFormField.value}
-		on:focusout={(_) => (reactiveFormField.touched = true)}
 		{placeholder}
 		{...$$restProps}
 	/>
 {/if}
 
 {#if validationFeedback}
-	<ValidationFeedback bind:reactiveFormField />
+	<ValidationFeedback reactiveFormField={$reactiveFormField} />
 {/if}

@@ -5,11 +5,9 @@
 	export let reactiveFormField;
 </script>
 
-{#if reactiveFormField.invalidFeedback || reactiveFormField.validFeedback}
-	<div
-		class:invalid-feedback={reactiveFormField.invalidFeedback}
-		class:valid-feedback={reactiveFormField.validFeedback}
-	>
-		{reactiveFormField.invalidFeedback || reactiveFormField.validFeedback}
-	</div>
-{/if}
+<div
+	class:invalid-feedback={reactiveFormField.invalidFeedback}
+	class:valid-feedback={reactiveFormField.validFeedback}
+>
+	{reactiveFormField.invalidFeedback || reactiveFormField.validFeedback || ''}
+</div>

@@ -1,5 +1,5 @@
 <script>
-	import { currency } from '$lib/shared/helper';
+	import { currency } from '$lib/core/helper';
 
 	/**
 	 * @type {Basket | null}
