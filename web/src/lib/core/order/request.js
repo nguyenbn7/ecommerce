@@ -1,5 +1,6 @@
-import { getAccessToken } from '$lib/auth/service';
-import { createHttpClient, delayFetch } from '$lib/shared/client/http';
+import { getAccessToken } from '../auth/service';
+import { createHttpClient } from '../httpClient';
+import { delayFetch } from '../httpClient/plugin';
 
 const httpClient = createHttpClient('orders');
 

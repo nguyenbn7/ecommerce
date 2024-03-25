@@ -1,7 +1,7 @@
 <script>
-	import OrderTotals from '$lib/baskets/order-totals.svelte';
-	import { addItemToBasket, basket, removeItemFromBasket } from '$lib/baskets/service';
-	import { currency } from '$lib/core/helper';
+	import OrderTotals from '$lib/core/basket/order-totals.svelte';
+	import { addItemToBasket, basket, removeItemFromBasket } from '$lib/core/basket/service';
+	import { currency } from '$lib/shared/service';
 </script>
 
 {#if !$basket?.items.length}

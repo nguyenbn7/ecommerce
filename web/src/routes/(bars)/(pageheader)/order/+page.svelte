@@ -1,6 +1,6 @@
 <script>
-	import PageLoader from '$lib/core/loader/page-loader.svelte';
-	import { getOrderPreview } from '$lib/order/request';
+	import PageLoader from '$lib/component/page-loader.svelte';
+	import { getOrderPreview } from '$lib/core/order/request';
 </script>
 
 {#await getOrderPreview()}

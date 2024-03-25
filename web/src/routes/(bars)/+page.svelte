@@ -1,8 +1,8 @@
 <script>
 	import 'animate.css/animate.min.css';
-	import { getHeroSectionData } from '$lib/home/service';
+	import { getHeroSectionData } from '$lib/component/home/service';
 	import { onMount } from 'svelte';
-	import { APP_NAME } from '$lib/core/constant';
+	import { APP_NAME } from '$lib/shared/constant';
 
 	const heroImagesModules = import.meta.glob('$lib/assets/home/hero/*.jpg', {
 		eager: true,

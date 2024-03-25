@@ -1,5 +1,5 @@
-import { loadUser } from '$lib/auth/service';
-import { loadBasket } from '$lib/baskets/service';
+import { loadUser } from '$lib/core/auth/service';
+import { loadBasket } from '$lib/core/basket/service';
 
 export const ssr = false;
 

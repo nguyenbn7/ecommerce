@@ -1,27 +1,27 @@
 <script>
-	import { APP_NAME } from '$lib/core/constant';
+	import { APP_NAME } from '$lib/shared/constant';
 	import { onMount } from 'svelte';
 	import { startCase, toLower } from 'lodash';
-	import OrderSummary from '$lib/order/order-summary.svelte';
-	import { OrderAddressForm, OrderForm } from '$lib/order/form';
-	import { basket, basketTotals, updateBasketAndBasketTotals } from '$lib/baskets/service';
-	import { currency } from '$lib/core/helper';
-	import { getDeliveryMethods, getPaymentTypes } from '$lib/order/request';
-	import { getUserProfile } from '$lib/auth/request';
+	import OrderSummary from '$lib/component/checkout/order-summary.svelte';
+	import { OrderAddressForm, OrderForm } from '$lib/component/checkout/form';
+	import { basket, basketTotals, updateBasketAndBasketTotals } from '$lib/core/basket/service';
+	import { getDeliveryMethods, getPaymentTypes } from '$lib/core/order/request';
+	import { getUserProfile } from '$lib/core/auth/request';
 	import { goto } from '$app/navigation';
 	import { notifySuccess } from '$lib/shared/toastr/service';
-	import { createOrder } from '$lib/order/service';
-	import Address from '$lib/order/address.svelte';
+	import { createOrder } from '$lib/core/order/service';
 	import RadioField from '$lib/core/form/radio-field.svelte';
 	import ReactiveFormField from '$lib/core/form/reactive.field';
-	import PageLoader from '$lib/core/loader/page-loader.svelte';
+	import PageLoader from '$lib/component/page-loader.svelte';
 	import Breadcrumb, {
 		aliases,
 		createBreadcrumbs,
 		getLastBreadcrumbItem
-	} from '$lib/core/breadcrumb.svelte';
+	} from '$lib/component/breadcrumb.svelte';
 	import { page } from '$app/stores';
-	import ButtonLoader from '$lib/core/loader/button-loader.svelte';
+	import ButtonLoader from '$lib/component/button-loader.svelte';
+	import Address from '$lib/component/checkout/address.svelte';
+	import { currency } from '$lib/shared/service';
 
 	let hasSameAddress = true;
 	let orderForm = new OrderForm();

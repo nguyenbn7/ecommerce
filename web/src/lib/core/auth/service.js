@@ -5,7 +5,7 @@ import { showClientError } from '$lib/core/httpClient/plugin';
 const ACCESS_TOKEN_KEY_NAME = 'access_token';
 
 /**
- * @type {import("svelte/store").Writable<UserInfo | null>}
+ * @type {import("svelte/store").Writable<CustomerInfo | null>}
  */
 const userInfoStore = writable(null);
 export const userInfo = readonly(userInfoStore);
@@ -37,7 +37,7 @@ export function logout() {
 }
 
 /**
- * @param {LoginSuccess} data
+ * @param {CustomerLoginSuccess} data 
  */
 function updateUserInfo(data) {
 	localStorage.setItem(ACCESS_TOKEN_KEY_NAME, data.accessToken);
@@ -50,44 +50,15 @@ function updateUserInfo(data) {
 }
 
 /**
- * @param {LoginDTO} loginDTO
- */
-export async function loginAsCustomerDemo(loginDTO) {
-	try {
-		const response = await login(loginDTO);
-
-		/**
-		 * @type {LoginSuccess}
-		 */
-		const data = response.data;
-
-		updateUserInfo(data);
-
-		return data.displayName;
-	} catch (err) {
-		showClientError(err);
-		return undefined;
-	}
-}
-
-/**
- * @param {import('./form').LoginForm} loginForm
+ * @param {CustomerLogin} customerLogin
  * @returns {Promise<string | null>} customer display name
  */
-export async function loginAsCustomer(loginForm) {
-	/**
-	 * @type {LoginDTO}
-	 */
-	const loginDTO = {
-		email: loginForm.email.value,
-		password: loginForm.password.value
-	};
-
+export async function loginAsCustomer(customerLogin) {
 	try {
-		const response = await login(loginDTO);
+		const response = await login(customerLogin);
 
 		/**
-		 * @type {LoginSuccess}
+		 * @type {CustomerLoginSuccess}
 		 */
 		const data = response.data;
 
@@ -101,25 +72,15 @@ export async function loginAsCustomer(loginForm) {
 }
 
 /**
- * @param {import('./form').RegisterForm} registerForm
+ * @param {CustomerRegister} customerRegister
  * @returns {Promise<string|null>} customer display name
  */
-export async function registerAsCustomer(registerForm) {
-	/**
-	 * @type {RegisterDTO}
-	 */
-	const registerDTO = {
-		fullName: registerForm.fullName.value,
-		displayName: registerForm.displayName.value,
-		email: registerForm.email.value,
-		password: registerForm.password.value,
-		confirmPassword: registerForm.confirmPassword.value
-	};
+export async function registerAsCustomer(customerRegister) {
 
 	try {
-		const response = await register(registerDTO);
+		const response = await register(customerRegister);
 		/**
-		 * @type {LoginSuccess}
+		 * @type {CustomerLoginSuccess}
 		 */
 		const data = response.data;
 

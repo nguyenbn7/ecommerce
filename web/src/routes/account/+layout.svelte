@@ -1,6 +1,6 @@
 <script>
 	import logo from '$lib/assets/images/logo.png';
-	import { APP_NAME } from '$lib/core/constant';
+	import { APP_NAME } from '$lib/shared/constant';
 </script>
 
 <div class="container">

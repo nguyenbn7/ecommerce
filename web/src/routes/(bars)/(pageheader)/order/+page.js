@@ -1,4 +1,4 @@
-import { userInfo } from '$lib/auth/service';
+import { userInfo } from '$lib/core/auth/service';
 import { redirect } from '@sveltejs/kit';
 import { get } from 'svelte/store';
 

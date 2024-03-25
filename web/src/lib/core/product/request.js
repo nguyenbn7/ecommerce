@@ -1,4 +1,5 @@
-import { createHttpClient, delayFetch } from '$lib/shared/client/http';
+import { createHttpClient } from '$lib/core/httpClient';
+import { delayFetch } from '$lib/core/httpClient/plugin';
 
 const httpClient = createHttpClient('products');
 

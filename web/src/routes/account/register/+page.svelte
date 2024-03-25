@@ -1,32 +1,39 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { RegisterForm } from '$lib/auth/form';
-	import { registerAsCustomer } from '$lib/auth/service';
-	import { APP_NAME } from '$lib/core/constant';
-	import ButtonLoader from '$lib/core/loader/button-loader.svelte';
-	import { notifySuccess } from '$lib/shared/toastr/service';
 	import TextField from '$lib/core/form/text-field.svelte';
+	import { registerAsCustomer } from '$lib/core/auth/service';
 	import PasswordField from '$lib/core/form/password-field.svelte';
+	import { APP_NAME } from '$lib/shared/constant';
+	import { notifySuccess } from '$lib/shared/toastr/service';
+	import { RegisterForm } from '$lib/component/register/form';
+	import ButtonLoader from '$lib/component/button-loader.svelte';
 
 	let registerForm = new RegisterForm();
 	let disabled = false;
 	$: returnUrl = $page.url.searchParams.get('next');
 
-	async function onSubmitForm() {
+	async function register() {
 		disabled = true;
 
-		const displayName = await registerAsCustomer(registerForm);
+		const displayName = await registerAsCustomer({
+			email: registerForm.email.value,
+			displayName: registerForm.displayName.value,
+			fullName: registerForm.fullName.value,
+			password: registerForm.password.value,
+			confirmPassword: registerForm.confirmPassword.value
+		});
 
-		if (displayName) {
-			notifySuccess(`Welcome ${displayName}`);
-
-			if (returnUrl) return goto(returnUrl);
-
-			return goto('/');
+		if (!displayName) {
+			disabled = false;
+			return;
 		}
 
-		disabled = false;
+		notifySuccess(`Welcome ${displayName}`);
+
+		if (returnUrl) return goto(returnUrl);
+
+		return goto('/');
 	}
 </script>
 
@@ -39,7 +46,7 @@
 	<p class="text-center small">Enter your personal details to create account</p>
 </div>
 
-<form class="row g-3 px-1" on:submit={onSubmitForm} bind:this={registerForm.instance}>
+<form class="row g-3 px-1" on:submit={register} bind:this={registerForm.instance}>
 	<div class="col-12">
 		<div class="form-floating">
 			<TextField

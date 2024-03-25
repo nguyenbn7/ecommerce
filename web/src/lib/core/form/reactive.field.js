@@ -32,19 +32,19 @@ export default class ReactiveFormField {
 
 	set instance(node) {
 		const makeFieldTouched = () => {
-			this.#touched = true;			
+			this.#touched = true;
 			this.#validate();
 			this.#notifyFieldHasChanged();
-		}
+		};
 
 		const validateFieldWhenFocusout = () => {
 			this.#dirty = this.#oldValue != this.#value;
-			
+
 			if (this.#dirty) {
 				this.#validate();
 				this.#notifyFieldHasChanged();
 			}
-		}
+		};
 
 		if (node) {
 			this.#instance = node;
@@ -140,7 +140,7 @@ export default class ReactiveFormField {
 	}
 
 	#validateAndNotify() {
-		this
+		this;
 	}
 
 	/**
@@ -171,5 +171,4 @@ export default class ReactiveFormField {
 		this.#valid = optional;
 		this.#validators = validators ?? [];
 	}
-
 }

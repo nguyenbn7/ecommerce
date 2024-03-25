@@ -1,32 +1,36 @@
 <script>
 	import { goto } from '$app/navigation';
-	import { APP_NAME } from '$lib/core/constant';
 	import { page } from '$app/stores';
-	import { LoginForm } from '$lib/auth/form';
-	import { loginAsCustomer } from '$lib/auth/service';
-	import { notifySuccess } from '$lib/shared/toastr/service';
+	import { loginAsCustomer } from '$lib/core/auth/service';
 	import PasswordField from '$lib/core/form/password-field.svelte';
 	import TextField from '$lib/core/form/text-field.svelte';
-	import ButtonLoader from '$lib/core/loader/button-loader.svelte';
+	import { APP_NAME } from '$lib/shared/constant';
+	import { LoginForm } from '$lib/component/login/form';
+	import { notifySuccess } from '$lib/shared/toastr/service';
+	import ButtonLoader from '$lib/component/button-loader.svelte';
 
 	let loginForm = new LoginForm();
 	let disabled = false;
 
-	async function onSubmit() {
+	async function login() {
 		disabled = true;
 
-		const displayName = await loginAsCustomer(loginForm);
+		const displayName = await loginAsCustomer({
+			email: loginForm.email.value,
+			password: loginForm.password.value
+		});
 
-		if (displayName) {
-			notifySuccess(`Welcome back ${displayName}`);
+		if (!displayName) {
+			disabled = false;
 
-			const returnUrl = $page.url.searchParams.get('next');
-			if (returnUrl) return goto(returnUrl);
-
-			return goto('/');
+			return;
 		}
+		notifySuccess(`Welcome back ${displayName}`);
 
-		disabled = false;
+		const returnUrl = $page.url.searchParams.get('next');
+		if (returnUrl) return goto(returnUrl);
+
+		return goto('/');
 	}
 </script>
 
@@ -38,7 +42,7 @@
 	<h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
 </div>
 
-<form class="row g-3 px-1 needs-validation" on:submit={onSubmit} bind:this={loginForm.instance}>
+<form class="row g-3 px-1 needs-validation" on:submit={login} bind:this={loginForm.instance}>
 	<div class="col-12">
 		<div class="form-floating">
 			<TextField

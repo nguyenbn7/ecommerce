@@ -1,11 +1,11 @@
 <script>
 	import { page } from '$app/stores';
-	import { APP_NAME } from '$lib/core/constant';
+	import { APP_NAME } from '$lib/shared/constant';
 	import Breadcrumb, {
 		aliases,
 		createBreadcrumbs,
 		getLastBreadcrumbItem
-	} from '$lib/core/breadcrumb.svelte';
+	} from '$lib/component/breadcrumb.svelte';
 
 	$: breadcrumbs = createBreadcrumbs($page, $aliases);
 	$: pageName = getLastBreadcrumbItem(breadcrumbs)?.name;

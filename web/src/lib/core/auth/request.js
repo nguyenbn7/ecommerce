@@ -1,4 +1,4 @@
-import { createHttpClient } from '$lib/core/httpClient/base';
+import { createHttpClient } from '$lib/core/httpClient';
 import { delayFetch } from '$lib/core/httpClient/plugin';
 import { getAccessToken } from './service';
 
@@ -16,14 +16,14 @@ httpClient.interceptors.response.use(
 );
 
 /**
- * @param {LoginDTO} loginDTO
+ * @param {CustomerLogin} loginDTO
  */
 export async function login(loginDTO) {
 	return await httpClient.post('login', loginDTO);
 }
 
 /**
- * @param {RegisterDTO} registerDTO
+ * @param {CustomerRegister} registerDTO
  */
 export async function register(registerDTO) {
 	return await httpClient.post('register', registerDTO);

@@ -1,6 +1,6 @@
-import ReactiveFormBase from "$lib/core/form/reactive";
-import ReactiveFormField from "$lib/core/form/reactive.field";
-import { checkEmailFormat, checkRequired } from "$lib/core/form/validator";
+import ReactiveFormBase from '$lib/core/form/reactive';
+import ReactiveFormField from '$lib/core/form/reactive.field';
+import { checkEmailFormat, checkRequired } from '$lib/core/form/validator';
 
 export class OrderAddressForm extends ReactiveFormBase {
 	constructor() {
@@ -27,6 +27,8 @@ export class OrderForm extends ReactiveFormBase {
 		 * @type {OrderAddressForm | null}
 		 */
 		this.shippingAddress = null;
-		this.deliveryMethodId = ReactiveFormField.createField(checkRequired("Delivery method not selected"));
+		this.deliveryMethodId = ReactiveFormField.createField(
+			checkRequired('Delivery method not selected')
+		);
 	}
 }

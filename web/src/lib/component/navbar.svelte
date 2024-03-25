@@ -1,10 +1,10 @@
 <script>
-	import logo from '$lib/assets/images/logo.png';
-	import { page } from '$app/stores';
-	import { logout, userInfo } from '$lib/auth/service';
 	import { onMount } from 'svelte';
-	import { basket } from '$lib/baskets/service';
-	import { readMoreString } from '$lib/core/helper';
+	import { page } from '$app/stores';
+	import logo from '$lib/assets/images/logo.png';
+	import { basket } from '$lib/core/basket/service';
+	import { logout, userInfo } from '$lib/core/auth/service';
+	import { readMoreString } from '$lib/shared/service';
 
 	/**
 	 * @type {number}

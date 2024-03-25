@@ -1,4 +1,4 @@
-import { createHttpClient } from '$lib/shared/client/http';
+import { createHttpClient } from '$lib/core/httpClient';
 
 const httpClient = createHttpClient('basket');
 

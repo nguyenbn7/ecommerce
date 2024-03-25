@@ -9,17 +9,6 @@ import {
 	isPasswordComplexEnough
 } from '$lib/core/form/validator';
 
-export class LoginForm extends ReactiveFormBase {
-	constructor() {
-		super();
-		this.email = ReactiveFormField.createField(
-			checkRequired('Email is required'),
-			checkEmailFormat('Incorrect email. Example: bob@test.com')
-		);
-		this.password = ReactiveFormField.createField(checkRequired('Password is required'));
-	}
-}
-
 export class RegisterForm extends ReactiveFormBase {
 	constructor(fullNameMaxLen = 256, displayNameMaxLen = 55) {
 		super();

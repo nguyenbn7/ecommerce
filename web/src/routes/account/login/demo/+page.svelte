@@ -2,8 +2,8 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { PUBLIC_DEMO_CUSTOMER_PWD } from '$env/static/public';
-	import { loginAsCustomerDemo } from '$lib/auth/service';
-	import ButtonLoader from '$lib/core/loader/button-loader.svelte';
+	import ButtonLoader from '$lib/component/button-loader.svelte';
+	import { loginAsCustomer } from '$lib/core/auth/service';
 	import { notifySuccess } from '$lib/shared/toastr/service';
 
 	let isSubmitting = false;
@@ -15,28 +15,30 @@
 	/**
 	 * @param {string} accountName
 	 */
-	async function loginAs(accountName) {
+	async function login(accountName) {
 		isSubmitting = true;
 		accountSubmitting = accountName;
 
-		const loginDTO = {
+		const demoCustomer = {
 			email: `demo.${accountName}@test.com`,
 			password: `${PUBLIC_DEMO_CUSTOMER_PWD}`
 		};
 
-		const displayName = await loginAsCustomerDemo(loginDTO);
+		const displayName = await loginAsCustomer(demoCustomer);
 
-		if (displayName) {
-			notifySuccess(`Welcome back ${displayName}`);
+		if (!displayName) {
+			accountSubmitting = undefined;
+			isSubmitting = false;
 
-			const returnUrl = $page.url.searchParams.get('next');
-			if (returnUrl) return goto(returnUrl);
-
-			return goto('/');
+			return;
 		}
 
-		accountSubmitting = undefined;
-		isSubmitting = false;
+		notifySuccess(`Welcome back ${displayName}`);
+
+		const returnUrl = $page.url.searchParams.get('next');
+		if (returnUrl) return goto(returnUrl);
+
+		return goto('/');
 	}
 </script>
 
@@ -67,7 +69,7 @@
 			class="btn btn-outline-info rounded-4"
 			type="submit"
 			disabled={isSubmitting}
-			on:click={() => loginAs('customer')}
+			on:click={() => login('customer')}
 		>
 			Demo Customer
 			{#if isSubmitting && accountSubmitting === 'customer'}
@@ -78,7 +80,7 @@
 			class="btn btn-outline-info rounded-4"
 			type="submit"
 			disabled={isSubmitting}
-			on:click={() => loginAs('customer1')}
+			on:click={() => login('customer1')}
 		>
 			Demo Customer1
 			{#if isSubmitting && accountSubmitting === 'customer1'}

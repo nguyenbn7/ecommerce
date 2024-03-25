@@ -1,5 +1,5 @@
 <script>
-	import { currency } from '$lib/core/helper';
+	import { currency } from '$lib/shared/service';
 	import { basketTotals } from './service';
 </script>
 

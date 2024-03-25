@@ -1,25 +1,27 @@
 // Auth module
-type LoginDTO = {
+type CustomerLogin = {
 	email: string;
 	password: string;
 };
 
-type LoginSuccess = {
-	displayName: string;
-	accessToken: string;
-};
-
-type UserInfo = {
-	displayName: string;
-};
-
-type RegisterDTO = {
+type CustomerRegister = {
 	fullName: string;
 	displayName: string;
 	email: string;
 	password: string;
 	confirmPassword: string;
 };
+
+type CustomerLoginSuccess = {
+	displayName: string;
+	accessToken: string;
+};
+
+type CustomerInfo = {
+	displayName: string;
+};
+
+
 
 type ToastType = 'DANGER' | 'INFO' | 'SUCCESS' | 'WARNING';
 

@@ -4,7 +4,7 @@
 
 	export let inputAbove = false;
 	export let name = '';
-	
+
 	/**
 	 * @type {any}
 	 */
@@ -13,7 +13,7 @@
 	 * @type {import('./reactive.field').default}
 	 */
 	export let reactiveFormField;
-	export let disabled=false;
+	export let disabled = false;
 </script>
 
 {#if inputAbove}
