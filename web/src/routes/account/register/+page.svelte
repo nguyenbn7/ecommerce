@@ -47,6 +47,7 @@
 </div>
 
 <form class="row g-3 px-1" on:submit={register} bind:this={registerForm.instance}>
+	<!-- Full name -->
 	<div class="col-12">
 		<div class="form-floating">
 			<TextField
@@ -65,6 +66,7 @@
 		</div>
 	</div>
 
+	<!-- Display name -->
 	<div class="col-12">
 		<div class="form-floating">
 			<TextField
@@ -83,6 +85,7 @@
 		</div>
 	</div>
 
+	<!-- Email -->
 	<div class="col-12">
 		<div class="form-floating">
 			<TextField
@@ -101,6 +104,7 @@
 		</div>
 	</div>
 
+	<!-- Password -->
 	<div class="col-12">
 		<div class="form-floating">
 			<PasswordField
@@ -119,8 +123,9 @@
 		</div>
 	</div>
 
+	<!-- Confirm Password -->
 	<div class="col-12">
-		<div class="form-floating mt-2 mb-3">
+		<div class="form-floating">
 			<PasswordField
 				class="form-control rounded-3"
 				name="confirmPassword"
@@ -137,6 +142,7 @@
 		</div>
 	</div>
 
+	<!-- Agreement term -->
 	<div class="col-12">
 		<div class="form-check">
 			<input
@@ -153,9 +159,16 @@
 				</a>
 			</label>
 			<!-- TODO:  -->
-			<div class="invalid-feedback">You must agree before submitting.</div>
+			{#if !registerForm.agree.valid}
+				<input
+					type="hidden"
+					class:is-invalid={registerForm.agree.touched && !registerForm.agree.valid}
+				/>
+				<div class="invalid-feedback">You must agree before submitting.</div>
+			{/if}
 		</div>
 	</div>
+
 	<div class="col-12">
 		<button
 			class="btn btn-info w-100 py-2 mt-2 mb-3 rounded-4"

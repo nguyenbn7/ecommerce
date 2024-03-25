@@ -18,17 +18,21 @@ export async function loadUser() {
 	const accessToken = getAccessToken();
 	if (!accessToken) return;
 
-	const response = await getDisplayName();
-	/**
-	 * @type {string}
-	 */
-	const displayName = response.data;
+	try {
+		const response = await getDisplayName();
+		/**
+		 * @type {string}
+		 */
+		const displayName = response.data;
 
-	userInfoStore.update(() => {
-		return {
-			displayName: displayName
-		};
-	});
+		userInfoStore.update(() => {
+			return {
+				displayName: displayName
+			};
+		});
+	} catch (error) {
+		console.log(error);
+	}
 }
 
 export function logout() {

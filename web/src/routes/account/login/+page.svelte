@@ -43,13 +43,14 @@
 </div>
 
 <form class="row g-3 px-1 needs-validation" on:submit={login} bind:this={loginForm.instance}>
+	<!-- Email -->
 	<div class="col-12">
 		<div class="form-floating">
 			<TextField
 				class="form-control rounded-3"
 				name="email"
 				inputAbove={true}
-				placeholder="name@example.com"
+				placeholder="john.doe@test.com"
 				validationFeedback={true}
 				bind:reactiveFormField={loginForm.email}
 				bind:disabled
@@ -61,6 +62,7 @@
 		</div>
 	</div>
 
+	<!-- Password -->
 	<div class="col-12">
 		<div class="form-floating">
 			<PasswordField

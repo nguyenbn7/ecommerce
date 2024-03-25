@@ -7,6 +7,7 @@
 	import PaginationHeader from '$lib/shop/pagination-header.svelte';
 	import PageLoader from '$lib/component/spinner/page-loader.svelte';
 	import SectionLoader from '$lib/component/spinner/section-loader.svelte';
+	import { showClientError } from '$lib/core/httpClient/plugin';
 
 	const sortOptions = getSortOptions();
 
@@ -101,7 +102,7 @@
 			pageData.productTypes = [{ id: 0, name: 'All' }, ...data[1]];
 		} catch (error) {
 			loadingError = true;
-			console.log(error);
+			showClientError(error);
 		} finally {
 			isLoadingPage = false;
 			loadingError = false;
