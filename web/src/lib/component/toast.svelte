@@ -76,10 +76,12 @@
 		boostrapToast = new (await import('bootstrap')).Toast(instance, { animation, delay, autohide });
 		boostrapToast.show();
 
-		const timeout = setTimeout(() => {
-			clearTimeout(timeout);
-			instance.parentNode?.removeChild(instance);
-		}, delay + 500);
+		if (autohide) {
+			const timeout = setTimeout(() => {
+				clearTimeout(timeout);
+				instance.parentNode?.removeChild(instance);
+			}, delay + 500);
+		}
 	});
 </script>
 
@@ -92,11 +94,11 @@
 		class:bg-warning={type === 'WARNING'}
 		class:bg-info={type === 'INFO'}
 	>
-		<div class="col-3 text-center ps-0">
-			<i class={`${getToastIconClass(type)} toast-icon`}></i>
+		<div class="col-3 d-flex align-items-center justify-content-center">
+			<i class={`${getToastIconClass(type)} toast-icon fw-medium`}></i>
 		</div>
-		<div class="col-9 py-2 pe-2 fs-6">
-			<div class="text-wrap text-break">{message}</div>
+		<div class="col-9 py-3 pe-3 fs-6">
+			<div class="text-wrap text-break fw-medium">{message}</div>
 		</div>
 	</div>
 </div>

@@ -5,7 +5,7 @@
 	import BackToTopButton from '$lib/component/back-to-top-button.svelte';
 </script>
 
-<Toastr class="p-4 mt-5 me-5" />
+<Toastr class="pt-4 pe-4 mt-5 me-5" />
 <BackToTopButton />
 
 <slot />

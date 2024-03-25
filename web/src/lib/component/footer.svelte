@@ -30,17 +30,6 @@
 								<i class="fa-solid fa-phone me-1"></i> (999) 999-9999
 							</a>
 						</li>
-						<!-- TODO: move this to contact page -->
-						<!-- <li class="nav-item mt-4 mb-3">
-							<iframe
-								class="w-100"
-								src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3323.356430445871!2d-101.8624006172556!3d33.59605527293671!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86fe12c4f4115643%3A0x4be2acd0830de582!2s199%20Avenue%20S%2C%20Lubbock%2C%20TX%2079415%2C%20Hoa%20K%E1%BB%B3!5e0!3m2!1svi!2s!4v1701750814877!5m2!1svi!2s"
-								style="border:0; min-height: 300px;"
-								loading="lazy"
-								referrerpolicy="no-referrer-when-downgrade"
-								title="199 Heffernan Avenue, Texas, 77218, United States"
-							></iframe>
-						</li> -->
 					</ul>
 				</div>
 				<div class="col-md-8">
