@@ -66,7 +66,7 @@
 				{/each}
 			</ul>
 			<ul class="navbar-nav ms-md-auto mb-2 mb-lg-0">
-				<a href={'#'} class="nav-link text-white me-3">
+				<a href={'javascript:;'} class="nav-link text-white me-3">
 					<i class="fa-solid fa-magnifying-glass"></i>
 				</a>
 				<a class="nav-link text-white me-3" href="/favorites" title="Wish list">

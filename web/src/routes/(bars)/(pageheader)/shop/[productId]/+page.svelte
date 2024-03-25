@@ -6,16 +6,15 @@
 	import { addAlias } from '$lib/component/breadcrumb.svelte';
 	import { addItemToBasket, basket, removeItemFromBasket } from '$lib/core/basket/service';
 	import PageLoader from '$lib/component/spinner/page-loader.svelte';
+	import { showClientError } from '$lib/core/httpClient/plugin';
 
+	let loading = true;
 	/**
 	 * @type {Product | null}
 	 */
 	let product = null;
-	let productName = '';
 	let quantityInBasket = 0;
 	let quantity = 1;
-
-	$: buttonText = quantityInBasket === 0 ? 'Add to basket' : 'Update basket';
 
 	$: if ($basket && product) {
 		const item = $basket?.items.find((i) => i.id === product?.id);
@@ -27,17 +26,21 @@
 	}
 
 	onMount(async () => {
-		const productId = Number($page.params.productId);
-		product = await getProduct(productId);
-		productName = product.name;
-		addAlias('[productId]', productName);
+		try {
+			product = await getProduct(Number($page.params.productId));
+			addAlias('[productId]', product.name);
+		} catch (error) {
+			showClientError(error);
+		} finally {
+			loading = false;
+		}
 	});
 
-	function incrementQuantity() {
+	function increaseQuantity() {
 		quantity++;
 	}
 
-	function decrementQuantity() {
+	function decreaseQuantity() {
 		if (quantity < 1) return;
 		quantity--;
 	}
@@ -57,7 +60,9 @@
 	}
 </script>
 
-{#if product}
+{#if loading}
+	<PageLoader />
+{:else if product}
 	<div class="container">
 		<div class="row">
 			<div class="col-6">
@@ -74,20 +79,22 @@
 				<div class="d-flex justify-content-start align-items-center">
 					<button
 						class="p-0 m-0 me-2 border-0 quantity-btn"
-						on:click={decrementQuantity}
+						on:click={decreaseQuantity}
 						disabled={quantity < 1}
 					>
 						<i class="fa-solid fa-circle-minus"></i>
 					</button>
 					<span class="fw-semibold" style="font-size: 1.5em;">{quantity}</span>
-					<button class="p-0 m-0 ms-2 border-0 quantity-btn" on:click={incrementQuantity}>
+					<button class="p-0 m-0 ms-2 border-0 quantity-btn" on:click={increaseQuantity}>
 						<i class="fa-solid fa-circle-plus"></i>
 					</button>
 					<button
 						class="btn btn-danger ms-4"
 						on:click={updateBasket}
-						disabled={quantity === quantityInBasket}>{buttonText}</button
+						disabled={quantity === quantityInBasket}
 					>
+						{quantityInBasket === 0 ? 'Add to basket' : 'Update basket'}
+					</button>
 				</div>
 				<div class="row mt-4">
 					<h4>Description</h4>
@@ -96,8 +103,6 @@
 			</div>
 		</div>
 	</div>
-{:else}
-	<PageLoader />
 {/if}
 
 <style lang="scss">
