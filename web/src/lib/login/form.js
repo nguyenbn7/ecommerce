@@ -2,7 +2,7 @@ import ReactiveFormBase from '$lib/core/form/reactive';
 import ReactiveFormField from '$lib/core/form/reactive.field';
 import { checkEmailFormat, checkRequired } from '$lib/core/form/validator';
 
-export class LoginForm extends ReactiveFormBase {
+export default class LoginForm extends ReactiveFormBase {
 	constructor() {
 		super();
 		this.email = ReactiveFormField.createField(

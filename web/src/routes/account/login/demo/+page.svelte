@@ -2,9 +2,9 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { PUBLIC_DEMO_CUSTOMER_PWD } from '$env/static/public';
-	import ButtonLoader from '$lib/component/button-loader.svelte';
+	import ButtonLoader from '$lib/component/spinner/button-loader.svelte';
+	import { showSuccess } from '$lib/component/toastr.svelte';
 	import { loginAsCustomer } from '$lib/core/auth/service';
-	import { notifySuccess } from '$lib/shared/toastr/service';
 
 	let isSubmitting = false;
 	/**
@@ -33,7 +33,7 @@
 			return;
 		}
 
-		notifySuccess(`Welcome back ${displayName}`);
+		showSuccess(`Welcome back ${displayName}`);
 
 		const returnUrl = $page.url.searchParams.get('next');
 		if (returnUrl) return goto(returnUrl);

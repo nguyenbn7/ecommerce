@@ -9,7 +9,7 @@ httpClient.interceptors.request.use((config) => {
 	return config;
 });
 
-httpClient.interceptors.response.use(
+const delayMiddleware = httpClient.interceptors.response.use(
 	async (response) => {
 		await delayFetch(1000);
 		return response;

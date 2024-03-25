@@ -1,5 +1,5 @@
 <script>
-	import { currency } from '$lib/shared/service';
+	import { currency } from '$lib/service';
 
 	/**
 	 * @type {Basket | null}

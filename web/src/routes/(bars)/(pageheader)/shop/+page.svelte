@@ -1,12 +1,12 @@
 <script>
 	import { onMount } from 'svelte';
-	import { getDefaultShopParams, getSortOptions } from '$lib/core/product/service';
-	import { getPageProduct, getProductBrands, getProductTypes } from '$lib/core/product/request';
+	import { getProductBrands, getProductTypes } from '$lib/core/product/request';
+	import { getDefaultShopParams, getPageProduct, getSortOptions } from '$lib/core/product/service';
+	import ProductItem from '$lib/shop/product-item.svelte';
 	import Pagination from '$lib/component/pagination.svelte';
-	import PageLoader from '$lib/component/page-loader.svelte';
-	import SectionLoader from '$lib/component/section-loader.svelte';
-	import ProductItem from '$lib/component/shop/product-item.svelte';
-	import PaginationHeader from '$lib/component/shop/pagination-header.svelte';
+	import PaginationHeader from '$lib/shop/pagination-header.svelte';
+	import PageLoader from '$lib/component/spinner/page-loader.svelte';
+	import SectionLoader from '$lib/component/spinner/section-loader.svelte';
 
 	const sortOptions = getSortOptions();
 

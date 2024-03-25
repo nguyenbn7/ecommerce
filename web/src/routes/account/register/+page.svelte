@@ -1,13 +1,13 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import TextField from '$lib/core/form/text-field.svelte';
+	import { APP_NAME } from '$lib/constant';
+	import { showSuccess } from '$lib/component/toastr.svelte';
 	import { registerAsCustomer } from '$lib/core/auth/service';
-	import PasswordField from '$lib/core/form/password-field.svelte';
-	import { APP_NAME } from '$lib/shared/constant';
-	import { notifySuccess } from '$lib/shared/toastr/service';
-	import { RegisterForm } from '$lib/component/register/form';
-	import ButtonLoader from '$lib/component/button-loader.svelte';
+	import RegisterForm from '$lib/register/form';
+	import TextField from '$lib/component/form/text-field.svelte';
+	import PasswordField from '$lib/component/form/password-field.svelte';
+	import ButtonLoader from '$lib/component/spinner/button-loader.svelte';
 
 	let registerForm = new RegisterForm();
 	let disabled = false;
@@ -29,7 +29,7 @@
 			return;
 		}
 
-		notifySuccess(`Welcome ${displayName}`);
+		showSuccess(`Welcome ${displayName}`);
 
 		if (returnUrl) return goto(returnUrl);
 

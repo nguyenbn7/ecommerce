@@ -37,7 +37,7 @@ export function logout() {
 }
 
 /**
- * @param {CustomerLoginSuccess} data 
+ * @param {CustomerLoginSuccess} data
  */
 function updateUserInfo(data) {
 	localStorage.setItem(ACCESS_TOKEN_KEY_NAME, data.accessToken);
@@ -76,7 +76,6 @@ export async function loginAsCustomer(customerLogin) {
  * @returns {Promise<string|null>} customer display name
  */
 export async function registerAsCustomer(customerRegister) {
-
 	try {
 		const response = await register(customerRegister);
 		/**

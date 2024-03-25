@@ -1,8 +1,8 @@
 <script>
-	import TextField from '$lib/core/form/text-field.svelte';
+	import TextField from '$lib/component/form/text-field.svelte';
 
 	/**
-	 * @type {import("./form").OrderAddressForm}
+	 * @type {import("./order.address.form").default}
 	 */
 	export let addressForm;
 

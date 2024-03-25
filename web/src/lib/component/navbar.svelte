@@ -4,7 +4,7 @@
 	import logo from '$lib/assets/images/logo.png';
 	import { basket } from '$lib/core/basket/service';
 	import { logout, userInfo } from '$lib/core/auth/service';
-	import { readMoreString } from '$lib/shared/service';
+	import { readMoreString } from '$lib/service';
 
 	/**
 	 * @type {number}

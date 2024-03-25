@@ -2,7 +2,7 @@ import ReactiveFormBase from '$lib/core/form/reactive';
 import ReactiveFormField from '$lib/core/form/reactive.field';
 import { checkEmailFormat, checkRequired } from '$lib/core/form/validator';
 
-export class OrderAddressForm extends ReactiveFormBase {
+export default class OrderAddressForm extends ReactiveFormBase {
 	constructor() {
 		super();
 		this.fullName = ReactiveFormField.createField(checkRequired('Full name is required'));
@@ -16,19 +16,5 @@ export class OrderAddressForm extends ReactiveFormBase {
 		this.state = ReactiveFormField.createField(checkRequired());
 		this.city = ReactiveFormField.createField(checkRequired());
 		this.zipCode = ReactiveFormField.createOptionalField();
-	}
-}
-
-export class OrderForm extends ReactiveFormBase {
-	constructor() {
-		super();
-		this.billingAddress = new OrderAddressForm();
-		/**
-		 * @type {OrderAddressForm | null}
-		 */
-		this.shippingAddress = null;
-		this.deliveryMethodId = ReactiveFormField.createField(
-			checkRequired('Delivery method not selected')
-		);
 	}
 }

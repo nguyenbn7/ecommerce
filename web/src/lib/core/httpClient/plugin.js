@@ -1,4 +1,4 @@
-import { notifyDanger } from '$lib/shared/toastr/service';
+import { showDanger } from '$lib/component/toastr.svelte';
 import { AxiosError } from 'axios';
 
 /**
@@ -18,9 +18,9 @@ export function showClientError(err) {
 	const error = /** @type {AxiosError} */ (err);
 
 	if (!error.response) {
-		notifyDanger(error.message);
+		showDanger(error.message);
 		return;
 	}
 	// TODO: Handle validation errors
-	notifyDanger(error.response.data.message);
+	showDanger(error.response.data.message);
 }

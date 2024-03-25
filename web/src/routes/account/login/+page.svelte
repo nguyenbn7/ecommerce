@@ -1,13 +1,13 @@
 <script>
-	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
+	import { APP_NAME } from '$lib/constant';
 	import { loginAsCustomer } from '$lib/core/auth/service';
-	import PasswordField from '$lib/core/form/password-field.svelte';
-	import TextField from '$lib/core/form/text-field.svelte';
-	import { APP_NAME } from '$lib/shared/constant';
-	import { LoginForm } from '$lib/component/login/form';
-	import { notifySuccess } from '$lib/shared/toastr/service';
-	import ButtonLoader from '$lib/component/button-loader.svelte';
+	import { showSuccess } from '$lib/component/toastr.svelte';
+	import LoginForm from '$lib/login/form';
+	import TextField from '$lib/component/form/text-field.svelte';
+	import PasswordField from '$lib/component/form/password-field.svelte';
+	import ButtonLoader from '$lib/component/spinner/button-loader.svelte';
 
 	let loginForm = new LoginForm();
 	let disabled = false;
@@ -25,7 +25,7 @@
 
 			return;
 		}
-		notifySuccess(`Welcome back ${displayName}`);
+		showSuccess(`Welcome back ${displayName}`);
 
 		const returnUrl = $page.url.searchParams.get('next');
 		if (returnUrl) return goto(returnUrl);

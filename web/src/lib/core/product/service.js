@@ -1,3 +1,21 @@
+import { getProducts } from './request';
+
+/**
+ * @param {ShopParams} shopParams
+ * @returns {Promise<Page<Product>>}
+ */
+export async function getPageProduct(shopParams) {
+	const params = {};
+	if (shopParams.brandId > 0) params['brandId'] = shopParams.brandId;
+	if (shopParams.typeId > 0) params['typeId'] = shopParams.typeId;
+	params['sort'] = shopParams.sort;
+	params['pageNumber'] = shopParams.pageNumber;
+	params['pageSize'] = shopParams.pageSize;
+	if (shopParams.search) params['search'] = shopParams.search;
+
+	return getProducts(params);
+}
+
 /**
  * @returns {ShopParams}
  */

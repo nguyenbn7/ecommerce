@@ -1,6 +1,6 @@
 <script>
 	/**
-	 * @type {import('./reactive.field').default}
+	 * @type {import('$lib/core/form/reactive.field').default}
 	 */
 	export let reactiveFormField;
 </script>

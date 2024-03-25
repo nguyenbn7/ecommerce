@@ -9,7 +9,7 @@ import {
 	isPasswordComplexEnough
 } from '$lib/core/form/validator';
 
-export class RegisterForm extends ReactiveFormBase {
+export default class RegisterForm extends ReactiveFormBase {
 	constructor(fullNameMaxLen = 256, displayNameMaxLen = 55) {
 		super();
 

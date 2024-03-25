@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/stores';
-	import { APP_NAME } from '$lib/shared/constant';
+	import { APP_NAME } from '$lib/constant';
 	import Breadcrumb, {
 		aliases,
 		createBreadcrumbs,

@@ -1,7 +1,7 @@
 import { createCustomerOrder } from './request';
 
 /**
- * @param {import("../../component/checkout/form").OrderAddressForm} orderAddressForm
+ * @param {import("$lib/checkout/order.address.form").default} orderAddressForm
  */
 function mapToOrderAddress(orderAddressForm) {
 	return {
@@ -17,7 +17,7 @@ function mapToOrderAddress(orderAddressForm) {
 }
 
 /**
- * @param {import("../../component/checkout/form").OrderForm} orderForm
+ * @param {import("$lib/checkout/order.form").default} orderForm
  * @param {{ id: any; items?: BasketItem[]; }} basket
  */
 export async function createOrder(orderForm, basket) {

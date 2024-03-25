@@ -1,27 +1,28 @@
 <script>
-	import { APP_NAME } from '$lib/shared/constant';
-	import { onMount } from 'svelte';
-	import { startCase, toLower } from 'lodash';
-	import OrderSummary from '$lib/component/checkout/order-summary.svelte';
-	import { OrderAddressForm, OrderForm } from '$lib/component/checkout/form';
-	import { basket, basketTotals, updateBasketAndBasketTotals } from '$lib/core/basket/service';
-	import { getDeliveryMethods, getPaymentTypes } from '$lib/core/order/request';
-	import { getUserProfile } from '$lib/core/auth/request';
 	import { goto } from '$app/navigation';
-	import { notifySuccess } from '$lib/shared/toastr/service';
-	import { createOrder } from '$lib/core/order/service';
-	import RadioField from '$lib/core/form/radio-field.svelte';
-	import ReactiveFormField from '$lib/core/form/reactive.field';
-	import PageLoader from '$lib/component/page-loader.svelte';
+	import { page } from '$app/stores';
+	import BasketSummary from '$lib/checkout/basket-summary.svelte';
+	import OrderAddress from '$lib/checkout/order-address.svelte';
+	import OrderAddressForm from '$lib/checkout/order.address.form';
+	import OrderForm from '$lib/checkout/order.form';
 	import Breadcrumb, {
 		aliases,
 		createBreadcrumbs,
 		getLastBreadcrumbItem
 	} from '$lib/component/breadcrumb.svelte';
-	import { page } from '$app/stores';
-	import ButtonLoader from '$lib/component/button-loader.svelte';
-	import Address from '$lib/component/checkout/address.svelte';
-	import { currency } from '$lib/shared/service';
+	import RadioField from '$lib/component/form/radio-field.svelte';
+	import ButtonLoader from '$lib/component/spinner/button-loader.svelte';
+	import PageLoader from '$lib/component/spinner/page-loader.svelte';
+	import { showSuccess } from '$lib/component/toastr.svelte';
+	import { APP_NAME } from '$lib/constant';
+	import { getUserProfile } from '$lib/core/auth/request';
+	import { basket, basketTotals, updateBasketAndBasketTotals } from '$lib/core/basket/service';
+	import ReactiveFormField from '$lib/core/form/reactive.field';
+	import { getDeliveryMethods, getPaymentTypes } from '$lib/core/order/request';
+	import { createOrder } from '$lib/core/order/service';
+	import { currency } from '$lib/service';
+	import { startCase, toLower } from 'lodash';
+	import { onMount } from 'svelte';
 
 	let hasSameAddress = true;
 	let orderForm = new OrderForm();
@@ -41,7 +42,7 @@
 		const response = await createOrder(orderForm, $basket);
 
 		if (response.status === 200) {
-			notifySuccess(`Create order successfully`);
+			showSuccess(`Create order successfully`);
 
 			updateBasketAndBasketTotals();
 
@@ -75,7 +76,7 @@
 			</div>
 			<div class="row g-5">
 				<div class="col-md-5 col-lg-4 order-md-last">
-					<OrderSummary basket={$basket} basketTotals={$basketTotals} />
+					<BasketSummary basket={$basket} basketTotals={$basketTotals} />
 				</div>
 				<!-- promise was fulfilled -->
 				<div class="col-md-7 col-lg-8">
@@ -90,7 +91,7 @@
 							</div>
 							<div class="card-body px-4 pb-4">
 								<div class="row g-3">
-									<Address bind:addressForm={orderForm.billingAddress} bind:disabled />
+									<OrderAddress bind:addressForm={orderForm.billingAddress} bind:disabled />
 
 									<div class="form-check mt-4 ms-2">
 										<input
@@ -115,7 +116,7 @@
 								</div>
 								<div class="card-body px-4 pb-4">
 									<div class="row g-3">
-										<Address bind:addressForm={orderForm.shippingAddress} bind:disabled />
+										<OrderAddress bind:addressForm={orderForm.shippingAddress} bind:disabled />
 									</div>
 								</div>
 							</div>

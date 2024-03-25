@@ -1,5 +1,5 @@
 <script>
-	import PageLoader from '$lib/component/page-loader.svelte';
+	import PageLoader from '$lib/component/spinner/page-loader.svelte';
 	import { getOrderPreview } from '$lib/core/order/request';
 </script>
 

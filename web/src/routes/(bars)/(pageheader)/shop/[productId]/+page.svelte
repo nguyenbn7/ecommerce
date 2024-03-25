@@ -1,11 +1,11 @@
 <script>
-	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
+	import { currency } from '$lib/service';
 	import { getProduct } from '$lib/core/product/request';
-	import { currency } from '$lib/shared/service';
-	import { addItemToBasket, basket, removeItemFromBasket } from '$lib/core/basket/service';
 	import { addAlias } from '$lib/component/breadcrumb.svelte';
-	import PageLoader from '$lib/component/page-loader.svelte';
+	import { addItemToBasket, basket, removeItemFromBasket } from '$lib/core/basket/service';
+	import PageLoader from '$lib/component/spinner/page-loader.svelte';
 
 	/**
 	 * @type {Product | null}

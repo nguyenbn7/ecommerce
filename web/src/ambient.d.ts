@@ -21,10 +21,6 @@ type CustomerInfo = {
 	displayName: string;
 };
 
-
-
-type ToastType = 'DANGER' | 'INFO' | 'SUCCESS' | 'WARNING';
-
 type Validator = { check: (value: string) => boolean; errorMessage: string };
 
 type Product = {
