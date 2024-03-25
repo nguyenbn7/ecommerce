@@ -56,7 +56,7 @@
 					<li>
 						<a
 							href={path.link}
-							class="nav-link text-white"
+							class="nav-link text-white fw-medium"
 							class:active-link={$page.url.pathname === path.link ||
 								$page.url.pathname === path.link + '/'}
 						>

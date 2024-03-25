@@ -2,17 +2,22 @@
 	import { page } from '$app/stores';
 	import Footer from '$lib/component/footer.svelte';
 	import Navbar from '$lib/component/navbar.svelte';
+	import { APP_NAME } from '$lib/constant';
 </script>
+
+<svelte:head>
+	<title>{APP_NAME} | Page not found</title>
+</svelte:head>
 
 <div class="fixed-top">
 	<Navbar />
 </div>
-<div id="page-header" class="container-fluid pb-2 pb-5 page-title">
+<div class="container-fluid pb-2 pb-5 page-title">
 	<div
 		class="d-flex flex-column align-items-center justify-content-center"
 		style="min-height: 300px"
 	>
-		<h2 class="fw-semibold text-uppercase mb-3 text-white">error page</h2>
+		<h2 class="fw-semibold text-uppercase mb-3 text-white">Page not found</h2>
 	</div>
 </div>
 
@@ -35,13 +40,10 @@
 <style lang="scss">
 	.page-title {
 		padding-top: 5.3rem !important;
-	}
-
-	#page-header {
-		background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),
+		background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(255, 255, 255, 0.7)),
 			url('/page-header.webp');
 		background-repeat: no-repeat;
 		background-attachment: fixed;
-		background-position: center;
+		background-position: 20% 40%;
 	}
 </style>

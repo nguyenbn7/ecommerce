@@ -10,9 +10,9 @@
 	 * @param {string} pathVariable
 	 * @param {string} alias
 	 * @example
-	 * routes: product/[productId]
-	 * call: addAnAlias("[productId]", "productName")
-	 * Breadcrumb: Home > Product > ProductName
+	 * routes: products/123
+	 * call: addAnAlias(123, "Sock")
+	 * Breadcrumb: Home > Product > Sock
 	 */
 	export function addAlias(pathVariable, alias) {
 		aliasesStore.update((curr) => ({ ...curr, [pathVariable]: alias }));
@@ -23,26 +23,22 @@
 	 * @param {{ [x: string]: string | undefined; }} aliases
 	 */
 	export function createBreadcrumbs(page, aliases) {
-		const paths = page.route.id?.split('/').filter((path) => path && path[0] !== '(') ?? [];
-		const pathParams = page.params;
+		const paths = page.url.pathname.split('/').filter((path) => path);
 
 		const breadcrumbs = [{ name: _.startCase('home'), href: '/' }];
 
-		for (let idx = 0; idx < paths.length; idx++) {
-			let name = _.startCase(paths[idx]);
+		for (const path of paths) {
+			let name = _.startCase(path);
 
-			if (paths[idx].startsWith('[')) {
-				// if alias defined use alias else use value of params
-				name = aliases[paths[idx]]
-					? _.startCase(aliases[paths[idx]])
-					: pathParams[paths[idx].slice(1, -1)];
+			if (aliases[path]) {
+				name = _.startCase(aliases[path]);
 			}
 
 			const prefPath = breadcrumbs.slice(-1)[0].href;
 			let href =
 				prefPath === '/'
-					? `${breadcrumbs.slice(-1)[0].href}${paths[idx]}`
-					: `${breadcrumbs.slice(-1)[0].href}/${paths[idx]}`;
+					? `${breadcrumbs.slice(-1)[0].href}${path}`
+					: `${breadcrumbs.slice(-1)[0].href}/${path}`;
 
 			breadcrumbs.push({ name: name, href });
 		}

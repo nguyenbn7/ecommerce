@@ -41,7 +41,7 @@
 	<title>{APP_NAME} | Sign Up</title>
 </svelte:head>
 
-<div class="pt-4 pb-2">
+<div class="p-2">
 	<h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
 	<p class="text-center small">Enter your personal details to create account</p>
 </div>

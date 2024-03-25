@@ -38,7 +38,7 @@
 	<title>{APP_NAME} | Sign In</title>
 </svelte:head>
 
-<div class="pt-4 pb-2 mb-4">
+<div class="py-1 mb-4">
 	<h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
 </div>
 
