@@ -14,18 +14,15 @@ public static class ApplicationCors
                       .AllowAnyMethod();
             });
 
-            if (environment.IsProduction())
+            opt.AddDefaultPolicy(policy =>
             {
-                opt.AddDefaultPolicy(policy =>
-                {
-                    var origins = configuration.GetSection("ORIGINS").Get<string[]>() ?? throw new Exception("ORIGINS can not be null");
+                var origins = configuration.GetSection("ORIGINS").Get<string[]>() ?? throw new Exception("ORIGINS can not be null");
 
-                    policy.WithOrigins(origins)
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials();
-                });
-            }
+                policy.WithOrigins(origins)
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
+            });
         });
 
         return services;

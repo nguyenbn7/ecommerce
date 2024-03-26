@@ -41,11 +41,6 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseCors("Allow all");
-}
-else
-{
-    app.UseCors();
 }
 
 app.UseMiddleware<HeaderHelmet>();
@@ -55,6 +50,8 @@ app.UseMiddleware<ApplicationExceptionHandler>();
 app.UseMiddleware<RouteNotFoundHandler>();
 
 app.UseStaticFiles();
+
+app.UseCors();
 
 app.UseAuthentication();
 
