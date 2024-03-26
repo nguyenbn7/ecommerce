@@ -1,11 +1,11 @@
 <script>
-	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
+	import 'bootstrap/js/src/collapse';
+	import 'bootstrap/js/src/dropdown';
 	import logo from '$lib/assets/images/logo.png';
 	import { basket } from '$lib/core/basket/service';
 	import { logout, userInfo } from '$lib/core/auth/service';
 	import { readMoreString } from '$lib/service';
-	import { Collapse, Dropdown } from 'bootstrap';
 
 	/**
 	 * @type {number}

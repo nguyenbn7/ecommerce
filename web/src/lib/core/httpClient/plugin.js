@@ -1,5 +1,4 @@
 import { showDanger } from '$lib/component/toastr.svelte';
-import { AxiosError } from 'axios';
 
 /**
  * Delay plugin if you want to slow down your request or response
@@ -15,7 +14,7 @@ export async function delayFetch(ms = 1500) {
  * @param {any} err
  */
 export function showClientError(err) {
-	const error = /** @type {AxiosError} */ (err);
+	const error = /** @type {import("axios").AxiosError} */ (err);
 
 	if (!error.response) {
 		showDanger(error.message);
