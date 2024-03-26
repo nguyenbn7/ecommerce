@@ -26,11 +26,11 @@ public class ProductsController(ILogger<ProductsController> logger,
         if (query.TypeId.HasValue)
             queryable = queryable.Where(p => p.ProductTypeId == query.TypeId);
 
-        if (query.Search != null)
+        if (query.Search is not null)
         {
-            var dbProvider = _configuration.GetValue<string>("DatabaseProvider");
+            var dbProvider = _configuration.GetConnectionString("PostgreConn");
 
-            if (dbProvider == "Postgre")
+            if (dbProvider is not null)
                 queryable = queryable.Where(p => EF.Functions.ILike(p.Name, $"%{query.Search}%"));
             else
                 queryable = queryable.Where(p => EF.Functions.Like(p.Name, $"%{query.Search}%"));

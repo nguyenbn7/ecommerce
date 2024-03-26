@@ -11,6 +11,7 @@ public static class CreateUsers
         var services = scope.ServiceProvider;
         var userManager = services.GetRequiredService<UserManager<AppUser>>();
         var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
+        var configuration = services.GetRequiredService<IConfiguration>();
         var logger = services.GetRequiredService<ILogger<Program>>();
 
         try
@@ -27,6 +28,8 @@ public static class CreateUsers
 
             if (admin != null) return;
 
+            var adminPassword = configuration.GetValue<string>("Password:Admin") ?? throw new Exception("Password:Admin is not set");
+
             admin = new AppUser
             {
                 FullName = "Administrator",
@@ -34,10 +37,11 @@ public static class CreateUsers
                 DisplayName = "Admin"
             };
 
-            // TODO: Not hard core right here
-            await userManager.CreateAsync(admin, "P@ssw0rd");
+            await userManager.CreateAsync(admin, adminPassword);
 
             await userManager.AddToRoleAsync(admin, "Administrator");
+
+            logger.LogInformation("Create {} succesffully", admin.FullName);
         }
         catch (Exception ex)
         {
@@ -52,6 +56,7 @@ public static class CreateUsers
         var services = scope.ServiceProvider;
         var userManager = services.GetRequiredService<UserManager<AppUser>>();
         var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
+        var configuration = services.GetRequiredService<IConfiguration>();
         var logger = services.GetRequiredService<ILogger<Program>>();
 
         try
@@ -68,6 +73,8 @@ public static class CreateUsers
 
             if (customer == null)
             {
+                var demoCustomerPassword = configuration.GetValue<string>("Password:DemoCustomer") ?? throw new Exception("Password:DemoCustomer is not set");
+
                 customer = new AppUser
                 {
                     FullName = "Demo Customer",
@@ -76,15 +83,18 @@ public static class CreateUsers
                     UserName = "demo.customer@test.com"
                 };
 
-                await userManager.CreateAsync(customer, "P@ssw0rd");
+                await userManager.CreateAsync(customer, demoCustomerPassword);
 
                 await userManager.AddToRoleAsync(customer, "Customer");
+                logger.LogInformation("Create {} succesffully", customer.FullName);
             }
 
             var customer1 = await userManager.FindByEmailAsync("demo.customer1@test.com");
 
             if (customer1 == null)
             {
+                var demoCustomer1Password = configuration.GetValue<string>("Password:DemoCustomer1") ?? throw new Exception("Password:DemoCustomer1 is not set");
+
                 customer1 = new AppUser
                 {
                     FullName = "Demo Customer1",
@@ -94,9 +104,11 @@ public static class CreateUsers
                 };
 
 
-                await userManager.CreateAsync(customer1, "P@ssw0rd");
+                await userManager.CreateAsync(customer1, demoCustomer1Password);
 
                 await userManager.AddToRoleAsync(customer1, "Customer");
+
+                logger.LogInformation("Create {} succesffully", customer1.FullName);
             }
         }
         catch (Exception ex)

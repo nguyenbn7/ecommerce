@@ -14,6 +14,7 @@ public static class ApplicationServices
 
         services.AddTransient<ApplicationExceptionHandler>();
         services.AddTransient<RouteNotFoundHandler>();
+        services.AddTransient<HeaderHelmet>();
 
         services.AddScoped<IOrderService, OrderService>();
 
