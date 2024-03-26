@@ -33,7 +33,7 @@
 
 		if (returnUrl) return goto(returnUrl);
 
-		return goto('/');
+		return goto('/', { invalidateAll: true });
 	}
 </script>
 

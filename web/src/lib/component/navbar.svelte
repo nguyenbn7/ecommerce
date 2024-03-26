@@ -5,6 +5,7 @@
 	import { basket } from '$lib/core/basket/service';
 	import { logout, userInfo } from '$lib/core/auth/service';
 	import { readMoreString } from '$lib/service';
+	import { Collapse, Dropdown } from 'bootstrap';
 
 	/**
 	 * @type {number}
@@ -24,11 +25,6 @@
 	function getCount(items) {
 		return items.reduce((total, item) => total + item.quantity, 0);
 	}
-
-	onMount(async () => {
-		(await import('bootstrap/js/dist/dropdown')).default;
-		(await import('bootstrap/js/dist/collapse')).default;
-	});
 </script>
 
 <svelte:window bind:scrollY={y} />
@@ -53,9 +49,7 @@
 			</span>
 		</button>
 		<div class="collapse navbar-collapse" id="appNavbar">
-			<ul
-				class="navbar-nav mx-md-auto mb-2 mb-lg-0 navbar-nav-scroll"
-				style="--bs-scroll-height: 100px;">
+			<ul class="navbar-nav mx-md-auto mb-2 mb-lg-0" style="--bs-scroll-height: 100px;">
 				{#each paths as path}
 					<li>
 						<a
@@ -69,45 +63,32 @@
 				{/each}
 			</ul>
 			<ul class="navbar-nav ms-md-auto mb-2 mb-lg-0">
-				<li class="nav-item me-3">
-					<a href={'javascript:;'} class="nav-link text-white">
-						<i class="fa-solid fa-magnifying-glass"></i>
-					</a>
-				</li>
-				<li class="nav-item me-3">
-					<a class="nav-link text-white" href="/favorites" title="Wish list">
-						<i class="fa-solid fa-heart"></i>
-					</a>
-				</li>
-				<li class="nav-item me-3">
-					<a
-						class="nav-link text-white"
-						class:text-secondary={!$basket || !$basket.items.length}
-						class:text-info={$basket && $basket.items.length}
-						href="/basket"
-						title="Basket">
-						<i class="fa-solid fa-basket-shopping"></i>
-						{#if $basket && $basket.items.length}
-							<span class="position-absolute translate-middle bg-danger badge rounded-pill">
-								{getCount($basket.items)}
-							</span>
-						{/if}
-					</a>
-				</li>
+				<a href={'javascript:;'} class="nav-link text-white me-3">
+					<i class="fa-solid fa-magnifying-glass"></i>
+				</a>
+				<a class="nav-link text-white me-3" href="/favorites" title="Wish list">
+					<i class="fa-solid fa-heart"></i>
+				</a>
+				<a
+					class="nav-link text-white me-3"
+					class:text-secondary={!$basket || !$basket.items.length}
+					class:text-info={$basket && $basket.items.length}
+					href="/basket"
+					title="Basket">
+					<i class="fa-solid fa-basket-shopping"></i>
+					{#if $basket && $basket.items.length}
+						<span class="position-absolute translate-middle bg-danger badge rounded-pill">
+							{getCount($basket.items)}
+						</span>
+					{/if}
+				</a>
 				{#if !$userInfo}
-					<li class="nav-item me-3">
-						<a href="/account/login" class="btn btn-outline-success text-white px-3"> Login </a>
-					</li>
+					<a href="/account/login" class="btn btn-outline-success text-white px-3 me-3"> Login </a>
 				{:else}
-					<li class="nav-item dropdown">
-						<a
-							class="btn btn-link nav-link text-info dropdown-toggle d-flex align-items-center"
-							data-bs-toggle="dropdown"
-							aria-expanded="false"
-							href={'javascript:;'}
-							title={$userInfo.displayName}>
+					<div class="dropdown">
+						<button class="nav-link text-info text-center" data-bs-toggle="dropdown">
 							<i class="fa-regular fa-circle-user fs-4"></i>
-						</a>
+						</button>
 						<ul class="dropdown-menu dropdown-menu-end position-absolute">
 							<li>
 								<h2 class="dropdown-header" title={$userInfo.displayName}>
@@ -126,12 +107,12 @@
 							</li>
 							<li><hr class="dropdown-divider" /></li>
 							<li>
-								<a class="dropdown-item" href={'javascript:;'} on:click={logout}>
+								<a class="dropdown-item" href={'#'} on:click={logout}>
 									<i class="fa-solid fa-right-from-bracket"></i> Logout
 								</a>
 							</li>
 						</ul>
-					</li>
+					</div>
 				{/if}
 			</ul>
 		</div>
