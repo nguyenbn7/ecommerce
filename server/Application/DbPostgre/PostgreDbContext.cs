@@ -10,7 +10,7 @@ public class PostgreDbContext(DbContextOptions<PostgreDbContext> options, IHostE
     {
         base.OnModelCreating(builder);
 
-        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly(), t => t.FullName?.Contains("BaseDb") ?? false);
+        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly(), t => t.FullName?.Contains("DbPostgre") ?? false);
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)

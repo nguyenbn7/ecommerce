@@ -8,8 +8,6 @@ public class OrderConfig : IEntityTypeConfiguration<CustomerOrder>
 {
     public void Configure(EntityTypeBuilder<CustomerOrder> builder)
     {
-        Console.WriteLine("OrderConfig Configure called");
-
         builder.Property(o => o.OrderStatus).HasConversion(
             s => s.ToString(),
             x => (OrderStatus)Enum.Parse(typeof(OrderStatus), x));

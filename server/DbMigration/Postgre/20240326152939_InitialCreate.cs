@@ -13,24 +13,6 @@ namespace Ecommerce.DbMigration.Postgre
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "BillingAddresses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FirstName = table.Column<string>(type: "text", nullable: false),
-                    LastName = table.Column<string>(type: "text", nullable: false),
-                    Street = table.Column<string>(type: "text", nullable: false),
-                    City = table.Column<string>(type: "text", nullable: false),
-                    State = table.Column<string>(type: "text", nullable: false),
-                    ZipCode = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BillingAddresses", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ProductBrands",
                 columns: table => new
                 {
@@ -72,32 +54,15 @@ namespace Ecommerce.DbMigration.Postgre
                 });
 
             migrationBuilder.CreateTable(
-                name: "ShippingAddresses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FirstName = table.Column<string>(type: "text", nullable: false),
-                    LastName = table.Column<string>(type: "text", nullable: false),
-                    Street = table.Column<string>(type: "text", nullable: false),
-                    City = table.Column<string>(type: "text", nullable: false),
-                    State = table.Column<string>(type: "text", nullable: false),
-                    ZipCode = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ShippingAddresses", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ShippingMethods",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ShortName = table.Column<string>(type: "text", nullable: false),
                     DeliveryTime = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true),
-                    Price = table.Column<decimal>(type: "numeric", nullable: false)
+                    Price = table.Column<decimal>(type: "numeric(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -140,7 +105,7 @@ namespace Ecommerce.DbMigration.Postgre
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
-                    Price = table.Column<decimal>(type: "numeric", nullable: false),
+                    Price = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     PictureUrl = table.Column<string>(type: "text", nullable: false),
                     ProductTypeId = table.Column<int>(type: "integer", nullable: false),
                     ProductBrandId = table.Column<int>(type: "integer", nullable: false)
@@ -179,44 +144,6 @@ namespace Ecommerce.DbMigration.Postgre
                         name: "FK_AspNetRoleClaims_Roles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Roles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CustomerOrders",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    BuyerEmail = table.Column<string>(type: "text", nullable: false),
-                    SubTotal = table.Column<decimal>(type: "numeric", nullable: false),
-                    OrderDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ShippingAddressId = table.Column<int>(type: "integer", nullable: false),
-                    BillingAddressId = table.Column<int>(type: "integer", nullable: false),
-                    OrderStatus = table.Column<string>(type: "text", nullable: false),
-                    PaymentIntentId = table.Column<string>(type: "text", nullable: true),
-                    ShippingMethodId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CustomerOrders", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CustomerOrders_BillingAddresses_BillingAddressId",
-                        column: x => x.BillingAddressId,
-                        principalTable: "BillingAddresses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CustomerOrders_ShippingAddresses_ShippingAddressId",
-                        column: x => x.ShippingAddressId,
-                        principalTable: "ShippingAddresses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CustomerOrders_ShippingMethods_ShippingMethodId",
-                        column: x => x.ShippingMethodId,
-                        principalTable: "ShippingMethods",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -283,6 +210,50 @@ namespace Ecommerce.DbMigration.Postgre
                 });
 
             migrationBuilder.CreateTable(
+                name: "CustomerOrders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    SubTotal = table.Column<decimal>(type: "numeric", nullable: false),
+                    ShippingAddress_FullName = table.Column<string>(type: "text", nullable: false),
+                    ShippingAddress_Email = table.Column<string>(type: "text", nullable: false),
+                    ShippingAddress_Address = table.Column<string>(type: "text", nullable: false),
+                    ShippingAddress_Address2 = table.Column<string>(type: "text", nullable: true),
+                    ShippingAddress_Country = table.Column<string>(type: "text", nullable: false),
+                    ShippingAddress_City = table.Column<string>(type: "text", nullable: false),
+                    ShippingAddress_State = table.Column<string>(type: "text", nullable: false),
+                    ShippingAddress_ZipCode = table.Column<string>(type: "text", nullable: true),
+                    BillingAddress_FullName = table.Column<string>(type: "text", nullable: false),
+                    BillingAddress_Email = table.Column<string>(type: "text", nullable: false),
+                    BillingAddress_Address = table.Column<string>(type: "text", nullable: false),
+                    BillingAddress_Address2 = table.Column<string>(type: "text", nullable: true),
+                    BillingAddress_Country = table.Column<string>(type: "text", nullable: false),
+                    BillingAddress_City = table.Column<string>(type: "text", nullable: false),
+                    BillingAddress_State = table.Column<string>(type: "text", nullable: false),
+                    BillingAddress_ZipCode = table.Column<string>(type: "text", nullable: true),
+                    OrderStatus = table.Column<string>(type: "text", nullable: false),
+                    OrderDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CustomerId = table.Column<string>(type: "text", nullable: true),
+                    ShippingMethodId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CustomerOrders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CustomerOrders_ShippingMethods_ShippingMethodId",
+                        column: x => x.ShippingMethodId,
+                        principalTable: "ShippingMethods",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CustomerOrders_Users_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserRoles",
                 columns: table => new
                 {
@@ -313,7 +284,7 @@ namespace Ecommerce.DbMigration.Postgre
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Price = table.Column<decimal>(type: "numeric", nullable: false),
+                    Price = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     Quantity = table.Column<int>(type: "integer", nullable: false),
                     OrderedProduct_ProductId = table.Column<int>(type: "integer", nullable: false),
                     OrderedProduct_ProductName = table.Column<string>(type: "text", nullable: false),
@@ -327,7 +298,8 @@ namespace Ecommerce.DbMigration.Postgre
                         name: "FK_CustomerOrderItems_CustomerOrders_CustomerOrderId",
                         column: x => x.CustomerOrderId,
                         principalTable: "CustomerOrders",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -351,14 +323,9 @@ namespace Ecommerce.DbMigration.Postgre
                 column: "CustomerOrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CustomerOrders_BillingAddressId",
+                name: "IX_CustomerOrders_CustomerId",
                 table: "CustomerOrders",
-                column: "BillingAddressId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CustomerOrders_ShippingAddressId",
-                table: "CustomerOrders",
-                column: "ShippingAddressId");
+                column: "CustomerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CustomerOrders_ShippingMethodId",
@@ -435,16 +402,10 @@ namespace Ecommerce.DbMigration.Postgre
                 name: "Roles");
 
             migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "BillingAddresses");
-
-            migrationBuilder.DropTable(
-                name: "ShippingAddresses");
-
-            migrationBuilder.DropTable(
                 name: "ShippingMethods");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

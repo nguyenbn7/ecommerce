@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce.DbMigration.Postgre
 {
     [DbContext(typeof(PostgreDbContext))]
-    [Migration("20240321165745_InitialCreate")]
+    [Migration("20240326152939_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -147,43 +147,6 @@ namespace Ecommerce.DbMigration.Postgre
                     b.ToTable("UserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Ecommerce.Orders.Entities.BillingAddress", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("State")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ZipCode")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("BillingAddresses");
-                });
-
             modelBuilder.Entity("Ecommerce.Orders.Entities.CustomerOrder", b =>
                 {
                     b.Property<int>("Id")
@@ -192,11 +155,7 @@ namespace Ecommerce.DbMigration.Postgre
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("BillingAddressId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("BuyerEmail")
-                        .IsRequired()
+                    b.Property<string>("CustomerId")
                         .HasColumnType("text");
 
                     b.Property<DateTime>("OrderDate")
@@ -206,12 +165,6 @@ namespace Ecommerce.DbMigration.Postgre
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("PaymentIntentId")
-                        .HasColumnType("text");
-
-                    b.Property<int>("ShippingAddressId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("ShippingMethodId")
                         .HasColumnType("integer");
 
@@ -220,9 +173,7 @@ namespace Ecommerce.DbMigration.Postgre
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BillingAddressId");
-
-                    b.HasIndex("ShippingAddressId");
+                    b.HasIndex("CustomerId");
 
                     b.HasIndex("ShippingMethodId");
 
@@ -241,7 +192,7 @@ namespace Ecommerce.DbMigration.Postgre
                         .HasColumnType("integer");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("numeric");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
@@ -251,43 +202,6 @@ namespace Ecommerce.DbMigration.Postgre
                     b.HasIndex("CustomerOrderId");
 
                     b.ToTable("CustomerOrderItems");
-                });
-
-            modelBuilder.Entity("Ecommerce.Orders.Entities.ShippingAddress", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("State")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ZipCode")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ShippingAddresses");
                 });
 
             modelBuilder.Entity("Ecommerce.Orders.Entities.ShippingMethod", b =>
@@ -306,7 +220,11 @@ namespace Ecommerce.DbMigration.Postgre
                         .HasColumnType("text");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("numeric");
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<string>("ShortName")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -334,7 +252,7 @@ namespace Ecommerce.DbMigration.Postgre
                         .HasColumnType("text");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("numeric");
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<int>("ProductBrandId")
                         .HasColumnType("integer");
@@ -497,17 +415,9 @@ namespace Ecommerce.DbMigration.Postgre
 
             modelBuilder.Entity("Ecommerce.Orders.Entities.CustomerOrder", b =>
                 {
-                    b.HasOne("Ecommerce.Orders.Entities.BillingAddress", "BillingAddress")
+                    b.HasOne("Ecommerce.Auth.Entities.AppUser", "Customer")
                         .WithMany()
-                        .HasForeignKey("BillingAddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Ecommerce.Orders.Entities.ShippingAddress", "ShippingAddress")
-                        .WithMany()
-                        .HasForeignKey("ShippingAddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CustomerId");
 
                     b.HasOne("Ecommerce.Orders.Entities.ShippingMethod", "ShippingMethod")
                         .WithMany()
@@ -515,9 +425,99 @@ namespace Ecommerce.DbMigration.Postgre
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("BillingAddress");
+                    b.OwnsOne("Ecommerce.Orders.Entities.OrderAddress", "BillingAddress", b1 =>
+                        {
+                            b1.Property<int>("CustomerOrderId")
+                                .HasColumnType("integer");
 
-                    b.Navigation("ShippingAddress");
+                            b1.Property<string>("Address")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("Address2")
+                                .HasColumnType("text");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("Country")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("Email")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("FullName")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("State")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("ZipCode")
+                                .HasColumnType("text");
+
+                            b1.HasKey("CustomerOrderId");
+
+                            b1.ToTable("CustomerOrders");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CustomerOrderId");
+                        });
+
+                    b.OwnsOne("Ecommerce.Orders.Entities.OrderAddress", "ShippingAddress", b1 =>
+                        {
+                            b1.Property<int>("CustomerOrderId")
+                                .HasColumnType("integer");
+
+                            b1.Property<string>("Address")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("Address2")
+                                .HasColumnType("text");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("Country")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("Email")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("FullName")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("State")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("ZipCode")
+                                .HasColumnType("text");
+
+                            b1.HasKey("CustomerOrderId");
+
+                            b1.ToTable("CustomerOrders");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CustomerOrderId");
+                        });
+
+                    b.Navigation("BillingAddress")
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("ShippingAddress")
+                        .IsRequired();
 
                     b.Navigation("ShippingMethod");
                 });
@@ -526,7 +526,8 @@ namespace Ecommerce.DbMigration.Postgre
                 {
                     b.HasOne("Ecommerce.Orders.Entities.CustomerOrder", null)
                         .WithMany("CustomerOrderItems")
-                        .HasForeignKey("CustomerOrderId");
+                        .HasForeignKey("CustomerOrderId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.OwnsOne("Ecommerce.Orders.Entities.OrderedProduct", "OrderedProduct", b1 =>
                         {
