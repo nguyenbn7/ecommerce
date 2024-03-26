@@ -18,7 +18,7 @@ public static class ApplicationCors
             {
                 opt.AddDefaultPolicy(policy =>
                 {
-                    var origins = configuration.GetValue<string[]>("ORIGINS") ?? throw new Exception("ORIGINS can not be null");
+                    var origins = configuration.GetSection("ORIGINS").Get<string[]>() ?? throw new Exception("ORIGINS can not be null");
 
                     policy.WithOrigins(origins)
                         .AllowAnyMethod()
