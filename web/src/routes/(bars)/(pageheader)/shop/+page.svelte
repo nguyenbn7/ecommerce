@@ -123,8 +123,7 @@
 						placeholder="Search by product name"
 						aria-describedby="button-addon2"
 						bind:value={pageData.searchTerm}
-						on:keyup={onPressEnter}
-					/>
+						on:keyup={onPressEnter} />
 					<button class="btn btn-outline-secondary" type="button" on:click={search}>
 						<i class="fa-solid fa-magnifying-glass"></i>
 					</button>
@@ -146,8 +145,7 @@
 							href={'javascript:;'}
 							class="list-group-item"
 							on:click={() => onBrandIdSelected(brand.id)}
-							class:active={brand.id === shopParams.brandId}
-						>
+							class:active={brand.id === shopParams.brandId}>
 							{brand.name}
 						</a>
 					{/each}
@@ -161,8 +159,7 @@
 							href={'javascript:;'}
 							class="list-group-item"
 							on:click={() => onTypeIdSelected(type.id)}
-							class:active={type.id === shopParams.typeId}
-						>
+							class:active={type.id === shopParams.typeId}>
 							{type.name}
 						</a>
 					{/each}
@@ -174,14 +171,12 @@
 				<PaginationHeader
 					pageNumber={shopParams.pageNumber}
 					totalItems={pageData.totalItems}
-					pageSize={shopParams.pageSize}
-				/>
+					pageSize={shopParams.pageSize} />
 			</div>
 
 			<div
 				class="row row-cols-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-3 g-3 mb-4"
-				style="min-height: 80%;"
-			>
+				style="min-height: 80%;">
 				{#await getNewPageProduct(shopParams)}
 					<div class="d-flex align-items-center flex-fill">
 						<SectionLoader class="text-center flex-fill" />
@@ -205,8 +200,7 @@
 					nextText="&rsaquo;"
 					firstText="&laquo;"
 					lastText="&raquo;"
-					on:pageChanged={pageChanged}
-				/>
+					on:pageChanged={pageChanged} />
 			</div>
 		</div>
 	</div>

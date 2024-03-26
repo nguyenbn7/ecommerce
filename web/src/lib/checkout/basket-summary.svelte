@@ -27,8 +27,7 @@
 							<div class="col-3 p-1 position-relative">
 								<img src={item.pictureUrl} class="img-thumbnail" alt={item.productName} />
 								<span
-									class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary"
-								>
+									class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">
 									{item.quantity}
 								</span>
 							</div>

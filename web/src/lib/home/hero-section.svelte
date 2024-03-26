@@ -37,8 +37,7 @@
 				data-bs-slide-to={idx}
 				class:active={idx === 0}
 				aria-current="true"
-				aria-label={hero.image}
-			></button>
+				aria-label={hero.image}></button>
 		{/each}
 	</div>
 	<div class="carousel-inner">
@@ -47,11 +46,9 @@
 				<img
 					src={heroImagesModules[`${heroImagesPath}/${hero.image}`] + ''}
 					class="m-0 min-vw-100 min-vh-100 hero-img"
-					alt="slide"
-				/>
+					alt="slide" />
 				<div
-					class="carousel-caption h-100 d-flex justify-content-center align-items-center hero-text"
-				>
+					class="carousel-caption h-100 d-flex justify-content-center align-items-center hero-text">
 					<div>
 						<p class="subtitle animated animate__animated animate__fadeInUp">
 							{hero.subtitle}
@@ -60,8 +57,7 @@
 							{hero.heading}
 						</h1>
 						<div
-							class="hero-btns animated animate__animated animate__fadeInUp animation-duration-500ms"
-						>
+							class="hero-btns animated animate__animated animate__fadeInUp animation-duration-500ms">
 							<a href="/shop" class="btn btn-warning boxed-btn">Visit Shop</a>
 							<a href="/contact" class="btn btn-outline-warning bordered-btn">Contact Us</a>
 						</div>

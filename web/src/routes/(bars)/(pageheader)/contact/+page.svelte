@@ -38,8 +38,7 @@
 		style="border:0; min-height: 450px;"
 		loading="lazy"
 		referrerpolicy="no-referrer-when-downgrade"
-		title="199 Heffernan Avenue, Texas, 77218, United States"
-	></iframe>
+		title="199 Heffernan Avenue, Texas, 77218, United States"></iframe>
 </div>
 
 <div class="container my-5">
@@ -70,13 +69,12 @@
 					class="form-control"
 					placeholder="Leave a comment here"
 					id="message"
-					style="height: 200px;"
-				></textarea>
+					style="height: 200px;"></textarea>
 				<label for="message">Message</label>
 			</div>
 			<div class="my-3 d-grid">
-                <button class="btn btn-outline-primary rounded-4 fw-semibold fs-4 py-2">Send</button>
-            </div>
+				<button class="btn btn-outline-primary rounded-4 fw-semibold fs-4 py-2">Send</button>
+			</div>
 		</form>
 	</div>
 </div>

@@ -80,8 +80,7 @@
 					<button
 						class="p-0 m-0 me-2 border-0 quantity-btn"
 						on:click={decreaseQuantity}
-						disabled={quantity < 1}
-					>
+						disabled={quantity < 1}>
 						<i class="fa-solid fa-circle-minus"></i>
 					</button>
 					<span class="fw-semibold" style="font-size: 1.5em;">{quantity}</span>
@@ -91,8 +90,7 @@
 					<button
 						class="btn btn-danger ms-4"
 						on:click={updateBasket}
-						disabled={quantity === quantityInBasket}
-					>
+						disabled={quantity === quantityInBasket}>
 						{quantityInBasket === 0 ? 'Add to basket' : 'Update basket'}
 					</button>
 				</div>

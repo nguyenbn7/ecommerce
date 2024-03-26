@@ -51,8 +51,7 @@
 	<p class="small mb-3 text-center">
 		Already have an account? <a
 			href="/account/login{$page.url.search}"
-			class="text-decoration-none"
-		>
+			class="text-decoration-none">
 			Log in
 		</a>
 	</p>
@@ -69,8 +68,7 @@
 			class="btn btn-outline-info rounded-4"
 			type="submit"
 			disabled={isSubmitting}
-			on:click={() => login('customer')}
-		>
+			on:click={() => login('customer')}>
 			Demo Customer
 			{#if isSubmitting && accountSubmitting === 'customer'}
 				<ButtonLoader />
@@ -80,8 +78,7 @@
 			class="btn btn-outline-info rounded-4"
 			type="submit"
 			disabled={isSubmitting}
-			on:click={() => login('customer1')}
-		>
+			on:click={() => login('customer1')}>
 			Demo Customer1
 			{#if isSubmitting && accountSubmitting === 'customer1'}
 				<ButtonLoader />

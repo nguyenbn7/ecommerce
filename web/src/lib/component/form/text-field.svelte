@@ -38,8 +38,7 @@
 		bind:value={reactiveFormField.value}
 		{placeholder}
 		{disabled}
-		{...$$restProps}
-	/>
+		{...$$restProps} />
 	<slot name="label" />
 {:else}
 	<slot name="label" />
@@ -52,8 +51,7 @@
 		bind:this={reactiveFormField.instance}
 		bind:value={reactiveFormField.value}
 		{placeholder}
-		{...$$restProps}
-	/>
+		{...$$restProps} />
 {/if}
 
 {#if validationFeedback}

@@ -1,4 +1,5 @@
 <script>
+	import NotFoundImageUrl from '$lib/assets/images/404.jpg';
 	import { page } from '$app/stores';
 	import Footer from '$lib/component/footer.svelte';
 	import Navbar from '$lib/component/navbar.svelte';
@@ -6,7 +7,7 @@
 </script>
 
 <svelte:head>
-	<title>{APP_NAME} | Page not found</title>
+	<title>{APP_NAME} | {$page.status}</title>
 </svelte:head>
 
 <div class="fixed-top">
@@ -15,22 +16,19 @@
 <div class="container-fluid pb-2 pb-5 page-title">
 	<div
 		class="d-flex flex-column align-items-center justify-content-center"
-		style="min-height: 300px"
-	>
-		<h2 class="fw-semibold text-uppercase mb-3 text-white">Page not found</h2>
+		style="min-height: 300px">
+		<h2 class="fw-semibold text-uppercase mb-3 text-white">
+			{$page.status} - {$page.error?.message}
+		</h2>
 	</div>
 </div>
 
 <main class="flex-grow-1 mb-4 mt-5">
 	<div class="container px-5 text-center py-5">
-		<div class="my-5 py-5">
-			<i class="fa-solid fa-triangle-exclamation text-warning display-1"></i>
-			<h1 class="display-1 text-secondary fw-bold">{$page.status}</h1>
-			<h1 class="mb-4 fw-semibold">{$page.error?.message}</h1>
-			<p class="mb-4 h5">
-				We're sorry, the page you have looked for does not exist in our website! Maybe go to our
-				home page or try to use a search?
-			</p>
+		<div class="my-3 py-5">
+			<img src={NotFoundImageUrl} alt="{$page.status} - {$page.error?.message}" />
+		</div>
+		<div class="mb-3">
 			<a class="btn btn-outline-info rounded-pill py-3 px-5 me-3" href="/">Go Back To Home</a>
 		</div>
 	</div>
@@ -40,8 +38,8 @@
 <style lang="scss">
 	.page-title {
 		padding-top: 5.3rem !important;
-		background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(255, 255, 255, 0.7)),
-			url('/page-header.webp');
+		background-image: linear-gradient(rgba(0, 0, 0, 0.45), rgba(255, 255, 255, 0.7)),
+			url($lib/assets/images/page-header.webp);
 		background-repeat: no-repeat;
 		background-attachment: fixed;
 		background-position: 20% 40%;

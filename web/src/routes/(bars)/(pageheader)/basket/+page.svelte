@@ -46,8 +46,7 @@
 												src={item.pictureUrl}
 												alt={item.productName}
 												class="img-fluid"
-												style="max-height: 50px;"
-											/>
+												style="max-height: 50px;" />
 										</div>
 										<div class="ms-3 d-inline-block align-middle">
 											<h5 class="mb-0">
@@ -66,15 +65,13 @@
 											<button
 												class="p-0 m-0 me-2 border-0 quantity-btn"
 												on:click={() => removeItemFromBasket(item.id, 1)}
-												disabled={item.quantity < 1}
-											>
+												disabled={item.quantity < 1}>
 												<i class="fa-solid fa-circle-minus"></i>
 											</button>
 											<strong class="fw-semibold" style="font-size: 1.5em;">{item.quantity}</strong>
 											<button
 												class="p-0 m-0 ms-2 border-0 quantity-btn"
-												on:click={() => addItemToBasket(item, 1)}
-											>
+												on:click={() => addItemToBasket(item, 1)}>
 												<i class="fa-solid fa-circle-plus"></i>
 											</button>
 										</div>
@@ -86,8 +83,7 @@
 										<a
 											class="text-danger"
 											href={'javascript:;'}
-											on:click={() => removeItemFromBasket(item.id, item.quantity)}
-										>
+											on:click={() => removeItemFromBasket(item.id, item.quantity)}>
 											<i class="fa-solid fa-x remove-btn"></i>
 										</a>
 									</td>
@@ -110,8 +106,7 @@
 				class="btn py-2"
 				class:btn-outline-primary={!$basket || ($basket && !$basket.items.length)}
 				class:disabled={!$basket || ($basket && !$basket.items.length)}
-				class:btn-primary={$basket && $basket.items.length}
-			>
+				class:btn-primary={$basket && $basket.items.length}>
 				Proceed to checkout
 			</a>
 		</div>

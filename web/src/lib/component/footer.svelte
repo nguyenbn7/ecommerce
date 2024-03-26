@@ -13,8 +13,7 @@
 						<li class="nav-item mb-2">
 							<a
 								href="http://maps.google.com/?q=199 Avenue S, Lubbock, TX 79415, USA"
-								class="nav-link p-0 text-body-secondary"
-							>
+								class="nav-link p-0 text-body-secondary">
 								<i class="fa-solid fa-location-dot me-1"></i> 199 Avenue S, Lubbock, Texas 79415, USA
 							</a>
 						</li>
@@ -35,46 +34,41 @@
 				<div class="col-md-8">
 					<div class="row">
 						<div class="col-3 col-md-2 mb-3">
-							<h5>About {APP_NAME}</h5>
+							<h5>Useful Pages</h5>
 							<ul class="nav flex-column">
 								<li class="nav-item mb-2">
 									<a
 										href="/about"
-										class="link-underline-secondary link-underline-opacity-0 link-underline-opacity-75-hover p-0 text-secondary"
-									>
+										class="link-underline-secondary link-underline-opacity-0 link-underline-opacity-75-hover p-0 text-secondary">
 										Story
 									</a>
 								</li>
 								<li class="nav-item mb-2">
 									<a
 										href="/shop"
-										class="link-underline-secondary link-underline-opacity-0 link-underline-opacity-75-hover p-0 text-secondary"
-									>
+										class="link-underline-secondary link-underline-opacity-0 link-underline-opacity-75-hover p-0 text-secondary">
 										Shop
 									</a>
 								</li>
 								<li class="nav-item mb-2">
 									<a
 										href="/blog"
-										class="link-underline-secondary link-underline-opacity-0 link-underline-opacity-75-hover p-0 text-secondary"
-									>
+										class="link-underline-secondary link-underline-opacity-0 link-underline-opacity-75-hover p-0 text-secondary">
 										Blog
 									</a>
 								</li>
 								<li class="nav-item mb-2">
 									<a
 										href="/careers"
-										class="link-underline-secondary link-underline-opacity-0 link-underline-opacity-75-hover p-0 text-secondary"
-									>
+										class="link-underline-secondary link-underline-opacity-0 link-underline-opacity-75-hover p-0 text-secondary">
 										Careers
 									</a>
 								</li>
 								<li class="nav-item mb-2">
 									<a
-										href="/checkout"
-										class="link-underline-secondary link-underline-opacity-0 link-underline-opacity-75-hover p-0 text-secondary"
-									>
-										Checkout
+										href="/basket"
+										class="link-underline-secondary link-underline-opacity-0 link-underline-opacity-75-hover p-0 text-secondary">
+										Basket
 									</a>
 								</li>
 							</ul>
@@ -86,40 +80,35 @@
 								<li class="nav-item mb-2">
 									<a
 										href="/contact"
-										class="link-underline-secondary link-underline-opacity-0 link-underline-opacity-75-hover p-0 text-secondary"
-									>
+										class="link-underline-secondary link-underline-opacity-0 link-underline-opacity-75-hover p-0 text-secondary">
 										Contact Us
 									</a>
 								</li>
 								<li class="nav-item mb-2">
 									<a
 										href="/faq"
-										class="link-underline-secondary link-underline-opacity-0 link-underline-opacity-75-hover p-0 text-secondary"
-									>
+										class="link-underline-secondary link-underline-opacity-0 link-underline-opacity-75-hover p-0 text-secondary">
 										Shipping & Returns
 									</a>
 								</li>
 								<li class="nav-item mb-2">
 									<a
 										href={'#'}
-										class="link-underline-secondary link-underline-opacity-0 link-underline-opacity-75-hover p-0 text-secondary"
-									>
+										class="link-underline-secondary link-underline-opacity-0 link-underline-opacity-75-hover p-0 text-secondary">
 										Tracking Order
 									</a>
 								</li>
 								<li class="nav-item mb-2">
 									<a
 										href={'#'}
-										class="link-underline-secondary link-underline-opacity-0 link-underline-opacity-75-hover p-0 text-secondary"
-									>
+										class="link-underline-secondary link-underline-opacity-0 link-underline-opacity-75-hover p-0 text-secondary">
 										Frequently Asked Questions
 									</a>
 								</li>
 								<li class="nav-item mb-2">
 									<a
 										href={'#'}
-										class="link-underline-secondary link-underline-opacity-0 link-underline-opacity-75-hover p-0 text-secondary"
-									>
+										class="link-underline-secondary link-underline-opacity-0 link-underline-opacity-75-hover p-0 text-secondary">
 										Privacy Policy
 									</a>
 								</li>
@@ -136,8 +125,7 @@
 										id="newsletter1"
 										type="text"
 										class="form-control"
-										placeholder="Email address"
-									/>
+										placeholder="Email address" />
 									<button class="btn btn-primary" type="button">Subscribe</button>
 								</div>
 							</form>

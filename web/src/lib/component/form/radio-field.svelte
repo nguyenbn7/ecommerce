@@ -25,8 +25,7 @@
 		bind:this={reactiveFormField.instance}
 		bind:group={reactiveFormField.value}
 		{value}
-		{disabled}
-	/>
+		{disabled} />
 	<slot name="label" />
 {:else}
 	<slot name="label" />
@@ -38,6 +37,5 @@
 		bind:this={reactiveFormField.instance}
 		bind:group={reactiveFormField.value}
 		{value}
-		{disabled}
-	/>
+		{disabled} />
 {/if}

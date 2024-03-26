@@ -92,8 +92,7 @@
 		class:bg-danger={type === 'DANGER'}
 		class:bg-success={type === 'SUCCESS'}
 		class:bg-warning={type === 'WARNING'}
-		class:bg-info={type === 'INFO'}
-	>
+		class:bg-info={type === 'INFO'}>
 		<div class="col-3 d-flex align-items-center justify-content-center">
 			<i class={`${getToastIconClass(type)} toast-icon fw-medium`}></i>
 		</div>

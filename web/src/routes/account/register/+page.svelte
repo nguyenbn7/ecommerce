@@ -57,8 +57,7 @@
 				placeholder="John Doe"
 				validationFeedback={true}
 				bind:reactiveFormField={registerForm.fullName}
-				bind:disabled
-			>
+				bind:disabled>
 				<svelte:fragment slot="label">
 					<label for="fullName">Full Name</label>
 				</svelte:fragment>
@@ -76,8 +75,7 @@
 				placeholder="John"
 				validationFeedback={true}
 				bind:reactiveFormField={registerForm.displayName}
-				bind:disabled
-			>
+				bind:disabled>
 				<svelte:fragment slot="label">
 					<label for="displayName">Full Name</label>
 				</svelte:fragment>
@@ -95,8 +93,7 @@
 				placeholder="john.doe@example.com"
 				validationFeedback={true}
 				bind:reactiveFormField={registerForm.email}
-				bind:disabled
-			>
+				bind:disabled>
 				<svelte:fragment slot="label">
 					<label for="email">Email</label>
 				</svelte:fragment>
@@ -114,8 +111,7 @@
 				placeholder="*********"
 				validationFeedback={true}
 				bind:reactiveFormField={registerForm.password}
-				{disabled}
-			>
+				{disabled}>
 				<svelte:fragment slot="label">
 					<label for="password">Password</label>
 				</svelte:fragment>
@@ -133,8 +129,7 @@
 				placeholder="*********"
 				validationFeedback={true}
 				bind:reactiveFormField={registerForm.confirmPassword}
-				{disabled}
-			>
+				{disabled}>
 				<svelte:fragment slot="label">
 					<label for="confirmPassword">Confirm Password</label>
 				</svelte:fragment>
@@ -151,8 +146,7 @@
 				type="checkbox"
 				bind:this={registerForm.agree.instance}
 				bind:checked={registerForm.agree.value}
-				id="acceptTerms"
-			/>
+				id="acceptTerms" />
 			<label class="form-check-label" for="acceptTerms">
 				I agree and accept the <a href={'javascript:;'} class="text-decoration-none">
 					terms and conditions
@@ -162,8 +156,7 @@
 			{#if !registerForm.agree.valid}
 				<input
 					type="hidden"
-					class:is-invalid={registerForm.agree.touched && !registerForm.agree.valid}
-				/>
+					class:is-invalid={registerForm.agree.touched && !registerForm.agree.valid} />
 				<div class="invalid-feedback">You must agree before submitting.</div>
 			{/if}
 		</div>
@@ -173,8 +166,7 @@
 		<button
 			class="btn btn-info w-100 py-2 mt-2 mb-3 rounded-4"
 			type="submit"
-			disabled={!$registerForm.valid || disabled}
-		>
+			disabled={!$registerForm.valid || disabled}>
 			Create Account
 			{#if disabled}
 				<ButtonLoader />
@@ -185,8 +177,7 @@
 		<p class="small mb-3 text-center">
 			Already have an account? <a
 				href="/account/login{$page.url.search}"
-				class="text-decoration-none"
-			>
+				class="text-decoration-none">
 				Log in
 			</a>
 		</p>

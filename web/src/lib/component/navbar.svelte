@@ -32,7 +32,7 @@
 
 <svelte:window bind:scrollY={y} />
 
-<nav class="navbar navbar-expand-md py-3" class:bg-primary={y >= 56}>
+<nav class="navbar navbar-expand-md py-3" class:bg-primary={y >= 56} class:navbar-shadow={y >= 56}>
 	<div class="container">
 		<div class="col-3">
 			<a class="navbar-brand" href="/">
@@ -46,8 +46,7 @@
 			data-bs-target="#linkNavbar"
 			aria-controls="linkNavbar"
 			aria-expanded="false"
-			aria-label="Toggle navigation"
-		>
+			aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="linkNavbar">
@@ -58,8 +57,7 @@
 							href={path.link}
 							class="nav-link text-white fw-medium"
 							class:active-link={$page.url.pathname === path.link ||
-								$page.url.pathname === path.link + '/'}
-						>
+								$page.url.pathname === path.link + '/'}>
 							{path.name}
 						</a>
 					</li>
@@ -77,8 +75,7 @@
 					class:text-secondary={!$basket || !$basket.items.length}
 					class:text-info={$basket && $basket.items.length}
 					href="/basket"
-					title="Basket"
-				>
+					title="Basket">
 					<i class="fa-solid fa-basket-shopping"></i>
 					{#if $basket && $basket.items.length}
 						<span class="position-absolute translate-middle bg-danger badge rounded-pill">
@@ -94,8 +91,7 @@
 						data-bs-toggle="dropdown"
 						aria-expanded="false"
 						href={'#'}
-						title="Profile"
-					>
+						title="Profile">
 						<i class="fa-regular fa-circle-user fs-4"></i>
 					</a>
 					<ul class="dropdown-menu dropdown-menu-end me-5">
@@ -132,9 +128,16 @@
 		transition: all 0.5s;
 	}
 	.active-link {
-		color: var(--bs-warning) !important;
+		color: var(--bs-orange) !important;
+		font-weight: bolder !important;
 		pointer-events: none;
 		cursor: default;
+	}
+
+	.navbar-shadow {
+		box-shadow:
+			rgba(0, 0, 0, 0.25) 0px 14px 28px,
+			rgba(0, 0, 0, 0.22) 0px 10px 10px;
 	}
 
 	.logo {

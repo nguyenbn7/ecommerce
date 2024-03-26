@@ -9,15 +9,13 @@
 			<div class="container">
 				<div class="row justify-content-center">
 					<div
-						class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center"
-					>
+						class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 						<div class="card mb-3 shadow rounded-3">
 							<div class="d-flex justify-content-center pt-4">
 								<a
 									href="/"
 									data-sveltekit-reload
-									class="logo d-flex align-items-center w-auto text-decoration-none"
-								>
+									class="logo d-flex align-items-center w-auto text-decoration-none">
 									<img src={logo} alt={APP_NAME} />
 								</a>
 							</div>

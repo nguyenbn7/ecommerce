@@ -55,8 +55,7 @@
 		name="fullName"
 		placeholder="John Doe"
 		validationFeedback={true}
-		bind:reactiveFormField={addressForm.fullName}
-	>
+		bind:reactiveFormField={addressForm.fullName}>
 		<svelte:fragment slot="label">
 			<label for="fullName">Full Name</label>
 		</svelte:fragment>
@@ -83,8 +82,7 @@
 		placeholder="johndoe@gmail.com"
 		validationFeedback={true}
 		bind:reactiveFormField={addressForm.email}
-		bind:disabled
-	>
+		bind:disabled>
 		<svelte:fragment slot="label">
 			<label for="email">Email</label>
 		</svelte:fragment>
@@ -98,8 +96,7 @@
 		placeholder="1234 Main St"
 		validationFeedback={true}
 		bind:reactiveFormField={addressForm.address}
-		bind:disabled
-	>
+		bind:disabled>
 		<svelte:fragment slot="label">
 			<label for="address">Address</label>
 		</svelte:fragment>
@@ -113,8 +110,7 @@
 		placeholder="Apartment or suite"
 		validationFeedback={true}
 		bind:reactiveFormField={addressForm.address2}
-		bind:disabled
-	>
+		bind:disabled>
 		<svelte:fragment slot="label">
 			<label for="address2">
 				Address 2 <span class="text-body-secondary">(Optional)</span>
@@ -134,8 +130,7 @@
 			addressForm.state.value = null;
 			addressForm.city.value = null;
 			addressForm.zipCode.value = null;
-		}}
-	>
+		}}>
 		{#each getCountries() as country}
 			<option value={country}>{country}</option>
 		{/each}
@@ -148,8 +143,7 @@
 		class="form-select"
 		id="state"
 		bind:value={addressForm.state.value}
-		bind:this={addressForm.state.instance}
-	>
+		bind:this={addressForm.state.instance}>
 		{#each getCountryStates(addressForm.country.value) as state}
 			<option value={state}>{state}</option>
 		{/each}
@@ -162,8 +156,7 @@
 		class="form-select"
 		id="city"
 		bind:value={addressForm.city.value}
-		bind:this={addressForm.city.instance}
-	>
+		bind:this={addressForm.city.instance}>
 		{#each getCities(addressForm.state.value) as city}
 			<option value={city}>{city}</option>
 		{/each}
@@ -177,6 +170,5 @@
 		class="form-control"
 		id="zip"
 		bind:value={addressForm.zipCode.value}
-		bind:this={addressForm.zipCode.instance}
-	/>
+		bind:this={addressForm.zipCode.instance} />
 </div>

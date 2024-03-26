@@ -27,8 +27,7 @@
 		href={'javascript:;'}
 		class="btn btn-info back-to-top"
 		transition:fade={{ duration: 400 }}
-		on:click={scrollToTop}
-	>
+		on:click={scrollToTop}>
 		<i class="fa-solid fa-angles-up"></i>
 	</a>
 {/if}

@@ -66,8 +66,7 @@
 					class="page-link"
 					href={'javascript:;'}
 					aria-label="First"
-					on:click={() => onClickPage(1)}
-				>
+					on:click={() => onClickPage(1)}>
 					<span aria-hidden="true">{firstText}</span>
 				</a>
 			</li>
@@ -79,8 +78,7 @@
 				href={'javascript:;'}
 				aria-label="Previous"
 				on:click={() => onClickPage(pageNumber - 1)}
-				title="Previous"
-			>
+				title="Previous">
 				<span aria-hidden="true">{previousText}</span>
 			</a>
 		</li>
@@ -98,8 +96,7 @@
 				class="page-link"
 				href={'javascript:;'}
 				aria-label="Next"
-				on:click={() => onClickPage(pageNumber + 1)}
-			>
+				on:click={() => onClickPage(pageNumber + 1)}>
 				<span aria-hidden="true">{nextText}</span>
 			</a>
 		</li>
@@ -110,8 +107,7 @@
 					class="page-link"
 					href={'javascript:;'}
 					aria-label="Last"
-					on:click={() => onClickPage(lastPage)}
-				>
+					on:click={() => onClickPage(lastPage)}>
 					<span aria-hidden="true">{lastText}</span>
 				</a>
 			</li>

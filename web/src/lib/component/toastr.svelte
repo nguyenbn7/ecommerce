@@ -82,8 +82,7 @@
 	class:top-0={top}
 	class:bottom-0={!top}
 	class:end-0={right}
-	class:start-0={!right}
->
+	class:start-0={!right}>
 	{#each $toastsStore as toast}
 		<svelte:component this={toastComponent} message={toast.message} type={toast.type} />
 	{/each}

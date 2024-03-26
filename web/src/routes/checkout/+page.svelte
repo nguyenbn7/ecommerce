@@ -83,8 +83,7 @@
 					<form
 						on:submit|preventDefault={onSubmitForm}
 						action="POST"
-						bind:this={orderForm.instance}
-					>
+						bind:this={orderForm.instance}>
 						<div class="card">
 							<div class="card-header">
 								<h4 class="mb-0">Billing address</h4>
@@ -99,8 +98,7 @@
 											class="form-check-input"
 											id="same-address"
 											bind:checked={hasSameAddress}
-											{disabled}
-										/>
+											{disabled} />
 										<label class="form-check-label" for="same-address">
 											Shipping address is the same as my billing address
 										</label>
@@ -134,8 +132,7 @@
 												class="form-check-input"
 												value={method.id}
 												bind:reactiveFormField={orderForm.deliveryMethodId}
-												bind:disabled
-											>
+												bind:disabled>
 												<svelte:fragment slot="label">
 													<label class="form-check-label" for={method.shortName}>
 														{method.shortName} - {currency(method.price)} ({method.deliveryTime})
@@ -160,8 +157,7 @@
 												class="form-check-input"
 												value={type}
 												reactiveFormField={new ReactiveFormField()}
-												bind:disabled
-											>
+												bind:disabled>
 												<svelte:fragment slot="label">
 													<label class="form-check-label" for={type}>
 														{startCase(toLower(type.split('_').join(' ')))}
@@ -204,8 +200,7 @@
 						<button
 							class="w-100 btn btn-primary btn-lg"
 							type="submit"
-							disabled={!$orderForm.valid || !Boolean($basket) || disabled}
-						>
+							disabled={!$orderForm.valid || !Boolean($basket) || disabled}>
 							Continue to checkout
 							{#if disabled}
 								<ButtonLoader />

@@ -15,8 +15,7 @@
 			<button
 				class="btn btn-success me-2"
 				title="Add to basket"
-				on:click={() => addItemToBasket(product)}
-			>
+				on:click={() => addItemToBasket(product)}>
 				<i class="fa-solid fa-basket-shopping"></i>
 			</button>
 			<a class="btn btn-primary" href="/shop/{product.id}" title="Detail">

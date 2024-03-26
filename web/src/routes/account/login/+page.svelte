@@ -53,8 +53,7 @@
 				placeholder="john.doe@test.com"
 				validationFeedback={true}
 				bind:reactiveFormField={loginForm.email}
-				bind:disabled
-			>
+				bind:disabled>
 				<svelte:fragment slot="label">
 					<label for="email">Email</label>
 				</svelte:fragment>
@@ -72,8 +71,7 @@
 				placeholder="*********"
 				validationFeedback={true}
 				bind:reactiveFormField={loginForm.password}
-				{disabled}
-			>
+				{disabled}>
 				<svelte:fragment slot="label">
 					<label for="password">Password</label>
 				</svelte:fragment>
@@ -85,8 +83,7 @@
 		<button
 			class="btn btn-info w-100 py-2 mt-2 mb-3 rounded-4"
 			type="submit"
-			disabled={!$loginForm.valid || disabled}
-		>
+			disabled={!$loginForm.valid || disabled}>
 			Login
 			{#if disabled}
 				<ButtonLoader />
@@ -98,8 +95,7 @@
 		<p class="small mb-3 text-center">
 			Don't have account? <a
 				href="/account/register{$page.url.search}"
-				class="text-decoration-none"
-			>
+				class="text-decoration-none">
 				Create an account
 			</a>
 		</p>
