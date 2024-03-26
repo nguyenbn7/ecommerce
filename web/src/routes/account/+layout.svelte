@@ -47,7 +47,7 @@
 	}
 
 	.background-body {
-		background-image: url('/page-header.webp');
+		background-image: url($lib/assets/images/page-header.webp);
 		background-repeat: no-repeat;
 		background-attachment: fixed;
 		background-position: 50% 75%;
