@@ -61,7 +61,7 @@ namespace Ecommerce.DbMigration.Sqlite
                     ShortName = table.Column<string>(type: "TEXT", nullable: false),
                     DeliveryTime = table.Column<string>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
-                    Price = table.Column<decimal>(type: "TEXT", nullable: false)
+                    Price = table.Column<double>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -104,7 +104,7 @@ namespace Ecommerce.DbMigration.Sqlite
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: false),
-                    Price = table.Column<decimal>(type: "TEXT", nullable: false),
+                    Price = table.Column<double>(type: "REAL", nullable: false),
                     PictureUrl = table.Column<string>(type: "TEXT", nullable: false),
                     ProductTypeId = table.Column<int>(type: "INTEGER", nullable: false),
                     ProductBrandId = table.Column<int>(type: "INTEGER", nullable: false)
@@ -214,7 +214,7 @@ namespace Ecommerce.DbMigration.Sqlite
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    SubTotal = table.Column<decimal>(type: "TEXT", nullable: false),
+                    SubTotal = table.Column<double>(type: "REAL", nullable: false),
                     ShippingAddress_FullName = table.Column<string>(type: "TEXT", nullable: false),
                     ShippingAddress_Email = table.Column<string>(type: "TEXT", nullable: false),
                     ShippingAddress_Address = table.Column<string>(type: "TEXT", nullable: false),
@@ -283,7 +283,7 @@ namespace Ecommerce.DbMigration.Sqlite
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Price = table.Column<decimal>(type: "TEXT", nullable: false),
+                    Price = table.Column<double>(type: "REAL", nullable: false),
                     Quantity = table.Column<int>(type: "INTEGER", nullable: false),
                     OrderedProduct_ProductId = table.Column<int>(type: "INTEGER", nullable: false),
                     OrderedProduct_ProductName = table.Column<string>(type: "TEXT", nullable: false),

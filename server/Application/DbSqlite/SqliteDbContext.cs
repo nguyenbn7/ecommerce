@@ -14,4 +14,11 @@ public class SqliteDbContext(DbContextOptions<SqliteDbContext> options, IHostEnv
     {
         base.OnModelCreating(builder);
     }
+
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        base.ConfigureConventions(configurationBuilder);
+
+        configurationBuilder.Properties<decimal>().HaveConversion(typeof(DecimalToDouble));
+    }
 }

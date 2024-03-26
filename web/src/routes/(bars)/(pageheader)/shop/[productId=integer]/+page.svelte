@@ -27,8 +27,9 @@
 
 	onMount(async () => {
 		try {
-			product = await getProduct(Number($page.params.productId));
-			addAlias('productId', product.name);
+			const response = await getProduct(Number($page.params.productId));
+			product = response.data;
+			if (product) addAlias('productId', product.name);
 		} catch (error) {
 			showClientError(error);
 		} finally {

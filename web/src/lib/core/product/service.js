@@ -13,7 +13,8 @@ export async function getPageProduct(shopParams) {
 	params['pageSize'] = shopParams.pageSize;
 	if (shopParams.search) params['search'] = shopParams.search;
 
-	return getProducts(params);
+	const response = await getProducts(params);
+	return response.data;
 }
 
 /**

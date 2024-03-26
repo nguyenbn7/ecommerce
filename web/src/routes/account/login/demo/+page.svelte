@@ -1,7 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { PUBLIC_DEMO_CUSTOMER_PWD } from '$env/static/public';
+	import { PUBLIC_DEMO_CUSTOMER1_PWD, PUBLIC_DEMO_CUSTOMER_PWD } from '$env/static/public';
 	import ButtonLoader from '$lib/component/spinner/button-loader.svelte';
 	import { showSuccess } from '$lib/component/toastr.svelte';
 	import { loginAsCustomer } from '$lib/core/auth/service';
@@ -21,7 +21,8 @@
 
 		const demoCustomer = {
 			email: `demo.${accountName}@test.com`,
-			password: `${PUBLIC_DEMO_CUSTOMER_PWD}`
+			password:
+				accountName === 'customer' ? `${PUBLIC_DEMO_CUSTOMER_PWD}` : `${PUBLIC_DEMO_CUSTOMER1_PWD}`
 		};
 
 		const displayName = await loginAsCustomer(demoCustomer);

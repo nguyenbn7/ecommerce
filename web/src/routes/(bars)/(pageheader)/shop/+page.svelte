@@ -96,10 +96,10 @@
 			isLoadingPage = true;
 			loadingError = false;
 
-			const data = await Promise.all([getProductBrands(), getProductTypes()]);
+			const responses = await Promise.all([getProductBrands(), getProductTypes()]);
 
-			pageData.productBrands = [{ id: 0, name: 'All' }, ...data[0]];
-			pageData.productTypes = [{ id: 0, name: 'All' }, ...data[1]];
+			pageData.productBrands = [{ id: 0, name: 'All' }, ...responses[0].data];
+			pageData.productTypes = [{ id: 0, name: 'All' }, ...responses[1].data];
 		} catch (error) {
 			loadingError = true;
 			showClientError(error);

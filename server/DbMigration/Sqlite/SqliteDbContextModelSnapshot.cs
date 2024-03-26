@@ -158,8 +158,8 @@ namespace Ecommerce.DbMigration.Sqlite
                     b.Property<int>("ShippingMethodId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("SubTotal")
-                        .HasColumnType("TEXT");
+                    b.Property<double>("SubTotal")
+                        .HasColumnType("REAL");
 
                     b.HasKey("Id");
 
@@ -179,8 +179,8 @@ namespace Ecommerce.DbMigration.Sqlite
                     b.Property<int?>("CustomerOrderId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("TEXT");
+                    b.Property<double>("Price")
+                        .HasColumnType("REAL");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("INTEGER");
@@ -205,8 +205,8 @@ namespace Ecommerce.DbMigration.Sqlite
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("TEXT");
+                    b.Property<double>("Price")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("ShortName")
                         .IsRequired()
@@ -235,8 +235,8 @@ namespace Ecommerce.DbMigration.Sqlite
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("TEXT");
+                    b.Property<double>("Price")
+                        .HasColumnType("REAL");
 
                     b.Property<int>("ProductBrandId")
                         .HasColumnType("INTEGER");

@@ -27,6 +27,7 @@
 
 	onMount(async () => {
 		(await import('bootstrap/js/dist/dropdown')).default;
+		(await import('bootstrap/js/dist/collapse')).default;
 	});
 </script>
 
@@ -40,17 +41,21 @@
 			</a>
 		</div>
 		<button
-			class="navbar-toggler"
+			class="navbar-toggler border-white"
 			type="button"
 			data-bs-toggle="collapse"
-			data-bs-target="#linkNavbar"
-			aria-controls="linkNavbar"
+			data-bs-target="#appNavbar"
+			aria-controls="appNavbar"
 			aria-expanded="false"
 			aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
+			<span class="navbar-toggler-icon">
+				<i class="fa fa-bars" aria-hidden="true" style="color:#e6e6ff; font-size: 1.5em;"></i>
+			</span>
 		</button>
-		<div class="collapse navbar-collapse" id="linkNavbar">
-			<ul class="navbar-nav mx-md-auto mb-2 mb-lg-0">
+		<div class="collapse navbar-collapse" id="appNavbar">
+			<ul
+				class="navbar-nav mx-md-auto mb-2 mb-lg-0 navbar-nav-scroll"
+				style="--bs-scroll-height: 100px;">
 				{#each paths as path}
 					<li>
 						<a
@@ -64,59 +69,69 @@
 				{/each}
 			</ul>
 			<ul class="navbar-nav ms-md-auto mb-2 mb-lg-0">
-				<a href={'javascript:;'} class="nav-link text-white me-3">
-					<i class="fa-solid fa-magnifying-glass"></i>
-				</a>
-				<a class="nav-link text-white me-3" href="/favorites" title="Wish list">
-					<i class="fa-solid fa-heart"></i>
-				</a>
-				<a
-					class="nav-link text-white me-3"
-					class:text-secondary={!$basket || !$basket.items.length}
-					class:text-info={$basket && $basket.items.length}
-					href="/basket"
-					title="Basket">
-					<i class="fa-solid fa-basket-shopping"></i>
-					{#if $basket && $basket.items.length}
-						<span class="position-absolute translate-middle bg-danger badge rounded-pill">
-							{getCount($basket.items)}
-						</span>
-					{/if}
-				</a>
-				{#if !$userInfo}
-					<a href="/account/login" class="btn btn-outline-success text-white px-3 me-3"> Login </a>
-				{:else}
-					<a
-						class="nav-btn text-info me-3 d-flex align-items-center"
-						data-bs-toggle="dropdown"
-						aria-expanded="false"
-						href={'#'}
-						title="Profile">
-						<i class="fa-regular fa-circle-user fs-4"></i>
+				<li class="nav-item me-3">
+					<a href={'javascript:;'} class="nav-link text-white">
+						<i class="fa-solid fa-magnifying-glass"></i>
 					</a>
-					<ul class="dropdown-menu dropdown-menu-end me-5">
-						<li>
-							<h2 class="dropdown-header" title={$userInfo.displayName}>
-								{readMoreString($userInfo.displayName, 25)}
-							</h2>
-						</li>
-						<li>
-							<a class="dropdown-item" href="/order">
-								<i class="bi bi-card-checklist"></i> View Order
-							</a>
-						</li>
-						<li>
-							<a class="dropdown-item" href={'#'}>
-								<i class="bi bi-person-fill-gear"></i> View Profile
-							</a>
-						</li>
-						<li><hr class="dropdown-divider" /></li>
-						<li>
-							<a class="dropdown-item" href={'javascript:;'} on:click={logout}>
-								<i class="fa-solid fa-right-from-bracket"></i> Logout
-							</a>
-						</li>
-					</ul>
+				</li>
+				<li class="nav-item me-3">
+					<a class="nav-link text-white" href="/favorites" title="Wish list">
+						<i class="fa-solid fa-heart"></i>
+					</a>
+				</li>
+				<li class="nav-item me-3">
+					<a
+						class="nav-link text-white"
+						class:text-secondary={!$basket || !$basket.items.length}
+						class:text-info={$basket && $basket.items.length}
+						href="/basket"
+						title="Basket">
+						<i class="fa-solid fa-basket-shopping"></i>
+						{#if $basket && $basket.items.length}
+							<span class="position-absolute translate-middle bg-danger badge rounded-pill">
+								{getCount($basket.items)}
+							</span>
+						{/if}
+					</a>
+				</li>
+				{#if !$userInfo}
+					<li class="nav-item me-3">
+						<a href="/account/login" class="btn btn-outline-success text-white px-3"> Login </a>
+					</li>
+				{:else}
+					<li class="nav-item dropdown">
+						<a
+							class="btn btn-link nav-link text-info dropdown-toggle d-flex align-items-center"
+							data-bs-toggle="dropdown"
+							aria-expanded="false"
+							href={'javascript:;'}
+							title={$userInfo.displayName}>
+							<i class="fa-regular fa-circle-user fs-4"></i>
+						</a>
+						<ul class="dropdown-menu dropdown-menu-end position-absolute">
+							<li>
+								<h2 class="dropdown-header" title={$userInfo.displayName}>
+									{readMoreString($userInfo.displayName, 25)}
+								</h2>
+							</li>
+							<li>
+								<a class="dropdown-item" href="/order">
+									<i class="bi bi-card-checklist"></i> View Order
+								</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href={'#'}>
+									<i class="bi bi-person-fill-gear"></i> View Profile
+								</a>
+							</li>
+							<li><hr class="dropdown-divider" /></li>
+							<li>
+								<a class="dropdown-item" href={'javascript:;'} on:click={logout}>
+									<i class="fa-solid fa-right-from-bracket"></i> Logout
+								</a>
+							</li>
+						</ul>
+					</li>
 				{/if}
 			</ul>
 		</div>

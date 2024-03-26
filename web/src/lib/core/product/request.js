@@ -16,29 +16,21 @@ const delay = httpClient.interceptors.response.use(
 
 /**
  * @param {number} id
- * @returns {Promise<Product>}
  */
 export async function getProduct(id) {
 	return httpClient.get(`${id}`);
 }
 
-/**
- * @returns {Promise<ProductBrand[]>}
- */
 export async function getProductBrands() {
 	return httpClient.get('brands');
 }
 
-/**
- * @returns {Promise<ProductType[]>}
- */
 export async function getProductTypes() {
 	return httpClient.get('types');
 }
 
 /**
  * @param {ShopParams} queries
- * @returns {Promise<Page<Product>>}
  */
 export async function getProducts(queries) {
 	return httpClient.get('', { params: queries });

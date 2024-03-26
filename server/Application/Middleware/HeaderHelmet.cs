@@ -8,9 +8,9 @@ public class HeaderHelmet : IMiddleware
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
         context.Response.Headers[HeaderNames.ContentSecurityPolicy] = "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests";
-        context.Response.Headers["Cross-Origin-Opener-Policy"] = "same-origin";
-        context.Response.Headers["Cross-Origin-Resource-Policy"] = "same-origin";
-        context.Response.Headers["Cross-Origin-Resource-Policy"] = "same-origin";
+        context.Response.Headers["Cross-Origin-Opener-Policy"] = "cross-origin";
+        context.Response.Headers["Cross-Origin-Resource-Policy"] = "cross-origin";
+        context.Response.Headers["Cross-Origin-Resource-Policy"] = "cross-origin";
         context.Response.Headers["Origin-Agent-Cluster"] = "?1";
         context.Response.Headers["Referrer-Policy"] = "no-referrer";
         context.Response.Headers[HeaderNames.StrictTransportSecurity] = "max-age=15552000; includeSubDomains";
