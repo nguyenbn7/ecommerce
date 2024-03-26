@@ -1,6 +1,13 @@
 <script>
 	import paymentsImage from '$lib/assets/images/payments.png';
-	import { APP_NAME } from '$lib/constant';
+
+	const usefulPages = [
+		{ href: '/shop', name: 'Shop' },
+		{ href: '/basket', name: 'Basket' },
+		{ href: '/about', name: 'About Us' },
+		{ href: '/blog', name: 'News' },
+		{ href: '/career', name: 'Career' }
+	];
 </script>
 
 <footer class="bg-light-subtle">
@@ -34,43 +41,17 @@
 				<div class="col-md-8">
 					<div class="row">
 						<div class="col-3 col-md-2 mb-3">
-							<h5>Useful Pages</h5>
+							<h5>Useful pages</h5>
 							<ul class="nav flex-column">
-								<li class="nav-item mb-2">
-									<a
-										href="/about"
-										class="link-underline-secondary link-underline-opacity-0 link-underline-opacity-75-hover p-0 text-secondary">
-										Story
-									</a>
-								</li>
-								<li class="nav-item mb-2">
-									<a
-										href="/shop"
-										class="link-underline-secondary link-underline-opacity-0 link-underline-opacity-75-hover p-0 text-secondary">
-										Shop
-									</a>
-								</li>
-								<li class="nav-item mb-2">
-									<a
-										href="/blog"
-										class="link-underline-secondary link-underline-opacity-0 link-underline-opacity-75-hover p-0 text-secondary">
-										Blog
-									</a>
-								</li>
-								<li class="nav-item mb-2">
-									<a
-										href="/careers"
-										class="link-underline-secondary link-underline-opacity-0 link-underline-opacity-75-hover p-0 text-secondary">
-										Careers
-									</a>
-								</li>
-								<li class="nav-item mb-2">
-									<a
-										href="/basket"
-										class="link-underline-secondary link-underline-opacity-0 link-underline-opacity-75-hover p-0 text-secondary">
-										Basket
-									</a>
-								</li>
+								{#each usefulPages as usefulPage}
+									<li class="nav-item mb-2">
+										<a
+											href={usefulPage.href}
+											class="link-underline-secondary link-underline-opacity-0 link-underline-opacity-75-hover p-0 text-secondary">
+											{usefulPage.name}
+										</a>
+									</li>
+								{/each}
 							</ul>
 						</div>
 
