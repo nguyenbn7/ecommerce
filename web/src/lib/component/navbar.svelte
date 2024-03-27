@@ -1,11 +1,10 @@
 <script>
 	import { page } from '$app/stores';
-	import 'bootstrap/js/src/collapse';
-	import 'bootstrap/js/src/dropdown';
 	import logo from '$lib/assets/images/logo.png';
 	import { basket } from '$lib/core/basket/service';
-	import { logout, userInfo } from '$lib/core/auth/service';
-	import { readMoreString } from '$lib/service';
+	import { userInfo } from '$lib/core/auth/service';
+	import CustomerMenu from './customer-menu.svelte';
+	import { onMount } from 'svelte';
 
 	/**
 	 * @type {number}
@@ -25,6 +24,10 @@
 	function getCount(items) {
 		return items.reduce((total, item) => total + item.quantity, 0);
 	}
+
+	onMount(async() => {
+		(await import("bootstrap")).Collapse;
+	})
 </script>
 
 <svelte:window bind:scrollY={y} />
@@ -85,34 +88,7 @@
 				{#if !$userInfo}
 					<a href="/account/login" class="btn btn-outline-success text-white px-3 me-3"> Login </a>
 				{:else}
-					<div class="dropdown">
-						<button class="nav-link text-info text-center" data-bs-toggle="dropdown">
-							<i class="fa-regular fa-circle-user fs-4"></i>
-						</button>
-						<ul class="dropdown-menu dropdown-menu-end position-absolute">
-							<li>
-								<h2 class="dropdown-header" title={$userInfo.displayName}>
-									{readMoreString($userInfo.displayName, 25)}
-								</h2>
-							</li>
-							<li>
-								<a class="dropdown-item" href="/order">
-									<i class="bi bi-card-checklist"></i> View Order
-								</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href={'#'}>
-									<i class="bi bi-person-fill-gear"></i> View Profile
-								</a>
-							</li>
-							<li><hr class="dropdown-divider" /></li>
-							<li>
-								<a class="dropdown-item" href={'#'} on:click={logout}>
-									<i class="fa-solid fa-right-from-bracket"></i> Logout
-								</a>
-							</li>
-						</ul>
-					</div>
+					<CustomerMenu displayName={$userInfo.displayName}/>
 				{/if}
 			</ul>
 		</div>
