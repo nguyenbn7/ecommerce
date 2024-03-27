@@ -7,9 +7,6 @@
 		getLastBreadcrumbItem
 	} from '$lib/component/breadcrumb.svelte';
 
-	import pageHeaderImgUrl from '$lib/assets/images/page-header.webp?raw';
-	// console.log(PageHeader);
-
 	$: breadcrumbs = createBreadcrumbs($page, $aliases);
 	$: pageName = getLastBreadcrumbItem(breadcrumbs)?.name;
 </script>

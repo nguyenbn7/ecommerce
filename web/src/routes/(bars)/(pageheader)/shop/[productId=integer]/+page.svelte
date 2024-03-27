@@ -29,7 +29,7 @@
 		try {
 			const response = await getProduct(Number($page.params.productId));
 			product = response.data;
-			if (product) addAlias('productId', product.name);
+			if (product) addAlias(product.id.toString(), product.name);
 		} catch (error) {
 			showClientError(error);
 		} finally {
